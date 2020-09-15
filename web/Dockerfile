@@ -7,8 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["../SpacePark/SpacePark.csproj", "SpacePark/"]
-RUN dotnet restore "../SpacePark/SpacePark.csproj"
+COPY ["SpacePark/SpacePark.csproj", "SpacePark/"]
+RUN dotnet restore "SpacePark/SpacePark.csproj"
 COPY . .
 WORKDIR "/src/SpacePark"
 RUN dotnet build "SpacePark.csproj" -c Release -o /app/build

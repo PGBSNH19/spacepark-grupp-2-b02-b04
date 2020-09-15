@@ -25,4 +25,4 @@ stages:
         containerRegistry: 'spacepark-con-dev-01'
         repository: 'spacepark-repo-dev-01'
         command: 'buildAndPush'
-        Dockerfile: 'Dockerfile'
+        Dockerfile: '**/Dockerfile'

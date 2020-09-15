@@ -46,8 +46,10 @@ stages:
 - stage: Push
   dependsOn: Test
   condition: succeeded()
+  pool:
+   -vmImage: 'ubuntu-latest'
   jobs:
-  - job: Test
+  - job: Push
     steps:
     - task: Docker@2
       inputs:

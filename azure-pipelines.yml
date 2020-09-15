@@ -43,4 +43,15 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
-
+- stage: Push
+  dependsOn: Test
+  condition: succeeded()
+  jobs:
+  - job: Test
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'spacepark-con-dev-01'
+        repository: 'spacepark-repo-dev-01'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'

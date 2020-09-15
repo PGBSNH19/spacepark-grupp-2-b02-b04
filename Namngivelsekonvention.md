@@ -12,6 +12,8 @@ Databas: spacepark-sqldb-dev-01
 
 Server: spacepark-SQL-dev-01
 
+Container instance: spacepark-aci-01
+
 ```bash
 <product name>-<type of resource abbreviated>-<environment>
 ```

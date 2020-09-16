@@ -13,7 +13,7 @@ namespace SpacePark
     {
         public static IRestResponse<PersonResult> GetPersonData(string input)
         {
-            var client = new RestClient("https://swapi.co/api/");
+            var client = new RestClient("https://swapi.dev/api/");
             var request = new RestRequest(input, DataFormat.Json);
             var apiResponse = client.Get<PersonResult>(request);
 

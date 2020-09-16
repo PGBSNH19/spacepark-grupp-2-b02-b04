@@ -2,7 +2,7 @@
 
 namespace SpacePark.Services
 {
-    public interface IParkinglotRepository
+    public interface IParkinglotRepository : IRepository
     {
     }
 }

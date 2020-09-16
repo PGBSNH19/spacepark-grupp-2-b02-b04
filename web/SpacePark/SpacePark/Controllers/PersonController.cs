@@ -12,12 +12,12 @@ namespace SpacePark.Controllers
 {
     [Route("api/v1.0/[controller]")]
     [ApiController]
-    public class ParkinglotController : ControllerBase
+    public class PersonController : ControllerBase
     {
 
-        private readonly IParkinglotRepository _repository;
+        private readonly IPersonRepository _repository;
 
-        public ParkinglotController(IParkinglotRepository repository)
+        public PersonController(IPersonRepository repository)
         {
             _repository = repository;
         }

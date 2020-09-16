@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SpacePark.DatabaseModels;
+using SpacePark.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 
@@ -20,11 +20,11 @@ namespace SpacePark
             return apiResponse;
         }
 
-        public static SpaceShip GetSpaceShipData(string input)
+        public static Spaceship GetSpaceShipData(string input)
         {
             var client = new RestClient(input);
             var request = new RestRequest("", DataFormat.Json);
-            var apiResponse = client.ExecuteAsync<SpaceShip>(request);
+            var apiResponse = client.ExecuteAsync<Spaceship>(request);
             apiResponse.Wait();
 
             return apiResponse.Result.Data;
@@ -93,7 +93,7 @@ namespace SpacePark
                     Thread.Sleep(2500);
                 }
 
-                context.SpaceShips.Add(p.CurrentShip);
+                context.Spaceships.Add(p.CurrentShip);
                 context.People.Add(p);
                 // Adds the person and the ship to the appropriate table then saves the changes.
                 context.SaveChanges();
@@ -180,7 +180,7 @@ namespace SpacePark
                     var shipNumber = int.Parse(Console.ReadLine());
 
                     // Actually creates the ship object.
-                    var spaceShip = SpaceShip.CreateStarshipFromAPI(person.Starships[shipNumber - 1]);
+                    var spaceShip = Spaceship.CreateStarshipFromAPI(person.Starships[shipNumber - 1]);
                     person.CurrentShip = spaceShip;
 
                     // Adds the person and ship to the database.
@@ -223,7 +223,7 @@ namespace SpacePark
                         .FirstOrDefault());
                     
                     // Borde inte denna och den ovan se exakt lika ut?
-                    var temp = context.SpaceShips.Where(x => x.SpaceShipID == p.SpaceShipID)
+                    var temp = context.Spaceships.Where(x => x.SpaceShipID == p.SpaceShipID)
                         .FirstOrDefault();
                     
                     context.Remove(temp);
@@ -251,7 +251,7 @@ namespace SpacePark
             context.SaveChanges();
         }
 
-        public static async Task ClearParkedShip(SpaceShip spaceShip)
+        public static async Task ClearParkedShip(Spaceship spaceShip)
         {
             using (var context = new SpaceParkContext())
             {

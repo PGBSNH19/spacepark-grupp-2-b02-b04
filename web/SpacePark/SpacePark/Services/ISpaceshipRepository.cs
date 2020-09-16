@@ -1,6 +1,10 @@
-﻿namespace SpacePark.Services
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace SpacePark.Services
 {
     public interface ISpaceshipRepository : IRepository
     {
+        Task<IList<Spaceship>> GetAllSpaceshipsAsync();
     }
 }

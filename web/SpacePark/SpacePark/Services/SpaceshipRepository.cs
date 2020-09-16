@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using SpacePark.DatabaseModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SpacePark.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,13 @@ namespace SpacePark.Services
         {
         }
 
+        public async Task <IList<Spaceship>> GetAllSpaceshipsAsync()
+        {
+            var query = _context.Spaceships;
+
+            _logger.LogInformation($"Getting all spaceships.");
+
+            return await query.ToListAsync();
+        }
     }
 }

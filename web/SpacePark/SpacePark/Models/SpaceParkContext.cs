@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace SpacePark.DatabaseModels
+namespace SpacePark.Models
 {
     public class SpaceParkContext : DbContext
     {
-        public DbSet<Parkinglot> ParkingLot { get; set; }
+        public SpaceParkContext() { }
+        public DbSet<Parkinglot> Parkinglot { get; set; }
         public DbSet<Person> People { get; set; }
-        public DbSet<SpaceShip> SpaceShips { get; set; }
+        public DbSet<Spaceship> Spaceships { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

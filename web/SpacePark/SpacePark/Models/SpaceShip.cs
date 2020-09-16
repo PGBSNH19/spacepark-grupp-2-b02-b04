@@ -4,7 +4,7 @@ namespace SpacePark
 {
     public class Spaceship
     {
-        public int SpaceShipID { get; set; }
+        public int SpaceshipID { get; set; }
 
         public string Name { get; set; }
 

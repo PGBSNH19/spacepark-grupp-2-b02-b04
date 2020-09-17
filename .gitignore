@@ -354,3 +354,5 @@ MigrationBackup/
 *.dev.cs
 web/SpacePark/SpacePark/appsettings.Development.json
 web/SpacePark/SpacePark/appsettings.json
+web/SpacePark/SpaceParkWeb/appsettings.Development.json
+web/SpacePark/SpaceParkWeb/appsettings.json

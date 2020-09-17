@@ -1,0 +1,16 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to SpacePark</h1>
+    <form name="park" method="post" asp-action="OnPost">
+        <input name="newcustomerchoice" type="radio"/>
+        <label for="choice">New Customer</label>
+        <input name="oldcustomerchoice" type="radio"/>
+        <label for="choice">Old Customer</label>
+        <input type="submit" value="Submit">
+    </form>
+</div>

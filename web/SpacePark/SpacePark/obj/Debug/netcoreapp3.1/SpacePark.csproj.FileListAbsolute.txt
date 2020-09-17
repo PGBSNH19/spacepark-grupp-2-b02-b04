@@ -157,3 +157,12 @@ C:\Users\Greattech\Documents\GitHub\spacepark-grupp-2-b02-b04\web\SpacePark\Spac
 C:\Users\Greattech\Documents\GitHub\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.RazorAssemblyInfo.cs
 C:\Users\Greattech\Documents\GitHub\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.dll
 C:\Users\Greattech\Documents\GitHub\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.pdb
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.csprojAssemblyReference.cache
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.AssemblyInfoInputs.cache
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.AssemblyInfo.cs
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.csproj.CoreCompileInputs.cache
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.MvcApplicationPartsAssemblyInfo.cache
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.RazorAssemblyInfo.cache
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.RazorAssemblyInfo.cs
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.dll
+E:\Molntjänster\Projekt\spacepark-grupp-2-b02-b04\web\SpacePark\SpacePark\obj\Debug\netcoreapp3.1\SpacePark.pdb

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SpaceParkWeb.Pages
 {
-    public class NewCustomerModel : PageModel
+    public class CreateCustomerModel : PageModel
     {
         public void OnGet()
         {
@@ -16,8 +16,6 @@ namespace SpaceParkWeb.Pages
         public IActionResult OnPost()
         {
             string customer = Request.Form["name"];
-            string spaceShip = Request.Form["spaceship"];
-
 
             return new OkResult();
         }

@@ -25,20 +25,8 @@ namespace SpaceParkWeb.Pages
 
         public IActionResult OnPost()
         {
-            string newCustomer = Request.Form["newcustomerchoice"];
-            string oldCustomer = Request.Form["oldcustomerchoice"];
-            if (newCustomer != null)
-            {
-                return new RedirectToPageResult("NewCustomer");
-            }
-            else if(oldCustomer != null)
-            {
-                return new RedirectToPageResult("OldCustomer");
-            }
-            else
-            {
-                return new RedirectToPageResult("Index");
-            } 
+            string customer = Request.Form["check"];
+            return new RedirectToPageResult(customer);       
         }
     }
 }

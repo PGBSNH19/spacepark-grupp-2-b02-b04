@@ -8564,27 +8564,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nakedkids\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Users\\tedhe\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Molntjänster\\Projekt\\spacepark-grupp-2-b02-b04\\SpacePark_Tests\\SpacePark_Tests.csproj",
+      "projectUniqueName": "C:\\Skola\\Utveckling av molnbaserade applikationer\\spacepark-grupp-2\\SpacePark_Tests\\SpacePark_Tests.csproj",
       "projectName": "SpacePark_Tests",
-      "projectPath": "E:\\Molntjänster\\Projekt\\spacepark-grupp-2-b02-b04\\SpacePark_Tests\\SpacePark_Tests.csproj",
-      "packagesPath": "C:\\Users\\nakedkids\\.nuget\\packages\\",
-      "outputPath": "E:\\Molntjänster\\Projekt\\spacepark-grupp-2-b02-b04\\SpacePark_Tests\\obj\\",
+      "projectPath": "C:\\Skola\\Utveckling av molnbaserade applikationer\\spacepark-grupp-2\\SpacePark_Tests\\SpacePark_Tests.csproj",
+      "packagesPath": "C:\\Users\\tedhe\\.nuget\\packages\\",
+      "outputPath": "C:\\Skola\\Utveckling av molnbaserade applikationer\\spacepark-grupp-2\\SpacePark_Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\nakedkids\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\tedhe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

@@ -12,5 +12,14 @@ namespace SpaceParkWeb.Pages
         public void OnGet()
         {
         }
+
+        public IActionResult OnPost()
+        {
+            string customer = Request.Form["name"];
+            string spaceShip = Request.Form["spaceship"];
+
+
+            return new OkResult();
+        }
     }
 }

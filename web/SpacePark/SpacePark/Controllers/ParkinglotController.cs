@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
+//using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,7 +18,7 @@ namespace SpacePark.Controllers
     {
 
         private readonly IParkinglotRepository _parkinglotRepository;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
 
 
         public ParkinglotController(IParkinglotRepository parkinglotRepository)
@@ -33,9 +33,9 @@ namespace SpacePark.Controllers
             try
             {
                 var result = await _parkinglotRepository.GetAllParkinglotsAsync();
-                var mappedResults = _mapper.Map<IList<Parkinglot>>(result);
+                //var mappedResults = _mapper.Map<IList<Parkinglot>>(result);
                 if (result.Count == 0) return NotFound(result);
-                return Ok(mappedResults);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -50,9 +50,9 @@ namespace SpacePark.Controllers
             try
             {
                 var result = await _parkinglotRepository.GetAllParkinglotsAsync();
-                var mappedResult = _mapper.Map<Parkinglot>(result);
+                //var mappedResult = _mapper.Map<Parkinglot>(result);
                 if (result.Count == 0) return NotFound(result);
-                return Ok(mappedResult);
+                return Ok(result);
 
             }
             catch (Exception e)

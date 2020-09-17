@@ -5,15 +5,15 @@ using System.Linq.Expressions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using SpacePark.DatabaseModels;
+using SpacePark.Models;
 
 namespace SpacePark.Services
 {
     public class Repository : IRepository
     
     {
-        private readonly SpaceParkContext _context;
-        private readonly ILogger _logger;
+        protected readonly SpaceParkContext _context;
+        protected readonly ILogger _logger;
 
         public Repository(SpaceParkContext context, ILogger logger)
         {

@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpacePark
 {
-    public class ParkingLot
+    public class Parkinglot
     {
-        public int ParkingLotID { get; set; }
+        public int ParkinglotID { get; set; }
         public int Length { get; set; }
-        public int? SpaceShipID { get; set; }
-        public SpaceShip? SpaceShip { get; set; }
+        public int? SpaceshipID { get; set; }
+        public Spaceship? Spaceship { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SpacePark.DatabaseModels;
+using SpacePark.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 
@@ -20,11 +20,11 @@ namespace SpacePark
             return apiResponse;
         }
 
-        public static SpaceShip GetSpaceShipData(string input)
+        public static Spaceship GetSpaceShipData(string input)
         {
             var client = new RestClient(input);
             var request = new RestRequest("", DataFormat.Json);
-            var apiResponse = client.ExecuteAsync<SpaceShip>(request);
+            var apiResponse = client.ExecuteAsync<Spaceship>(request);
             apiResponse.Wait();
 
             return apiResponse.Result.Data;
@@ -66,7 +66,7 @@ namespace SpacePark
 
         public static async Task ParkShip(Person p)
         {
-            ParkingLot currentSpace;
+            Parkinglot currentSpace;
 
             using (var context = new SpaceParkContext())
             {
@@ -77,9 +77,9 @@ namespace SpacePark
                     // If the ship is smaller than the parkingspace park in the space => park it.
                     if (double.Parse(p.CurrentShip.Length) <= currentSpace.Length)
                     {
-                        context.ParkingLot.Where(x => x.ParkingLotID == currentSpace.ParkingLotID)
+                        context.Parkinglot.Where(x => x.ParkinglotID == currentSpace.ParkinglotID)
                        .FirstOrDefault()
-                       .SpaceShip = p.CurrentShip;
+                       .Spaceship = p.CurrentShip;
                     }
                     else
                     {
@@ -93,7 +93,7 @@ namespace SpacePark
                     Thread.Sleep(2500);
                 }
 
-                context.SpaceShips.Add(p.CurrentShip);
+                context.Spaceships.Add(p.CurrentShip);
                 context.People.Add(p);
                 // Adds the person and the ship to the appropriate table then saves the changes.
                 context.SaveChanges();
@@ -103,12 +103,12 @@ namespace SpacePark
             }
         }
 
-        public static async Task<ParkingLot> FindAvailableParkingSpace()
+        public static async Task<Parkinglot> FindAvailableParkingSpace()
         {
             using (var context = new SpaceParkContext())
             {
                 // Finds the first available (where SpaceShipID == null) parkingspot, and then returns that spot.
-                var parkingSpace = context.ParkingLot.FirstOrDefault(x => x.SpaceShipID == null);
+                var parkingSpace = context.Parkinglot.FirstOrDefault(x => x.SpaceshipID == null);
                 if (parkingSpace == null)
                 {
                     // Should throw an exception here but does not work with catch.
@@ -126,14 +126,14 @@ namespace SpacePark
             // Makes sure there are 10 rows to the parkinglot table.
             using (var context = new SpaceParkContext())
             {
-                for (int i = context.ParkingLot.Count(); i < 10; i++)
+                for (int i = context.Parkinglot.Count(); i < 10; i++)
                 {
-                    var parkingSpace = new ParkingLot
+                    var parkingSpace = new Parkinglot
                     {
                         Length = 50,
-                        SpaceShip = null
+                        Spaceship = null
                     };
-                    context.ParkingLot.Add(parkingSpace);
+                    context.Parkinglot.Add(parkingSpace);
                 }
                 context.SaveChanges();
             }
@@ -180,7 +180,7 @@ namespace SpacePark
                     var shipNumber = int.Parse(Console.ReadLine());
 
                     // Actually creates the ship object.
-                    var spaceShip = SpaceShip.CreateStarshipFromAPI(person.Starships[shipNumber - 1]);
+                    var spaceShip = Spaceship.CreateStarshipFromAPI(person.Starships[shipNumber - 1]);
                     person.CurrentShip = spaceShip;
 
                     // Adds the person and ship to the database.
@@ -210,9 +210,9 @@ namespace SpacePark
                 using (var context = new SpaceParkContext())
                 {
                     // Sets the parkingspaces' shipID back to null.
-                    context.ParkingLot.Where(x => x.SpaceShipID == p.SpaceShipID)
+                    context.Parkinglot.Where(x => x.SpaceshipID == p.SpaceshipID)
                         .FirstOrDefault()
-                        .SpaceShipID = null;
+                        .SpaceshipID = null;
 
                     // Nulls a persons current shipID
                     await NullSpaceShipIDInPeopleTable(p, context);
@@ -223,7 +223,7 @@ namespace SpacePark
                         .FirstOrDefault());
                     
                     // Borde inte denna och den ovan se exakt lika ut?
-                    var temp = context.SpaceShips.Where(x => x.SpaceShipID == p.SpaceShipID)
+                    var temp = context.Spaceships.Where(x => x.SpaceshipID == p.SpaceshipID)
                         .FirstOrDefault();
                     
                     context.Remove(temp);
@@ -246,19 +246,19 @@ namespace SpacePark
         {
             // Find the person in the people table and sets the spaceshipID to null.
             context.People.Where(x => x.Name == p.Name)
-                .FirstOrDefault().SpaceShipID = null;
+                .FirstOrDefault().SpaceshipID = null;
 
             context.SaveChanges();
         }
 
-        public static async Task ClearParkedShip(SpaceShip spaceShip)
+        public static async Task ClearParkedShip(Spaceship spaceShip)
         {
             using (var context = new SpaceParkContext())
             {
                 // Finds the ship in the person table and set it to null.
-                context.ParkingLot.Where(x => x.SpaceShipID == spaceShip.SpaceShipID)
+                context.Parkinglot.Where(x => x.SpaceshipID == spaceShip.SpaceshipID)
                     .FirstOrDefault()
-                    .SpaceShip = null;
+                    .Spaceship = null;
                 
                 context.SaveChanges();
             }
@@ -316,7 +316,7 @@ namespace SpacePark
             using (var context = new SpaceParkContext())
             {
                 // return the person object from the people table with a matching name.
-                return context.People
+                 return context.People
                      .Where(x => x.Name == name)
                      .FirstOrDefault();
             }

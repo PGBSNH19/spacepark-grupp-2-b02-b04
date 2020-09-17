@@ -15,18 +15,21 @@ namespace SpacePark
         public Spaceship? CurrentShip { get; set; }
         public bool HasPaid { get; set; } = false;
 
-        public static Person CreatePersonFromAPI(string name)
+        public static Person CreatePersonFromAPI(string name, string spaceship)
         {
             var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
-            var foundPerson = response.Data.Results.FirstOrDefault(p => p.Name == name);
+            var foundPerson = response.Data.Results.FirstOrDefault(p => p.Name == name && p.Starships.Contains(spaceship));
 
             if (foundPerson != null)
             {
-                return new Person()
+                if (foundPerson.Starships.Count() != 0)
                 {
-                    Name = foundPerson.Name,
-                    Starships = foundPerson.Starships,
-                };
+                    return new Person()
+                    {
+                        Name = foundPerson.Name,
+                        Starships = foundPerson.Starships,
+                    };
+                }
             }
             return null;
         }

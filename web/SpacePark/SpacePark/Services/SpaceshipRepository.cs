@@ -10,7 +10,7 @@ namespace SpacePark.Services
 {
     public class SpaceshipRepository : Repository, ISpaceshipRepository
     {
-        public SpaceshipRepository(SpaceParkContext context, ILogger logger) : base(context, logger)
+        public SpaceshipRepository(SpaceParkContext context, ILogger<Spaceship> logger) : base(context, logger)
         {
         }
 

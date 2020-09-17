@@ -10,7 +10,7 @@ namespace SpacePark.Services
 {
     public class ParkinglotRepository : Repository, IParkinglotRepository
     {
-        public ParkinglotRepository(SpaceParkContext context, ILogger logger) : base(context, logger)
+        public ParkinglotRepository(SpaceParkContext context, ILogger<Parkinglot> logger) : base(context, logger)
         {
         }
 

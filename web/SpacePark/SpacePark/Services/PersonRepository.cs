@@ -10,7 +10,7 @@ namespace SpacePark.Services
 {
     public class PersonRepository : Repository, IPersonRepository
     {
-        public PersonRepository(SpaceParkContext context, ILogger logger) : base(context, logger)
+        public PersonRepository(SpaceParkContext context, ILogger<Person> logger) : base(context, logger)
         {
         }
 

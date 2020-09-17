@@ -14,7 +14,6 @@ namespace SpacePark
 {
     public class Startup
     {
-
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)

@@ -61,8 +61,10 @@ namespace SpacePark.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Person>> PostEvent(Person person)
+        public async Task<ActionResult<Person>> PostEvent(string name, string spaceship)
         {
+            var person = ParkingEngine.CheckIn(name, spaceship);
+
             try
             {
                 await _personRepository.Add(person);

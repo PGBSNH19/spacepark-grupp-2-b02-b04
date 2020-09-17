@@ -121,14 +121,14 @@ namespace SpacePark
             }
         }
 
-        public static void CheckIn(string name, string spaceship)
+        public static Person CheckIn(string name, string spaceship)
         {
-
+            var person = new Person();
             // If the person is in starwars and isn't in the database.
             if (ParkingEngine.IsValidPerson(name) && !IsPersonInDatabase(name).Result)
             {
                 // Creates the person obejct.
-                var person = Person.CreatePersonFromAPI(name, spaceship);
+                person = Person.CreatePersonFromAPI(name, spaceship);
 
                 //Console.WriteLine("Enter the number of the ship do you want to park:");
                 //int count = 0;
@@ -150,7 +150,7 @@ namespace SpacePark
                 //person.CurrentShip = spaceShip;
 
                 // Adds the person and ship to the database.
-                ParkingEngine.ParkShip(person);
+                //ParkingEngine.ParkShip(person);
 
             }
 
@@ -167,6 +167,8 @@ namespace SpacePark
                 Console.WriteLine("You have already parked here.");
                 Thread.Sleep(2500);
             }
+
+            return person;
         }
 
         public static async Task CheckOut(Person p)

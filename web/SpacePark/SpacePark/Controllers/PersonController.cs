@@ -51,7 +51,7 @@ namespace SpacePark.Controllers
             {
                 var result = await _personRepository.GetPersonByNameAsync(name);
                 //var mappedResults = _mapper.Map<IList<Person>>(result);
-                if (result.Count == 0) return NotFound();
+                if (result == null) return NotFound();
                 return Ok(result);
             }
             catch (Exception e)
@@ -70,7 +70,7 @@ namespace SpacePark.Controllers
                 await _personRepository.Add(person);
                 if (await _personRepository.Save())
                 {
-                    return Created($"/api/v1.0/person/{person.PersonID}", person);
+                    return CreatedAtAction(nameof(GetPersonByNameAsync), new { name = person.Name }, person);
                 }
             }
             catch (Exception e)

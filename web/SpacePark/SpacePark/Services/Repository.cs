@@ -25,7 +25,6 @@ namespace SpacePark.Services
         {
             _logger.LogInformation($"Adding object of type {entity.GetType()}");
             await _context.Set<T>().AddAsync(entity);
-            await Save();
             return entity;
         }
 

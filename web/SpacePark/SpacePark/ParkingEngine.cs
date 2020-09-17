@@ -158,14 +158,14 @@ namespace SpacePark
             {
                 Console.WriteLine();
                 Console.WriteLine("Sorry you have to have been in Star Wars to park here.");
-                Thread.Sleep(2500);
+                //Thread.Sleep(2500);
             }
 
             else
             {
                 Console.WriteLine();
                 Console.WriteLine("You have already parked here.");
-                Thread.Sleep(2500);
+                //Thread.Sleep(2500);
             }
 
             return person;

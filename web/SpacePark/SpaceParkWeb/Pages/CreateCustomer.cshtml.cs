@@ -19,10 +19,15 @@ namespace SpaceParkWeb.Pages
             string customer = Request.Form["name"];
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
             var request = new RestRequest($"person?name={customer}", Method.POST);
-            var apiResponse = client.ExecuteAsync(request);
-            apiResponse.Wait();
-
-            return new OkResult();
+            IRestResponse apiResponse = client.Execute(request);
+            if(apiResponse.IsSuccessful)
+            {
+                return new RedirectToPageResult("LoginCustomer");
+            }
+            else
+            {
+                return new RedirectToPageResult("CreateCustomer");
+            }
         }
 
     }

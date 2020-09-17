@@ -121,14 +121,14 @@ namespace SpacePark
             }
         }
 
-        public static Person CheckIn(string name, string spaceship)
+        public static Person CheckIn(string name)
         {
             var person = new Person();
             // If the person is in starwars and isn't in the database.
             if (ParkingEngine.IsValidPerson(name) && !IsPersonInDatabase(name).Result)
             {
                 // Creates the person obejct.
-                person = Person.CreatePersonFromAPI(name, spaceship);
+                person = Person.CreatePersonFromAPI(name);
 
                 //Console.WriteLine("Enter the number of the ship do you want to park:");
                 //int count = 0;

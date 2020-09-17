@@ -53,14 +53,14 @@ namespace SpacePark
             // Returns true if a person with tha maching name is stored in the people table.
             using (var context = new SpaceParkContext())
             {
-                    var person = context.People.Where(x => x.Name == name).FirstOrDefault();
+                var person = context.People.Where(x => x.Name == name).FirstOrDefault();
 
-                    if (person != null && person.Name == name)
-                    {
-                        return true;
-                    }
+                if (person != null && person.Name == name)
+                {
+                    return true;
+                }
 
-                    return false;
+                return false;
             }
         }
 
@@ -73,7 +73,7 @@ namespace SpacePark
                 try
                 {
                     currentSpace = FindAvailableParkingSpace().Result;
-                   
+
                     // If the ship is smaller than the parkingspace park in the space => park it.
                     if (double.Parse(p.CurrentShip.Length) <= currentSpace.Length)
                     {
@@ -121,71 +121,37 @@ namespace SpacePark
             }
         }
 
-        public static async Task WriteParkingSpaceToDataBase()
+        public static void CheckIn(string name, string spaceship)
         {
-            // Makes sure there are 10 rows to the parkinglot table.
-            using (var context = new SpaceParkContext())
-            {
-                for (int i = context.Parkinglot.Count(); i < 10; i++)
-                {
-                    var parkingSpace = new Parkinglot
-                    {
-                        Length = 50,
-                        Spaceship = null
-                    };
-                    context.Parkinglot.Add(parkingSpace);
-                }
-                context.SaveChanges();
-            }
-        }
-
-        public static void CheckIn()
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Enter your name:");
-            //var name = Console.ReadLine();
-            var name = Console.ReadLine();
 
             // If the person is in starwars and isn't in the database.
             if (ParkingEngine.IsValidPerson(name) && !IsPersonInDatabase(name).Result)
             {
                 // Creates the person obejct.
-                var person = Person.CreatePersonFromAPI(name);
+                var person = Person.CreatePersonFromAPI(name, spaceship);
 
+                //Console.WriteLine("Enter the number of the ship do you want to park:");
+                //int count = 0;
 
-                // If the person searched is in starwars but has 0 ships.
-                if (person.Starships.Count() == 0)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("You have no ships to park!");
-                    Thread.Sleep(2500);
-                }
+                //// Prints all starships associated with person.
+                //foreach (var item in person.Starships)
+                //{
+                //    count++;
+                //    var s = ParkingEngine.GetSpaceShipData(item);
 
-                // If the person has any amount of ships
-                else
-                {
-                    Console.WriteLine("Enter the number of the ship do you want to park:");
-                    int count = 0;
+                //    Console.WriteLine($"{count}.{s.Name}");
+                //}
 
-                    // Prints all starships associated with person.
-                    foreach (var item in person.Starships)
-                    {
-                        count++;
-                        var s = ParkingEngine.GetSpaceShipData(item);
+                //// Saves the users selection.
+                //var shipNumber = int.Parse(Console.ReadLine());
 
-                        Console.WriteLine($"{count}.{s.Name}");
-                    }
+                //// Actually creates the ship object.
+                //var spaceShip = Spaceship.CreateStarshipFromAPI(person.Starships[shipNumber - 1]);
+                //person.CurrentShip = spaceShip;
 
-                    // Saves the users selection.
-                    var shipNumber = int.Parse(Console.ReadLine());
+                // Adds the person and ship to the database.
+                ParkingEngine.ParkShip(person);
 
-                    // Actually creates the ship object.
-                    var spaceShip = Spaceship.CreateStarshipFromAPI(person.Starships[shipNumber - 1]);
-                    person.CurrentShip = spaceShip;
-
-                    // Adds the person and ship to the database.
-                    ParkingEngine.ParkShip(person);
-                }
             }
 
             else if (!ParkingEngine.IsValidPerson(name))
@@ -221,14 +187,14 @@ namespace SpacePark
                     context.Remove(context.People
                         .Where(x => x.Name == p.Name)
                         .FirstOrDefault());
-                    
+
                     // Borde inte denna och den ovan se exakt lika ut?
                     var temp = context.Spaceships.Where(x => x.SpaceshipID == p.SpaceshipID)
                         .FirstOrDefault();
-                    
+
                     context.Remove(temp);
 
-                     context.SaveChanges();
+                    context.SaveChanges();
                 }
                 Console.WriteLine();
                 Console.WriteLine("You have been checked out!");
@@ -259,7 +225,7 @@ namespace SpacePark
                 context.Parkinglot.Where(x => x.SpaceshipID == spaceShip.SpaceshipID)
                     .FirstOrDefault()
                     .Spaceship = null;
-                
+
                 context.SaveChanges();
             }
         }
@@ -274,7 +240,7 @@ namespace SpacePark
                     .People
                     .Where(x => x.Name == p.Name)
                     .FirstOrDefault().HasPaid;
-                
+
                 if (hasPaid)
                 {
                     return true;
@@ -316,9 +282,9 @@ namespace SpacePark
             using (var context = new SpaceParkContext())
             {
                 // return the person object from the people table with a matching name.
-                 return context.People
-                     .Where(x => x.Name == name)
-                     .FirstOrDefault();
+                return context.People
+                    .Where(x => x.Name == name)
+                    .FirstOrDefault();
             }
         }
 

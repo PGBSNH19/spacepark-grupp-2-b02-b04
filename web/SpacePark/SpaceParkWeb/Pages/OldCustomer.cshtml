@@ -1,0 +1,18 @@
+﻿@page
+@model SpaceParkWeb.Pages.OldCustomerModel
+@{
+    ViewData["Title"] = "Old Customer";
+}
+
+<div class="text-center">
+    <h1>Old Customer</h1>
+    <form name="park">
+        <label for="fname">Name:</label><br>
+        <input type="text" id="name" name="name" value="Luke"><br>
+        <input name="check" type="radio" />
+        <label for="choice">Check In</label>
+        <input name="check" type="radio" />
+        <label for="choice">Check Out</label>
+        <input type="submit" value="Submit">
+    </form>
+</div>

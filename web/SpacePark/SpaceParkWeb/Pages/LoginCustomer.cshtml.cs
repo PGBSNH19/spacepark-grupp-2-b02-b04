@@ -12,6 +12,7 @@ namespace SpaceParkWeb.Pages
 {
     public class LoginCustomer : PageModel
     {
+        public Person Person { get; set; }
         public void OnGet()
         {
         }
@@ -23,7 +24,11 @@ namespace SpaceParkWeb.Pages
             if(input != null)
             {
                 var customer = GetCustomer(input);
-                Person person = new Person(customer.Result.PersonID, customer.Result.Name, customer.Result.SpaceshipID ?? default(int));
+                Person = new Person(customer.Result.PersonID, customer.Result.Name, customer.Result.SpaceshipID ?? default(int));
+                if(Person.SpaceshipID != 0)
+                {
+
+                }
             }
             
             return new OkResult();
@@ -32,6 +37,9 @@ namespace SpaceParkWeb.Pages
         public async Task<Person> GetCustomer(string input)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+            
             var request = new RestRequest
             {
                 Method = Method.GET,
@@ -41,6 +49,15 @@ namespace SpaceParkWeb.Pages
             };
 
             var result = await client.GetAsync<Person>(request);
+            return result;
+        }
+
+        public async Task<Spaceship> GetSpaceShipData(string input)
+        {
+            var client = new RestClient(https://swapi.dev/api/);
+            var request = new RestRequest("", DataFormat.Json);
+            var result = await client.GetAsync<Spaceship>(request);
+
             return result;
         }
 

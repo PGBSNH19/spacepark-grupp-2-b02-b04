@@ -27,22 +27,22 @@ namespace SpacePark.Controllers
             //_mapper = mapper;
         }
 
-        [HttpGet(Name = "GetAllPeople")]
-        public async Task<ActionResult<IList<Person>>> GetAllPoepleAsync()
-        {
-            try
-            {
-                var result = await _personRepository.GetAllPeopleAsync();
-                //var mappedResults = _mapper.Map<IList<Person>>(result);
-                if (result.Count == 0) return NotFound(result);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
+        //[HttpGet(Name = "GetAllPeople")]
+        //public async Task<ActionResult<IList<Person>>> GetAllPoepleAsync()
+        //{
+        //    try
+        //    {
+        //        var result = await _personRepository.GetAllPeopleAsync();
+        //        //var mappedResults = _mapper.Map<IList<Person>>(result);
+        //        if (result.Count == 0) return NotFound(result);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception e)
+        //    {
 
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
-            }
-        }
+        //        return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+        //    }
+        //}
 
         [HttpGet(Name = "GetPersonByName")]
         public async Task<ActionResult<Person>> GetPersonByNameAsync([FromQuery] string name)

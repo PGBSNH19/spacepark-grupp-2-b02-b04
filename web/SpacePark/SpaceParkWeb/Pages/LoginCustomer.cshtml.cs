@@ -13,8 +13,10 @@ namespace SpaceParkWeb.Pages
     public class LoginCustomer : PageModel
     {
         public Person Person { get; set; }
+
         public void OnGet()
         {
+
         }
 
         public IActionResult OnPost()
@@ -31,7 +33,7 @@ namespace SpaceParkWeb.Pages
                 }
             }
             
-            return new OkResult();
+            return new RedirectToPageResult("CustomerPage", Person);
         }
 
         public async Task<Person> GetCustomer(string input)
@@ -52,14 +54,14 @@ namespace SpaceParkWeb.Pages
             return result;
         }
 
-        public async Task<Spaceship> GetSpaceShipData(string input)
-        {
-            var client = new RestClient(https://swapi.dev/api/);
-            var request = new RestRequest("", DataFormat.Json);
-            var result = await client.GetAsync<Spaceship>(request);
+        //public async Task<Spaceship> GetSpaceShipData(string input)
+        //{
+        //    var client = new RestClient("https://swapi.dev/api/");
+        //    var request = new RestRequest("", DataFormat.Json);
+        //    var result = await client.GetAsync<Spaceship>(request);
 
-            return result;
-        }
+        //    return result;
+        //}
 
     }
 }

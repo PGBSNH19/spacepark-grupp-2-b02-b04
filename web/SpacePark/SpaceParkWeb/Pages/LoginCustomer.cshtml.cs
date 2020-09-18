@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RestSharp;
 using SpaceParkWeb.Models;
+using SpaceParkWeb.Serializer;
 
 namespace SpaceParkWeb.Pages
 {
@@ -22,18 +23,24 @@ namespace SpaceParkWeb.Pages
             if(input != null)
             {
                 var customer = GetCustomer(input);
+                Person person = new Person(customer.Result.PersonID, customer.Result.Name, customer.Result.SpaceshipID ?? default(int));
             }
             
             return new OkResult();
         }
 
-        public IRestResponse<Person> GetCustomer(string input)
+        public async Task<Person> GetCustomer(string input)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
-            var request = new RestRequest($"person?name={input}", DataFormat.Json);
-            //var apiResponse = client.Execute(request);
-            var result = client.Get<Person>(request);
+            var request = new RestRequest
+            {
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"person?name={input}"
+            };
 
+            var result = await client.GetAsync<Person>(request);
             return result;
         }
 

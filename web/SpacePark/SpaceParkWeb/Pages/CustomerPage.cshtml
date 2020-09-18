@@ -1,5 +1,17 @@
 ﻿@page
 @model SpaceParkWeb.Pages.CustomerPageModel
+
 @{
-    
+
+}
+@if (!Model.parkedSpaceship)
+{
+    <h2>Welcome @Model.customer.Name</h2>
+    <h4>Please validate your ship before docking</h4>
+
+}
+else 
+{ 
+    <h2>Welcome @Model.customer.Name</h2>
+    <h4>You have one spaceship docked</h4>
 }

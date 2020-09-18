@@ -12,7 +12,7 @@ namespace SpaceParkWeb.Pages
     {
         [BindProperty]
         public Person customer { get; set; }
-        public string Welcome { get; private set; } = "PageModel in C#";
+        public bool parkedSpaceship { get; private set; }
 
         public void OnGet(Person person)
         {
@@ -20,12 +20,9 @@ namespace SpaceParkWeb.Pages
 
             if(customer.SpaceshipID != 0)
             {
-                Welcome = customer.Name;
+                parkedSpaceship = true;
             }
-            else
-            {
-                Welcome = "Park you spaceship";
-            }
+            
         }
     }
 }

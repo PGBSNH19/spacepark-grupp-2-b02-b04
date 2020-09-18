@@ -27,10 +27,6 @@ namespace SpaceParkWeb.Pages
             {
                 var customer = GetCustomer(input);
                 Person = new Person(customer.Result.PersonID, customer.Result.Name, customer.Result.SpaceshipID ?? default(int));
-                if(Person.SpaceshipID != 0)
-                {
-
-                }
             }
             
             return new RedirectToPageResult("CustomerPage", Person);

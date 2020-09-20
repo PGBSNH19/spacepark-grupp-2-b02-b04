@@ -55,5 +55,20 @@ namespace SpacePark.Controllers
             }
         }
 
+        [HttpGet(Name = "ParkShip")]
+        public async Task<ActionResult<IList<Spaceship>>> ParkShip(int spaceshipID, bool loggedIn = true)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonName(person);
+                if (result.Count == 0) return NotFound(result);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
     }
 }

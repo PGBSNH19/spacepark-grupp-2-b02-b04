@@ -48,6 +48,7 @@ namespace SpacePark.Controllers
                 try
                 {
                     await _personRepository.Add(person);
+                    
                     if (await _personRepository.Save())
                     {
                         return CreatedAtAction(nameof(GetPersonByNameAsync), new { name = person.Name }, person);

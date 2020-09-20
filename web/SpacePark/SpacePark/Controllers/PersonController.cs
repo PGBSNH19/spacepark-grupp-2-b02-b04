@@ -16,7 +16,6 @@ namespace SpacePark.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-
         private readonly IPersonRepository _personRepository;
 
         public PersonController(IPersonRepository personRepository)
@@ -61,7 +60,5 @@ namespace SpacePark.Controllers
             }
             return BadRequest();
         }
-
-
     }
 }

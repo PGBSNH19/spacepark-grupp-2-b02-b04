@@ -5,11 +5,8 @@ namespace SpacePark
     public class Spaceship
     {
         public int SpaceshipID { get; set; }
-
         public string Name { get; set; }
-
         public string Length { get; set; }
-
         public int PersonID { get; set; }
         public Person Person { get; set; }
 
@@ -23,7 +20,5 @@ namespace SpacePark
 
             return spaceship;
         }
-
-
     }
 }

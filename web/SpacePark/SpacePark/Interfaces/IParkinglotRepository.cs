@@ -9,6 +9,5 @@ namespace SpacePark.Services
     {
         Task<IList<Parkinglot>> GetAllParkinglotsAsync();
         Task<Parkinglot> GetParkinglotByIdAsync(int id);
-
     }
 }

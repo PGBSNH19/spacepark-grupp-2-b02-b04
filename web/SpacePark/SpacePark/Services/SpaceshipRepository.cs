@@ -21,10 +21,14 @@ namespace SpacePark.Services
             return await _context.Spaceships.ToListAsync();
         }
 
-        public async Task<IList<Spaceship>> GetAllSpaceshipsByPersonName(string name)
+        public async Task<IList<Spaceship>> GetAllSpaceshipsByPersonNameAsync(string name)
         {
             _logger.LogInformation($"Getting all {name}'s spaceships.");
-            return await _context.Spaceships.Where(x => x.Name == name).ToListAsync();
+
+            var person = await _context.People.FirstOrDefaultAsync(x => x.Name == name);
+            var spaceships = person.Spaceships.ToList();
+
+            return spaceships;
         }
 
         public async Task<Spaceship> ParkShipByNameAsync(string spaceshipName)
@@ -40,6 +44,8 @@ namespace SpacePark.Services
                 {
                     if (double.Parse(person.CurrentShip.Length) <= currentSpace.Length)
                     {
+                        _logger.LogInformation($"Parked {person.CurrentShip} on parkingspace {currentSpace.ParkinglotID}.");
+
                         context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
                        .Spaceship = person.CurrentShip;
                     }

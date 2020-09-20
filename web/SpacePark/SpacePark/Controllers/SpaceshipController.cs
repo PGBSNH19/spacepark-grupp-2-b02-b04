@@ -15,7 +15,6 @@ namespace SpacePark.Controllers
     [ApiController]
     public class SpaceshipController : ControllerBase
     {
-
         private readonly ISpaceshipRepository _spaceshipRepository;
 
         public SpaceshipController(ISpaceshipRepository repository)
@@ -34,7 +33,6 @@ namespace SpacePark.Controllers
             }
             catch (Exception e)
             {
-
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }
@@ -44,13 +42,12 @@ namespace SpacePark.Controllers
         {
             try
             {
-                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonName(name);
+                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonNameAsync(name);
                 if (result.Count == 0) return NotFound(result);
                 return Ok(result);
             }
             catch (Exception e)
             {
-
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }

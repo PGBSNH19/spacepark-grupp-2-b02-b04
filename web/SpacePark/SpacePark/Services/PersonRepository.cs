@@ -20,7 +20,6 @@ namespace SpacePark.Services
             return await _context.People.ToListAsync();
         }
 
-
         public async Task<Person> GetPersonByNameAsync(string name)
         {
             _logger.LogInformation($"Getting all people named {name}");

@@ -40,27 +40,11 @@ namespace SpacePark.Controllers
         }
 
         [HttpGet(Name = "GetSpaceshipsByPersonName")]
-        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipsByPersonName(Person person)
+        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipsByPersonName(string name)
         {
             try
             {
-                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonName(person);
-                if (result.Count == 0) return NotFound(result);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
-            }
-        }
-
-        [HttpGet(Name = "ParkShip")]
-        public async Task<ActionResult<IList<Spaceship>>> ParkShip(int spaceshipID, bool loggedIn = true)
-        {
-            try
-            {
-                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonName(person);
+                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonName(name);
                 if (result.Count == 0) return NotFound(result);
                 return Ok(result);
             }

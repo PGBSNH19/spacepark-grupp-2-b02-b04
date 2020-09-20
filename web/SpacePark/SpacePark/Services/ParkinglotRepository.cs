@@ -14,23 +14,16 @@ namespace SpacePark.Services
         {
         }
 
-        public async Task <IList<Parkinglot>> GetAllParkinglotsAsync()
+        public async Task<IList<Parkinglot>> GetAllParkinglotsAsync()
         {
-
-                var query = _context.Parkinglot;
-
-                _logger.LogInformation($"Getting all available parkinglots.");
-
-                return await query.ToListAsync();
+            _logger.LogInformation($"Getting all available parkinglots.");
+            return await _context.Parkinglot.ToListAsync();
         }
 
-        public async Task <Parkinglot> GetParkinglotByIdAsync(int id)
+        public async Task<Parkinglot> GetParkinglotByIdAsync(int id)
         {
             _logger.LogInformation($"Getting parkinglot with id {id}");
-
-            var query = await _context.Parkinglot
-                .SingleOrDefaultAsync(x => x.ParkinglotID == id);
-            return query;
+            return await _context.Parkinglot.SingleOrDefaultAsync(x => x.ParkinglotID == id); ;
         }
 
     }

@@ -15,24 +15,38 @@ namespace SpacePark.Services
         {
         }
 
-        public async Task <IList<Spaceship>> GetAllSpaceshipsAsync()
+        public async Task<IList<Spaceship>> GetAllSpaceshipsAsync()
         {
-            var query = _context.Spaceships;
-
             _logger.LogInformation($"Getting all spaceships.");
-
-            return await query.ToListAsync();
+            return await _context.Spaceships.ToListAsync();
         }
 
-        public async Task<IList<Spaceship>> GetAllSpaceshipsByPersonName(Person person)
+        public async Task<IList<Spaceship>> GetAllSpaceshipsByPersonName(string name)
         {
+            _logger.LogInformation($"Getting all {name}'s spaceships.");
+            return await _context.Spaceships.Where(x => x.Name == name).ToListAsync();
+        }
 
-            _logger.LogInformation($"Getting all {person.Name}'s spaceships.");
-            var query = _context.Spaceships.Where(x => x.PersonID == person.PersonID);
+        public async Task<Spaceship> ParkShipByNameAsync(string spaceshipName)
+        {
+            await using var context = new SpaceParkContext();
+            var person = context.People.FirstOrDefault(x => x.CurrentShip.Name == spaceshipName);
+            Parkinglot currentSpace;
 
-
-
-            return await query.ToListAsync();
+            if (ParkingEngine.LoggedIn(person.Name))
+            {
+                currentSpace = ParkingEngine.FindAvailableParkingSpace().Result;
+                if (currentSpace != null)
+                {
+                    if (double.Parse(person.CurrentShip.Length) <= currentSpace.Length)
+                    {
+                        context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
+                       .Spaceship = person.CurrentShip;
+                    }
+                }
+                context.SaveChanges();
+            }
+            return person.CurrentShip;
         }
     }
 }

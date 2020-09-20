@@ -6,6 +6,8 @@ namespace SpacePark.Services
     public interface ISpaceshipRepository : IRepository
     {
         Task<IList<Spaceship>> GetAllSpaceshipsAsync();
-        Task<IList<Spaceship>> GetAllSpaceshipsByPersonName(Person person);
+        Task<IList<Spaceship>> GetAllSpaceshipsByPersonName(string name);
+        Task<Spaceship> ParkShipByNameAsync(string SpaceshipName);
+
     }
 }

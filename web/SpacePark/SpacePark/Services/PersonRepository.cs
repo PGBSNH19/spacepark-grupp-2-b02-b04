@@ -16,28 +16,18 @@ namespace SpacePark.Services
 
         public async Task <IList<Person>> GetAllPeopleAsync()
         {
-            var query = _context.People;
-
             _logger.LogInformation($"Getting all people.");
-
-            return await query.ToListAsync();
+            return await _context.People.ToListAsync();
         }
 
 
         public async Task<Person> GetPersonByNameAsync(string name)
         {
-
             _logger.LogInformation($"Getting all people named {name}");
 
-            var query = await _context.People
+            return await _context.People
                 .Where(n => n.Name == name)
                 .FirstOrDefaultAsync();
-            return query;
         }
-
-
-
-
-
     }
 }

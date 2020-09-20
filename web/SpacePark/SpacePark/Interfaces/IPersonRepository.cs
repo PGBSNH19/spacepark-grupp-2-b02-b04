@@ -7,5 +7,11 @@ namespace SpacePark.Services
     {
         Task<IList<Person>> GetAllPeopleAsync();
         Task<Person> GetPersonByNameAsync(string name);
+        bool LoggedIn(string name);
+        Task<bool> IsPersonInDatabase(string name);
+        Person CheckIn(string name);
+        Task<bool> HasPersonPaid(Person p);
+        Task<Person> PayParking(Person person);
+        bool IsValidPerson(string name);
     }
 }

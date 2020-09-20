@@ -9,5 +9,7 @@ namespace SpacePark.Services
     {
         Task<IList<Parkinglot>> GetAllParkinglotsAsync();
         Task<Parkinglot> GetParkinglotByIdAsync(int id);
+        Task<Parkinglot> FindAvailableParkingSpace();
+        Task ClearParkedShip(Spaceship spaceShip);
     }
 }

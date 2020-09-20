@@ -37,9 +37,9 @@ namespace SpacePark.Services
             var person = context.People.FirstOrDefault(x => x.CurrentShip.Name == spaceshipName);
             Parkinglot currentSpace;
 
-            if (ParkingEngine.LoggedIn(person.Name))
+            if (PersonRepository.LoggedIn(person.Name))
             {
-                currentSpace = ParkingEngine.FindAvailableParkingSpace().Result;
+                currentSpace = ParkinglotRepository.FindAvailableParkingSpace().Result;
                 if (currentSpace != null)
                 {
                     if (double.Parse(person.CurrentShip.Length) <= currentSpace.Length)
@@ -53,6 +53,49 @@ namespace SpacePark.Services
                 context.SaveChanges();
             }
             return person.CurrentShip;
+        }
+
+        public async Task<Person> CheckOutByNameAsync(string shipName)
+        {
+            await using var context = new SpaceParkContext();
+            var person = context.People.SingleOrDefaultAsync(x => x.CurrentShip.Name == shipName).Result;
+            await PersonRepository.PayParking(person);
+
+            if (person.HasPaid)
+            {
+                // Sets the parkingspaces' shipID back to null.
+                context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
+                    .FirstOrDefault()
+                    .SpaceshipID = null;
+
+                // Nulls a persons current shipID
+                await NullSpaceShipIDInPeopleTable(person);
+
+                //Removes the curernt person from the person table
+                context.Remove(context.People
+                    .Where(x => x.Name == person.Name)
+                    .FirstOrDefault());
+
+                // Borde inte denna och den ovan se exakt lika ut?
+                var spaceship = context.Spaceships
+                    .Where(x => x.SpaceshipID == person.SpaceshipID)
+                    .FirstOrDefault();
+
+                context.Remove(spaceship);
+
+                context.SaveChanges();
+            }
+            return person;
+        }
+
+        public static async Task NullSpaceShipIDInPeopleTable(Person person)
+        {
+            await using var context = new SpaceParkContext();
+
+            context.People.Where(x => x.Name == person.Name)
+                .FirstOrDefault().SpaceshipID = null;
+
+            context.SaveChanges();
         }
     }
 }

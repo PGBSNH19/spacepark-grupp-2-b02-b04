@@ -47,7 +47,6 @@ namespace SpacePark
         public async static Task<bool> IsPersonInDatabase(string name)
         {
             await using var context = new SpaceParkContext();
-
             var person = context.People.Where(x => x.Name == name).FirstOrDefault();
 
             if (person != null && person.Name == name)
@@ -94,6 +93,7 @@ namespace SpacePark
         {
             await using var context = new SpaceParkContext();
             var parkingSpace = context.Parkinglot.FirstOrDefault(x => x.SpaceshipID == null);
+
             return parkingSpace;
         }
 

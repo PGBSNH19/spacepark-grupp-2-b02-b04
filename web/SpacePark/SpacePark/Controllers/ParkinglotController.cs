@@ -40,20 +40,5 @@ namespace SpacePark.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }
-
-        [HttpGet(Name = "GetParkinglotById")]
-        public async Task <ActionResult<Parkinglot>> GetParkinglotByIdAsync()
-        {
-            try
-            {
-                var result = await _parkinglotRepository.GetAllParkinglotsAsync();
-                if (result.Count == 0) return NotFound(result);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
-            }
-        }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-//using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,12 +17,10 @@ namespace SpacePark.Controllers
     {
 
         private readonly ISpaceshipRepository _spaceshipRepository;
-        //private readonly IMapper _mapper;
 
-        public SpaceshipController(ISpaceshipRepository repository) //, IMapper mapper
+        public SpaceshipController(ISpaceshipRepository repository)
         {
             _spaceshipRepository = repository;
-            //_mapper = mapper;
         }
 
         [HttpGet(Name = "GetAllSpaceships")]
@@ -32,7 +29,22 @@ namespace SpacePark.Controllers
             try
             {
                 var result = await _spaceshipRepository.GetAllSpaceshipsAsync();
-                //var mappedResults = _mapper.Map<IList<Spaceship>>(result);
+                if (result.Count == 0) return NotFound(result);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
+
+        [HttpGet(Name = "GetSpaceshipsByPersonName")]
+        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipsByPersonName(Person person)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonName(person);
                 if (result.Count == 0) return NotFound(result);
                 return Ok(result);
             }

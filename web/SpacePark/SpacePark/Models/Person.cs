@@ -20,13 +20,13 @@ namespace SpacePark
             var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
             var foundPerson = response.Data.Results.FirstOrDefault(p => p.Name == name);
 
-            if (foundPerson != null)
+            if (foundPerson != null && foundPerson.Starships != null)
             {
-                    return new Person()
-                    {
-                        Name = foundPerson.Name,
-                        Starships = null,
-                    };
+                return new Person()
+                {
+                    Name = foundPerson.Name,
+                    Starships = foundPerson.Starships
+                };
             }
             return null;
         }

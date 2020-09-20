@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SpacePark.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using SpacePark.Services;
 
 namespace SpacePark
 {
@@ -48,6 +49,8 @@ namespace SpacePark
             return false;
         }
 
+
+
         public async static Task<bool> IsPersonInDatabase(string name)
         {
             // Returns true if a person with tha maching name is stored in the people table.
@@ -64,111 +67,72 @@ namespace SpacePark
             }
         }
 
-        public static async Task ParkShip(Person p)
+        public static Person CheckIn(string name)
+        {
+            var person = new Person();
+
+            if (ParkingEngine.IsValidPerson(name) && !ParkingEngine.IsPersonInDatabase(name).Result)
+            {
+                person = Person.CreatePersonFromAPI(name);
+                AddShipsByList(person.Starships);
+            }
+            return person;
+        }
+
+        public static bool LoggedIn(string name)
+        {
+            if (ParkingEngine.IsValidPerson(name) && ParkingEngine.IsPersonInDatabase(name).Result)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static void AddShipsByList(List<string> starships)
+        {
+            using (var context = new SpaceParkContext())
+            {
+                foreach (var shipUrl in starships)
+                {
+                    context.Spaceships.Add(Spaceship.CreateStarshipFromAPI(shipUrl));
+                }
+                context.SaveChanges();
+            }
+        }
+
+        public static async Task ParkShipByID(int spaceshipID)
         {
             Parkinglot currentSpace;
 
-            using (var context = new SpaceParkContext())
+            await using (var context = new SpaceParkContext())
             {
-                try
+                var ship = context.Spaceships.FirstOrDefault(x => x.SpaceshipID == spaceshipID);
+                var person = ship.Person;
+
+                if (LoggedIn(person.Name))
                 {
                     currentSpace = FindAvailableParkingSpace().Result;
-
-                    // If the ship is smaller than the parkingspace park in the space => park it.
-                    if (double.Parse(p.CurrentShip.Length) <= currentSpace.Length)
+                    if (currentSpace != null)
                     {
-                        context.Parkinglot.Where(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                       .FirstOrDefault()
-                       .Spaceship = p.CurrentShip;
+                        if (double.Parse(person.CurrentShip.Length) <= currentSpace.Length)
+                        {
+                            context.Parkinglot.Where(x => x.ParkinglotID == currentSpace.ParkinglotID)
+                           .FirstOrDefault()
+                           .Spaceship = person.CurrentShip;
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("Sorry your ship is to big!");
-                        Thread.Sleep(2500);
-                    }
+                    context.SaveChanges();
                 }
-                catch (Exception)
-                {
-                    Console.WriteLine("No avaialable parking spaces!");
-                    Thread.Sleep(2500);
-                }
-
-                context.Spaceships.Add(p.CurrentShip);
-                context.People.Add(p);
-                // Adds the person and the ship to the appropriate table then saves the changes.
-                context.SaveChanges();
-
-                Console.WriteLine("Your ship has been parked.");
-                Thread.Sleep(2500);
             }
         }
 
         public static async Task<Parkinglot> FindAvailableParkingSpace()
         {
-            using (var context = new SpaceParkContext())
+            await using (var context = new SpaceParkContext())
             {
-                // Finds the first available (where SpaceShipID == null) parkingspot, and then returns that spot.
                 var parkingSpace = context.Parkinglot.FirstOrDefault(x => x.SpaceshipID == null);
-                if (parkingSpace == null)
-                {
-                    // Should throw an exception here but does not work with catch.
-                    Console.WriteLine();
-                    Console.WriteLine("There aren't any parking spaces available.");
-                    Thread.Sleep(2500);
-                    return null;
-                }
                 return parkingSpace;
             }
-        }
-
-        public static Person CheckIn(string name)
-        {
-            var person = new Person();
-            // If the person is in starwars and isn't in the database.
-            if (ParkingEngine.IsValidPerson(name) && !IsPersonInDatabase(name).Result)
-            {
-                // Creates the person obejct.
-                person = Person.CreatePersonFromAPI(name);
-
-                //Console.WriteLine("Enter the number of the ship do you want to park:");
-                //int count = 0;
-
-                //// Prints all starships associated with person.
-                //foreach (var item in person.Starships)
-                //{
-                //    count++;
-                //    var s = ParkingEngine.GetSpaceShipData(item);
-
-                //    Console.WriteLine($"{count}.{s.Name}");
-                //}
-
-                //// Saves the users selection.
-                //var shipNumber = int.Parse(Console.ReadLine());
-
-                //// Actually creates the ship object.
-                //var spaceShip = Spaceship.CreateStarshipFromAPI(person.Starships[shipNumber - 1]);
-                //person.CurrentShip = spaceShip;
-
-                // Adds the person and ship to the database.
-                //ParkingEngine.ParkShip(person);
-
-            }
-
-            else if (!ParkingEngine.IsValidPerson(name))
-            {
-                Console.WriteLine();
-                Console.WriteLine("Sorry you have to have been in Star Wars to park here.");
-                //Thread.Sleep(2500);
-            }
-
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("You have already parked here.");
-                //Thread.Sleep(2500);
-            }
-
-            return person;
         }
 
         public static async Task CheckOut(Person p)

@@ -41,7 +41,7 @@ namespace SpacePark.Controllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(string name)
         {
-            var person = ParkingEngine.CheckIn(name);
+            var person = CheckIn(name);
             if (person != null)
             {
                 try

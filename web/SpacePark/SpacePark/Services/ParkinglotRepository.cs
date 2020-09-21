@@ -25,13 +25,6 @@ namespace SpacePark.Services
             _logger.LogInformation($"Getting parkinglot with id {id}");
             return await _context.Parkinglot.SingleOrDefaultAsync(x => x.ParkinglotID == id); ;
         }
-        public async Task<Parkinglot> FindAvailableParkingSpace()
-        {
-            await using var context = new SpaceParkContext();
-            var parkingSpace = context.Parkinglot.FirstOrDefault(x => x.SpaceshipID == null);
-
-            return parkingSpace;
-        }
         public async Task ClearParkedShip(Spaceship spaceShip)
         {
             await using var context = new SpaceParkContext();

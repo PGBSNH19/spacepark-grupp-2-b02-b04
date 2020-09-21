@@ -25,8 +25,7 @@ namespace SpacePark.Services
         {
             _logger.LogInformation($"Getting all {name}'s spaceships.");
 
-            var person = await _context.People.FirstOrDefaultAsync(x => x.Name == name);
-            var spaceships = person.Spaceships.ToList();
+            List<Spaceship> spaceships = await _context.People.Where(x => x.Name == name).Include(x => x.Spaceships).Select(x => x.Spaceships).FirstOrDefaultAsync();
 
             return spaceships;
         }
@@ -37,9 +36,9 @@ namespace SpacePark.Services
             var person = context.People.FirstOrDefault(x => x.CurrentShip.Name == spaceshipName);
             Parkinglot currentSpace;
 
-            if (PersonRepository.LoggedIn(person.Name))
+            if (LoggedIn(person.Name))
             {
-                currentSpace = ParkinglotRepository.FindAvailableParkingSpace().Result;
+                currentSpace = FindAvailableParkingSpace().Result;
                 if (currentSpace != null)
                 {
                     if (double.Parse(person.CurrentShip.Length) <= currentSpace.Length)
@@ -59,7 +58,7 @@ namespace SpacePark.Services
         {
             await using var context = new SpaceParkContext();
             var person = context.People.SingleOrDefaultAsync(x => x.CurrentShip.Name == shipName).Result;
-            await PersonRepository.PayParking(person);
+            await PayParking(person);
 
             if (person.HasPaid)
             {
@@ -88,7 +87,7 @@ namespace SpacePark.Services
             return person;
         }
 
-        public static async Task NullSpaceShipIDInPeopleTable(Person person)
+        public async Task NullSpaceShipIDInPeopleTable(Person person)
         {
             await using var context = new SpaceParkContext();
 

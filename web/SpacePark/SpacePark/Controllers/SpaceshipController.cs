@@ -22,21 +22,6 @@ namespace SpacePark.Controllers
             _spaceshipRepository = repository;
         }
 
-        [HttpGet(Name = "GetAllSpaceships")]
-        public async Task<ActionResult<IList<Parkinglot>>> GetAllSpaceshipsAsync()
-        {
-            try
-            {
-                var result = await _spaceshipRepository.GetAllSpaceshipsAsync();
-                if (result.Count == 0) return NotFound(result);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
-            }
-        }
-
         [HttpGet(Name = "GetSpaceshipsByPersonName")]
         public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipsByPersonName(string name)
         {

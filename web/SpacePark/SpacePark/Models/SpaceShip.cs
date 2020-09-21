@@ -7,9 +7,6 @@ namespace SpacePark
         public int SpaceshipID { get; set; }
         public string Name { get; set; }
         public string Length { get; set; }
-        public int PersonID { get; set; }
-        public Person Person { get; set; }
-
         public static Spaceship CreateStarshipFromAPI(string url)
         {
             var spaceship = new Spaceship();

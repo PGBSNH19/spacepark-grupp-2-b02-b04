@@ -11,17 +11,26 @@ namespace SpaceParkWeb.Pages
     public class CustomerPageModel : PageModel
     {
         [BindProperty]
-        public Person customer { get; set; }
-        public bool parkedSpaceship { get; private set; }
+        public Person Customer { get; set; }
+        public bool ParkedSpaceship { get; set; }
+        public List<Spaceship> SpaceShips { get; set; }
 
         public void OnGet(Person person)
         {
-            customer = person;
+            Customer = person;
 
-            if(customer.SpaceshipID != 0)
+            if(Customer.Name == null)
             {
-                parkedSpaceship = true;
+                return;
             }
+            else
+            {
+                SpaceShips = new List<Spaceship>();
+                SpaceShips.Add(new Spaceship("X-Wing", "200", 5));
+                SpaceShips.Add(new Spaceship("X-Wing2", "200", 5));
+                SpaceShips.Add(new Spaceship("X-Wing3", "200", 5));
+            }
+
             
         }
     }

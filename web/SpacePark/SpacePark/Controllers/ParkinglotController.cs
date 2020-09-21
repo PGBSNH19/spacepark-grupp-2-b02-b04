@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-//using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,7 +17,6 @@ namespace SpacePark.Controllers
     {
 
         private readonly IParkinglotRepository _parkinglotRepository;
-        //private readonly IMapper _mapper;
 
 
         public ParkinglotController(IParkinglotRepository parkinglotRepository)
@@ -33,7 +31,6 @@ namespace SpacePark.Controllers
             try
             {
                 var result = await _parkinglotRepository.GetAllParkinglotsAsync();
-                //var mappedResults = _mapper.Map<IList<Parkinglot>>(result);
                 if (result.Count == 0) return NotFound(result);
                 return Ok(result);
             }
@@ -43,25 +40,5 @@ namespace SpacePark.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }
-
-        [HttpGet(Name = "GetParkinglotById")]
-        public async Task <ActionResult<Parkinglot>> GetParkinglotByIdAsync()
-        {
-            try
-            {
-                var result = await _parkinglotRepository.GetAllParkinglotsAsync();
-                //var mappedResult = _mapper.Map<Parkinglot>(result);
-                if (result.Count == 0) return NotFound(result);
-                return Ok(result);
-
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
-            }
-        }
-
-
-
     }
 }

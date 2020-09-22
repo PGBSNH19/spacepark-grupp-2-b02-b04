@@ -18,14 +18,12 @@ else
 <div class="text-center">
     <h1>@state</h1>
 
-    @using (Html.BeginForm())
-    {
-        <br />
-        @Html.DropDownListFor(m => m.Customer.Spaceships,
-            Model.SelectedList);
-        <br /><br />
-        <input type=submit />
-    }
+    <select asp-for="Customer.Spaceships">
+        @foreach (var item in Model.Customer.Spaceships)
+        {
+            <h6>@item.Name</h6>
+        }
+    </select>
 
 
 </div>

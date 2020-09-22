@@ -26,8 +26,8 @@ namespace SpacePark.Services
             _logger.LogInformation($"Getting all {name}'s spaceships.");
 
             var spaceships = _context.People.Where(x => x.Name == name)
-                .Include(x => x.CurrentShip)
-                .Select(x => x.CurrentShip);
+                .Include(x => x.Spaceship)
+                .Select(x => x.Spaceship);
 
             return await spaceships.FirstOrDefaultAsync();
         }
@@ -35,7 +35,7 @@ namespace SpacePark.Services
         public async Task<Spaceship> ParkShipByNameAsync(string spaceshipName)
         {
             await using var context = new SpaceParkContext();
-            var person = context.People.FirstOrDefault(x => x.SpaceShip.Name == spaceshipName);
+            var person = context.People.FirstOrDefault(x => x.Spaceship.Name == spaceshipName);
             Parkinglot currentSpace;
 
             if (LoggedIn(person.Name))
@@ -43,23 +43,23 @@ namespace SpacePark.Services
                 currentSpace = FindAvailableParkingSpace().Result;
                 if (currentSpace != null)
                 {
-                    if (double.Parse(person.SpaceShip.Length) <= currentSpace.Length)
+                    if (double.Parse(person.Spaceship.Length) <= currentSpace.Length)
                     {
-                        _logger.LogInformation($"Parked {person.SpaceShip} on parkingspace {currentSpace.ParkinglotID}.");
+                        _logger.LogInformation($"Parked {person.Spaceship} on parkingspace {currentSpace.ParkinglotID}.");
 
                         context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                       .Spaceship = person.SpaceShip;
+                       .Spaceship = person.Spaceship;
                     }
                 }
                 context.SaveChanges();
             }
-            return person.SpaceShip;
+            return person.Spaceship;
         }
 
         public async Task<Person> CheckOutByNameAsync(string shipName)
         {
             await using var context = new SpaceParkContext();
-            var person = context.People.SingleOrDefaultAsync(x => x.SpaceShip.Name == shipName).Result;
+            var person = context.People.SingleOrDefaultAsync(x => x.Spaceship.Name == shipName).Result;
             await PayParking(person);
 
             if (person.HasPaid)

@@ -22,7 +22,7 @@ namespace SpaceParkWeb.Pages
         public void OnGet(Person person)
         {
             Customer = person;
-            Customer.Spaceships = AddSpaceshipsToPerson(person);
+            Customer.Spaceships = GetSpaceships(person.Name).Result;
 
             if(Customer.Name == null)
             {
@@ -31,29 +31,28 @@ namespace SpaceParkWeb.Pages
             else
             {
                 SelectedList = new SelectList(Customer.Spaceships.Select(x => x.Name));
-            }
-
-            
-
-            
-        }
-        public async Task<Spaceship> GetSpaceshipData(string input)
-        {
-            var client = new RestClient(input);
-            var request = new RestRequest("", DataFormat.Json);
-            var apiResponse = await client.ExecuteAsync<Spaceship>(request);
-
-            return apiResponse.Data;
+            } 
         }
 
-        private List<Spaceship> AddSpaceshipsToPerson(Person person)
+        public IActionResult OnPost(string name)
         {
-            person.Spaceships = new List<Spaceship>();
-            foreach (var spaceshipUrl in person.Starships)
+            return null;
+        }
+        public async Task<List<Spaceship>> GetSpaceships(string input)
+        {
+            var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
             {
-                person.Spaceships.Add(GetSpaceshipData(spaceshipUrl).Result);
-            }
-            return person.Spaceships;
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"spaceship/GetSpaceShips?name={input}"
+            };
+            var result = await client.GetAsync<List<Spaceship>>(request);
+            return result;
         }
     }
     

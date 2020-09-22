@@ -21,7 +21,7 @@ namespace SpacePark.Services
             return await _context.Spaceships.ToListAsync();
         }
 
-        public async Task<Spaceship> GetAllSpaceshipsByPersonNameAsync(string name)
+        public async Task<Spaceship> GetSpaceshipByPersonNameAsync(string name)
         {
             _logger.LogInformation($"Getting all {name}'s spaceships.");
 

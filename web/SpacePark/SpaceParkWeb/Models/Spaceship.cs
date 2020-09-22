@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SpaceParkWeb.Models
 {
-    public class Starships
+    public class Spaceship
     {
         public int SpaceshipID { get; set; }
 
@@ -13,7 +13,7 @@ namespace SpaceParkWeb.Models
 
         public string Length { get; set; }
 
-        public Starships(string name, string length)
+        public Spaceship(string name, string length)
         {
             Name = name;
             Length = length;

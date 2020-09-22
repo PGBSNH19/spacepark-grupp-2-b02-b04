@@ -24,7 +24,7 @@ namespace SpacePark.Controllers
             _personRepository = personRepository;
         }
 
-        [HttpGet("searchname", Name = "GetPersonByName")]
+        [HttpGet(Name = "GetPersonByName")]
         public async Task<ActionResult<Person>> GetPersonByNameAsync([FromQuery] string name)
         {
             try
@@ -48,7 +48,7 @@ namespace SpacePark.Controllers
                 try
                 {
                     await _personRepository.Add(person);
-                    
+
                     if (await _personRepository.Save())
                     {
                         return CreatedAtAction(nameof(GetPersonByNameAsync), new { name = person.Name }, person);
@@ -71,10 +71,7 @@ namespace SpacePark.Controllers
                 {
                     await _personRepository.Update(person);
 
-                    if (await _personRepository.Save())
-                    {
-                        return CreatedAtAction(nameof(GetPersonByNameAsync), new { name = person.Name }, person);
-                    }
+                    return CreatedAtAction(nameof(GetPersonByNameAsync), new { name = person.Name }, person);
                 }
                 catch (Exception e)
                 {

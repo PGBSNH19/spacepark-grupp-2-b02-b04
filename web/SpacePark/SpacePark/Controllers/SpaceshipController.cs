@@ -37,12 +37,27 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost("postShip", Name = "PostCheckOutBySpaceshipName")]
+        public async Task<ActionResult<Spaceship>> GetSpaceshipByNameAsync([FromQuery] string name)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.GetSpaceshipByNameAsync(name);
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
+
+        [HttpPost("postship", Name = "PostCheckOutBySpaceshipName")]
         public async Task<ActionResult<Spaceship>> PostCheckOutBySpaceshipName(string name)
         {
             try
             {
                 var result = await _spaceshipRepository.CheckOutByNameAsync(name);
+                await _spaceshipRepository.Save();
                 if (result == null) return NotFound(result);
                 return Ok(result);
             }
@@ -52,12 +67,12 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost("parkship", Name = "PostParkShipByName")]
-        public async Task<ActionResult<Spaceship>> ParkShipbyNameAsync(Spaceship shipName)
+        [HttpPost("parkspaceship", Name = "PostParkShipByName")]
+        public async Task<ActionResult<Spaceship>> ParkShipbyNameAsync(Spaceship spaceship)
         {
             try
             {
-                var result = await _spaceshipRepository.ParkShipByNameAsync(shipName);
+                var result = await _spaceshipRepository.ParkShipByNameAsync(spaceship);
                 if (result == null) return NotFound(result);
                 return Ok(result);
             }
@@ -66,6 +81,42 @@ namespace SpacePark.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }
+        [HttpPost("postspaceship", Name = "PostSpaceship")]
+        public async Task<ActionResult<Spaceship>> PostSpaceship(Spaceship spaceship)
+        {
+            
+            
+                try
+                {
+                    await _spaceshipRepository.Add(spaceship);
+
+                    if (await _spaceshipRepository.Save())
+                    {
+                        return CreatedAtAction(nameof(GetSpaceshipByNameAsync), new { name = spaceship.Name }, spaceship);
+                    }
+                }
+                catch (Exception e)
+                {
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+                }
+            return BadRequest();
+        }
+
+        [HttpGet(Name = "GetSpaceshipByName")]
+        public async Task<ActionResult<Person>> GetPersonByNameAsync([FromQuery] string name)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.GetSpaceshipByNameAsync(name);
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
+
         [HttpGet("GetSpaceShips", Name = "GetSwapiSpaceships")]
         public ActionResult<List<Spaceship>> GetSwapiSpaceships(string name)
         {

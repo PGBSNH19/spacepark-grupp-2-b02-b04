@@ -34,13 +34,17 @@ namespace SpaceParkWeb.Pages
             } 
         }
 
-        public IActionResult OnPost(Person person)
+        public IActionResult OnPost()
         {
+            string customerName = Request.Form["customer"];
             string spaceshipName = Request.Form["spaceships"];
-            var customer = person;
-            //Spaceship spaceship = Customer.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault();
-            //var space = await PostSpaceship(spaceship);
-            //Person person = PutPerson(Customer).Result;
+            Person person = GetCustomer(customerName).Result;
+            person.Spaceships = GetSpaceships(customerName).Result;
+            Spaceship spaceship = PostSpaceship(person.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault()).Result;
+            person.SpaceshipID = spaceship.SpaceshipID;
+            person.Spaceship = spaceship;
+            Person updatedPerson = PutPerson(person).Result;
+            Spaceship parkedSpaceship = ParkSpaceship(spaceship).Result;
 
 
             return null;
@@ -57,11 +61,31 @@ namespace SpaceParkWeb.Pages
                 Method = Method.POST,
                 RequestFormat = DataFormat.Json,
                 JsonSerializer = NewtonsoftJsonSerializer.Default,
-                Resource = $"spaceship/parkship?name={spaceship.Name}&length?={spaceship.Length}"
+                Resource = $"spaceship/postspaceship"
             };
+            request.AddJsonBody(spaceship);
             var result = await client.PostAsync<Spaceship>(request);
 
             return result;     
+        }
+
+        public async Task<Spaceship> ParkSpaceship(Spaceship spaceship)
+        {
+            var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
+            {
+                Method = Method.POST,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"spaceship/parkspaceship"
+            };
+            request.AddJsonBody(spaceship);
+            var result = await client.PostAsync<Spaceship>(request);
+
+            return result;
         }
         public async Task<List<Spaceship>> GetSpaceships(string input)
         {
@@ -93,7 +117,26 @@ namespace SpaceParkWeb.Pages
                 JsonSerializer = NewtonsoftJsonSerializer.Default,
                 Resource = $"person"
             };
+            request.AddJsonBody(person);
             var result = await client.PutAsync<Person>(request);
+            return result;
+        }
+
+        public async Task<Person> GetCustomer(string input)
+        {
+            var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
+            {
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"person?name={input}"
+            };
+
+            var result = await client.GetAsync<Person>(request);
             return result;
         }
     }

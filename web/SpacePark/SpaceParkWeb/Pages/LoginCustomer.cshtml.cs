@@ -43,7 +43,7 @@ namespace SpaceParkWeb.Pages
                 Method = Method.GET,
                 RequestFormat = DataFormat.Json,
                 JsonSerializer = NewtonsoftJsonSerializer.Default,
-                Resource = $"person?name={input}"
+                Resource = $"person/searchname?name={input}"
             };
 
             var result = await client.GetAsync<Person>(request);

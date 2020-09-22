@@ -21,6 +21,8 @@ namespace SpacePark.Services
             return await _context.Spaceships.ToListAsync();
         }
 
+
+
         public async Task<Spaceship> GetSpaceshipByPersonNameAsync(string name)
         {
             _logger.LogInformation($"Getting all {name}'s spaceships.");
@@ -35,25 +37,25 @@ namespace SpacePark.Services
         public async Task<Spaceship> ParkShipByNameAsync(Spaceship spaceship)
         {
             //await using var context = new SpaceParkContext();
-            var person = await _context.People.FirstOrDefaultAsync(x => x.Spaceship.Name == spaceship.Name);
+            var person = await _context.People.FirstOrDefaultAsync(x => x.Spaceship.SpaceshipID == spaceship.SpaceshipID);
             Parkinglot currentSpace;
 
             if (LoggedIn(person.Name))
             {
-                currentSpace = FindAvailableParkingSpace().Result;
+                currentSpace = await FindAvailableParkingSpace();
                 if (currentSpace != null)
                 {
-                    if (double.Parse(person.Spaceship.Length) <= currentSpace.Length)
+                    if (double.Parse(spaceship.Length) <= currentSpace.Length)
                     {
-                        _logger.LogInformation($"Parked {person.Spaceship} on parkingspace {currentSpace.ParkinglotID}.");
+                        _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
 
                         _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                       .Spaceship = person.Spaceship;
+                       .SpaceshipID = spaceship.SpaceshipID;
                     }
                 }
                 _context.SaveChanges();
             }
-            return person.Spaceship;
+            return spaceship;
         }
 
         public async Task<Person> CheckOutByNameAsync(string shipName)
@@ -97,6 +99,15 @@ namespace SpacePark.Services
                 .FirstOrDefault().SpaceshipID = null;
 
             context.SaveChanges();
+        }
+
+        public async Task<Spaceship> GetSpaceshipByNameAsync(string name)
+        {
+            _logger.LogInformation($"Getting all people named {name}");
+
+            return await _context.Spaceships
+                .Where(n => n.Name == name)
+                .FirstOrDefaultAsync();
         }
     }
 }

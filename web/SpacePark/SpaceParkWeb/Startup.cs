@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,20 +24,6 @@ namespace SpaceParkWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-          {
-              options.Cookie.SameSite = SameSiteMode.None;
-              options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-              options.Cookie.IsEssential = true;
-          });
-
-            services.AddSession(options =>
-            {
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.IsEssential = true;
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +51,6 @@ namespace SpaceParkWeb
             {
                 endpoints.MapRazorPages();
             });
-
         }
     }
 }

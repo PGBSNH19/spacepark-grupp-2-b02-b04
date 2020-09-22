@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http.Connections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -25,11 +26,12 @@ namespace SpacePark
             if (foundPerson != null && foundPerson.Starships != null)
             {
                 AddSpaceshipsToPerson(foundPerson);
-                return new Person()
-                {
-                    Name = foundPerson.Name,
-                    Starships = foundPerson.Starships
-                };
+                //return new Person()
+                //{
+                //    Name = foundPerson.Name,
+                //    Starships = foundPerson.Starships
+                //};
+                return foundPerson;
             }
             return null;
         }
@@ -37,6 +39,7 @@ namespace SpacePark
         // Takes the List of URL's and creates a list of Spaceship objects
         private static void AddSpaceshipsToPerson(Person person)
         {
+            person.Spaceships = new List<Spaceship>();
             foreach (var spaceshipUrl in person.Starships)
             {
                 person.Spaceships.Add(ParkingEngine.GetSpaceShipData(spaceshipUrl));

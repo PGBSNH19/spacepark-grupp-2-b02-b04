@@ -33,7 +33,7 @@ namespace SpacePark.Services
         public async Task<Spaceship> ParkShipByNameAsync(string spaceshipName)
         {
             await using var context = new SpaceParkContext();
-            var person = context.People.FirstOrDefault(x => x.CurrentShip.Name == spaceshipName);
+            var person = context.People.FirstOrDefault(x => x.SpaceShip.Name == spaceshipName);
             Parkinglot currentSpace;
 
             if (LoggedIn(person.Name))
@@ -41,23 +41,23 @@ namespace SpacePark.Services
                 currentSpace = FindAvailableParkingSpace().Result;
                 if (currentSpace != null)
                 {
-                    if (double.Parse(person.CurrentShip.Length) <= currentSpace.Length)
+                    if (double.Parse(person.SpaceShip.Length) <= currentSpace.Length)
                     {
-                        _logger.LogInformation($"Parked {person.CurrentShip} on parkingspace {currentSpace.ParkinglotID}.");
+                        _logger.LogInformation($"Parked {person.SpaceShip} on parkingspace {currentSpace.ParkinglotID}.");
 
                         context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                       .Spaceship = person.CurrentShip;
+                       .Spaceship = person.SpaceShip;
                     }
                 }
                 context.SaveChanges();
             }
-            return person.CurrentShip;
+            return person.SpaceShip;
         }
 
         public async Task<Person> CheckOutByNameAsync(string shipName)
         {
             await using var context = new SpaceParkContext();
-            var person = context.People.SingleOrDefaultAsync(x => x.CurrentShip.Name == shipName).Result;
+            var person = context.People.SingleOrDefaultAsync(x => x.SpaceShip.Name == shipName).Result;
             await PayParking(person);
 
             if (person.HasPaid)

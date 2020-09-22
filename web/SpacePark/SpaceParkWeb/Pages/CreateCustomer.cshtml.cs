@@ -35,7 +35,16 @@ namespace SpaceParkWeb.Pages
         public async Task<Person> PostPerson(string input)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
-            var request = new RestRequest($"person?name={input}", Method.POST);
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
+            {
+                Method = Method.POST,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"person?name={input}"
+            };
             var result = await client.PostAsync<Person>(request);
 
             return result;

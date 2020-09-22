@@ -17,7 +17,15 @@ else
 
 <div class="text-center">
     <h1>@state</h1>
-    
-    @Html.DropDownListFor(m => m.SpaceShips,
-            Model.selectedList);
+
+    @using (Html.BeginForm())
+    {
+        <br />
+        @Html.DropDownListFor(m => m.Customer.Spaceships,
+            Model.SelectedList);
+        <br /><br />
+        <input type=submit />
+    }
+
+
 </div>

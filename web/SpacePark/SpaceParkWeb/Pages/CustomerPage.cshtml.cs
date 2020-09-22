@@ -34,8 +34,9 @@ namespace SpaceParkWeb.Pages
             } 
         }
 
-        public IActionResult OnPost(string name)
+        public IActionResult OnPost()
         {
+            string spaceship = Request.Form["spaceships"];
             return null;
         }
         public async Task<List<Spaceship>> GetSpaceships(string input)

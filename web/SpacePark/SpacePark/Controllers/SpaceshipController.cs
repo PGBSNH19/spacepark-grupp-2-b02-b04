@@ -66,5 +66,20 @@ namespace SpacePark.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }
+        [HttpGet("GetSpaceShips", Name = "GetSwapiSpaceships")]
+        public ActionResult<List<Spaceship>> GetSwapiSpaceships(string name)
+        {
+            var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
+            var foundPerson = response.Data.Results.FirstOrDefault(p => p.Name == name);
+
+            if (foundPerson != null && foundPerson.Starships != null)
+            {
+                Person.AddSpaceshipsToPerson(foundPerson);
+                return foundPerson.Spaceships;
+            }
+
+            return null;
+        }
+
     }
 }

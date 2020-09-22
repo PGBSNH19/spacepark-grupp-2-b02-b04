@@ -35,8 +35,9 @@ namespace SpacePark
         }
 
         // Takes the List of URL's and creates a list of Spaceship objects
-        private static void AddSpaceshipsToPerson(Person person)
+        public static void AddSpaceshipsToPerson(Person person)
         {
+            person.Spaceships = new List<Spaceship>();
             foreach (var spaceshipUrl in person.Starships)
             {
                 person.Spaceships.Add(ParkingEngine.GetSpaceShipData(spaceshipUrl));

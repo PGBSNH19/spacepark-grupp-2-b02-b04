@@ -18,5 +18,6 @@ namespace SpaceParkWeb.Models
             Name = name;
             Length = length;
         }
+        public Spaceship(){}
     }
 }

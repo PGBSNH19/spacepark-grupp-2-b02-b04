@@ -17,6 +17,7 @@ else
 
 <div class="text-center">
     <h1>@state</h1>
+    
     @Html.DropDownListFor(m => m.SpaceShips,
-            new SelectList(ViewData.Model.SpaceShips.Select(x => x.Name)))
+            Model.selectedList);
 </div>

@@ -37,7 +37,7 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost(Name = "PostCheckOutBySpaceshipName")]
+        [HttpPost("postShip", Name = "PostCheckOutBySpaceshipName")]
         public async Task<ActionResult<Spaceship>> PostCheckOutBySpaceshipName(string name)
         {
             try
@@ -52,8 +52,8 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost(Name = "PostParkShipByName")]
-        public async Task<ActionResult<Spaceship>> ParkShipbyNameAsync(string shipName)
+        [HttpPost("parkship", Name = "PostParkShipByName")]
+        public async Task<ActionResult<Spaceship>> ParkShipbyNameAsync(Spaceship shipName)
         {
             try
             {

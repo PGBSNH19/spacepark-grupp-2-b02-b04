@@ -34,10 +34,34 @@ namespace SpaceParkWeb.Pages
             } 
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(Person person)
         {
-            string spaceship = Request.Form["spaceships"];
+            string spaceshipName = Request.Form["spaceships"];
+            var customer = person;
+            //Spaceship spaceship = Customer.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault();
+            //var space = await PostSpaceship(spaceship);
+            //Person person = PutPerson(Customer).Result;
+
+
             return null;
+        }
+
+        public async Task<Spaceship> PostSpaceship(Spaceship spaceship)
+        {
+            var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
+            {
+                Method = Method.POST,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"spaceship/parkship?name={spaceship.Name}&length?={spaceship.Length}"
+            };
+            var result = await client.PostAsync<Spaceship>(request);
+
+            return result;     
         }
         public async Task<List<Spaceship>> GetSpaceships(string input)
         {
@@ -53,6 +77,23 @@ namespace SpaceParkWeb.Pages
                 Resource = $"spaceship/GetSpaceShips?name={input}"
             };
             var result = await client.GetAsync<List<Spaceship>>(request);
+            return result;
+        }
+
+        public async Task<Person> PutPerson(Person person)
+        {
+            var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
+            {
+                Method = Method.PUT,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"person"
+            };
+            var result = await client.PutAsync<Person>(request);
             return result;
         }
     }

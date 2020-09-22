@@ -7,7 +7,7 @@ namespace SpacePark.Services
     {
         Task<IList<Spaceship>> GetAllSpaceshipsAsync();
         Task <Spaceship> GetSpaceshipByPersonNameAsync(string name);
-        Task<Spaceship> ParkShipByNameAsync(string spaceshipName);
+        Task<Spaceship> ParkShipByNameAsync(Spaceship spaceship);
         Task<Person> CheckOutByNameAsync(string shipName);
         Task NullSpaceShipIDInPeopleTable(Person person);
     }

@@ -32,10 +32,10 @@ namespace SpacePark.Services
             return await spaceships.FirstOrDefaultAsync();
         }
 
-        public async Task<Spaceship> ParkShipByNameAsync(string spaceshipName)
+        public async Task<Spaceship> ParkShipByNameAsync(Spaceship spaceship)
         {
-            await using var context = new SpaceParkContext();
-            var person = context.People.FirstOrDefault(x => x.Spaceship.Name == spaceshipName);
+            //await using var context = new SpaceParkContext();
+            var person = await _context.People.FirstOrDefaultAsync(x => x.Spaceship.Name == spaceship.Name);
             Parkinglot currentSpace;
 
             if (LoggedIn(person.Name))
@@ -47,11 +47,11 @@ namespace SpacePark.Services
                     {
                         _logger.LogInformation($"Parked {person.Spaceship} on parkingspace {currentSpace.ParkinglotID}.");
 
-                        context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
+                        _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
                        .Spaceship = person.Spaceship;
                     }
                 }
-                context.SaveChanges();
+                _context.SaveChanges();
             }
             return person.Spaceship;
         }

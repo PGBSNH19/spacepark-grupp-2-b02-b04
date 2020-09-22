@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using SpacePark.Models;
 using SpacePark.Services;
@@ -48,6 +49,28 @@ namespace SpacePark.Controllers
                 {
                     await _personRepository.Add(person);
                     
+                    if (await _personRepository.Save())
+                    {
+                        return CreatedAtAction(nameof(GetPersonByNameAsync), new { name = person.Name }, person);
+                    }
+                }
+                catch (Exception e)
+                {
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+                }
+            }
+            return BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Person>> PutPerson(Person person)
+        {
+            if (person != null)
+            {
+                try
+                {
+                    await _personRepository.Update(person);
+
                     if (await _personRepository.Save())
                     {
                         return CreatedAtAction(nameof(GetPersonByNameAsync), new { name = person.Name }, person);

@@ -23,7 +23,7 @@ namespace SpacePark.Controllers
             _personRepository = personRepository;
         }
 
-        [HttpGet(Name = "GetPersonByName")]
+        [HttpGet("searchname", Name = "GetPersonByName")]
         public async Task<ActionResult<Person>> GetPersonByNameAsync([FromQuery] string name)
         {
             try

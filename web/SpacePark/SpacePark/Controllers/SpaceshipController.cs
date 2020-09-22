@@ -22,13 +22,13 @@ namespace SpacePark.Controllers
             _spaceshipRepository = repository;
         }
 
-        [HttpGet(Name = "GetSpaceshipsByPersonName")]
-        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipsByPersonName(string name)
+        [HttpGet("searchperson", Name = "GetSpaceshipsByPersonName")]
+        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipByPersonName(string name)
         {
             try
             {
-                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonNameAsync(name);
-                if (result.Count == 0) return NotFound(result);
+                var result = await _spaceshipRepository.GetSpaceshipByPersonNameAsync(name);
+                if (result == null) return NotFound(result);
                 return Ok(result);
             }
             catch (Exception e)

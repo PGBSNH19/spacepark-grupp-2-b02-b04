@@ -21,7 +21,7 @@ namespace SpaceParkWeb.Models
             PersonID = personID;
             Name = name;
             SpaceshipID = spaceshipID;
+            Starships = new List<string>();
         }
-        public Person() { }
     }
 }

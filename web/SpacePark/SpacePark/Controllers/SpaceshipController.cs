@@ -22,13 +22,13 @@ namespace SpacePark.Controllers
             _spaceshipRepository = repository;
         }
 
-        [HttpGet(Name = "GetSpaceshipsByPersonName")]
-        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipsByPersonName(string name)
+        [HttpGet("searchperson", Name = "GetSpaceshipsByPersonName")]
+        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipByPersonName(string name)
         {
             try
             {
-                var result = await _spaceshipRepository.GetAllSpaceshipsByPersonNameAsync(name);
-                if (result.Count == 0) return NotFound(result);
+                var result = await _spaceshipRepository.GetSpaceshipByPersonNameAsync(name);
+                if (result == null) return NotFound(result);
                 return Ok(result);
             }
             catch (Exception e)
@@ -66,5 +66,20 @@ namespace SpacePark.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }
+        [HttpGet("GetSpaceShips", Name = "GetSwapiSpaceships")]
+        public ActionResult<List<Spaceship>> GetSwapiSpaceships(string name)
+        {
+            var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
+            var foundPerson = response.Data.Results.FirstOrDefault(p => p.Name == name);
+
+            if (foundPerson != null && foundPerson.Starships != null)
+            {
+                Person.AddSpaceshipsToPerson(foundPerson);
+                return foundPerson.Spaceships;
+            }
+
+            return null;
+        }
+
     }
 }

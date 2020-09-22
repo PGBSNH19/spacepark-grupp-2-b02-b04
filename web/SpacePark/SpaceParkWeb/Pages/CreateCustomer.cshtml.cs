@@ -20,13 +20,10 @@ namespace SpaceParkWeb.Pages
         public IActionResult OnPost()
         {
             string input = Request.Form["name"];
-            var customer = PostPerson(input);
-            //var client = new RestClient($"https://localhost:44386/api/v1.0/");
-            //var request = new RestRequest($"person?name={input}", Method.POST);
-            //IRestResponse apiResponse = client.Execute(request);
+            var customer = PostPerson(input).Result;
             if (customer != null)
             {
-                return new RedirectToPageResult("LoginCustomer");
+                return new RedirectToPageResult("CustomerPage", customer);
             }
             else
             {
@@ -35,13 +32,13 @@ namespace SpaceParkWeb.Pages
 
         }
 
-        public async Task<IRestResponse> PostPerson(string input)
+        public async Task<Person> PostPerson(string input)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
             var request = new RestRequest($"person?name={input}", Method.POST);
-            var apiResponse = client.ExecuteAsync(request);
+            var result = await client.PostAsync<Person>(request);
 
-            return await apiResponse;
+            return result;
         }
 
       

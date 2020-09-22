@@ -27,10 +27,6 @@ namespace SpaceParkWeb.Pages
             }
             else
             {
-                SpaceShips = new List<Spaceship>();
-                SpaceShips.Add(new Spaceship("X-Wing", "200", 5));
-                SpaceShips.Add(new Spaceship("X-Wing2", "200", 5));
-                SpaceShips.Add(new Spaceship("X-Wing3", "200", 5));
                 selectedList = new SelectList(SpaceShips.Select(x => x.Name));
             }
 

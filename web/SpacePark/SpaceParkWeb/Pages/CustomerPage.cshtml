@@ -2,16 +2,22 @@
 @model SpaceParkWeb.Pages.CustomerPageModel
 
 @{
-
+    string state = "";
+    SpaceParkWeb.Models.Spaceship spaceship = new Models.Spaceship();
 }
-@if (!Model.parkedSpaceship)
+@if (!Model.ParkedSpaceship)
 {
-    <h2>Welcome @Model.customer.Name</h2>
-    <h4>Please validate your ship before docking</h4>
+    state = "Which ship do you wanna park?";
+}
+else
+{
+    state = "You have a spaceship docked.";
 
 }
-else 
-{ 
-    <h2>Welcome @Model.customer.Name</h2>
-    <h4>You have one spaceship docked</h4>
-}
+
+<div class="text-center">
+    <h1>@state</h1>
+    
+    @Html.DropDownListFor(m => m.SpaceShips,
+            Model.selectedList);
+</div>

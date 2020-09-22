@@ -20,5 +20,6 @@ namespace SpaceParkWeb.Models
             Length = length;
             PersonID = personID;
         }
+        public Spaceship(){}
     }
 }

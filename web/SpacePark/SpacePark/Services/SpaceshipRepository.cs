@@ -21,13 +21,15 @@ namespace SpacePark.Services
             return await _context.Spaceships.ToListAsync();
         }
 
-        public async Task<IList<Spaceship>> GetAllSpaceshipsByPersonNameAsync(string name)
+        public async Task<Spaceship> GetSpaceshipByPersonNameAsync(string name)
         {
             _logger.LogInformation($"Getting all {name}'s spaceships.");
 
-            List<Spaceship> spaceships = await _context.People.Where(x => x.Name == name).Include(x => x.Spaceships).Select(x => x.Spaceships).FirstOrDefaultAsync();
+            var spaceships = _context.People.Where(x => x.Name == name)
+                .Include(x => x.CurrentShip)
+                .Select(x => x.CurrentShip);
 
-            return spaceships;
+            return await spaceships.FirstOrDefaultAsync();
         }
 
         public async Task<Spaceship> ParkShipByNameAsync(string spaceshipName)

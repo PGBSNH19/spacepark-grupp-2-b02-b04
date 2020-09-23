@@ -45,13 +45,18 @@ namespace SpacePark.Services
                 currentSpace = await FindAvailableParkingSpace();
                 if (currentSpace != null)
                 {
-                    if (double.Parse(spaceship.Length) <= currentSpace.Length)
-                    {
-                        _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
+                    //if (double.Parse(spaceship.Length) <= currentSpace.Length)
+                    //{
+                    //    _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
 
-                        _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                       .SpaceshipID = spaceship.SpaceshipID;
-                    }
+                    //    _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
+                    //   .SpaceshipID = spaceship.SpaceshipID;
+                    //}
+
+                    _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
+
+                    _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
+                   .SpaceshipID = spaceship.SpaceshipID;
                 }
                 _context.SaveChanges();
             }

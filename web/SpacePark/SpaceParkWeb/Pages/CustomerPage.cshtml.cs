@@ -45,9 +45,7 @@ namespace SpaceParkWeb.Pages
             person.Spaceship = spaceship;
             Person updatedPerson = PutPerson(person).Result;
             Spaceship parkedSpaceship = ParkSpaceship(spaceship).Result;
-
-
-            return null;
+            return new RedirectToPageResult("Index");
         }
 
         public async Task<Spaceship> PostSpaceship(Spaceship spaceship)
@@ -74,6 +72,10 @@ namespace SpaceParkWeb.Pages
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
             var jsonSerializer = NewtonsoftJsonSerializer.Default;
             client.AddHandler("application/json", jsonSerializer);
+            client.AddHandler("text/json", jsonSerializer);
+            client.AddHandler("text/x-json", jsonSerializer);
+            client.AddHandler("text/javascript", jsonSerializer);
+            client.AddHandler("*+json", jsonSerializer);
 
             var request = new RestRequest
             {

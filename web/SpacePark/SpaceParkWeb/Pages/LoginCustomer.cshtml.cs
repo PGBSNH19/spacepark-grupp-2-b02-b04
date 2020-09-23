@@ -22,14 +22,19 @@ namespace SpaceParkWeb.Pages
         public IActionResult OnPost()
         {
             string input = Request.Form["name"];
-            
-            if(input != null)
+
+            var customer = GetCustomer(input);
+            if (customer.Result.Name != null)
             {
-                var customer = GetCustomer(input);
                 Person = new Person(customer.Result.PersonID, customer.Result.Name, customer.Result.SpaceshipID ?? default(int), customer.Result.Spaceships, customer.Result.Spaceship);
+                return new RedirectToPageResult("CustomerPage", Person);
             }
+            else
+            {
+                return new RedirectToPageResult("LoginCustomer");
+            }
+
             
-            return new RedirectToPageResult("CustomerPage", Person);
         }
 
         public async Task<Person> GetCustomer(string input)
@@ -37,13 +42,13 @@ namespace SpaceParkWeb.Pages
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
             var jsonSerializer = NewtonsoftJsonSerializer.Default;
             client.AddHandler("application/json", jsonSerializer);
-            
+
             var request = new RestRequest
             {
                 Method = Method.GET,
                 RequestFormat = DataFormat.Json,
                 JsonSerializer = NewtonsoftJsonSerializer.Default,
-                Resource = $"person/searchname?name={input}"
+                Resource = $"person?name={input}"
             };
 
             var result = await client.GetAsync<Person>(request);

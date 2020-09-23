@@ -51,15 +51,14 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost("postship", Name = "PostCheckOutBySpaceshipName")]
-        public async Task<ActionResult<Spaceship>> PostCheckOutBySpaceshipName(string name)
+        [HttpDelete("{id}", Name = "CheckoutSpaceship")]
+        public async Task<ActionResult<bool>> CheckoutSpaceship(int id)
         {
             try
             {
-                var result = await _spaceshipRepository.CheckOutByNameAsync(name);
-                await _spaceshipRepository.Save();
-                if (result == null) return NotFound(result);
-                return Ok(result);
+                var result = await _spaceshipRepository.CheckOutBySpaceshipId(id);
+                if (result == false) return NotFound(result);
+                return Ok();
             }
             catch (Exception e)
             {

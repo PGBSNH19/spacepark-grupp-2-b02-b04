@@ -60,15 +60,12 @@ namespace SpacePark.Services
             return spaceship;
         }
 
-        public async Task<Person> CheckOutByNameAsync(int spaceshipId)
+        public async Task<bool> CheckOutBySpaceshipId(int spaceshipId)
         {
             await using var context = new SpaceParkContext();
             var person = context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId).Result;
-            await PayParking(person);
 
-            if (person.HasPaid)
-            {
-                // Sets the parkingspaces' shipID back to null.
+              // Sets the parkingspaces' shipID back to null.
                 context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
                     .FirstOrDefault()
                     .SpaceshipID = null;
@@ -89,8 +86,7 @@ namespace SpacePark.Services
                 context.Remove(spaceship);
 
                 context.SaveChanges();
-            }
-            return person;
+                return true;  
         }
 
         public async Task NullSpaceShipIDInPeopleTable(Person person)

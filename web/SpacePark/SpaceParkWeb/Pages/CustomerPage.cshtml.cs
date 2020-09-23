@@ -42,7 +42,7 @@ namespace SpaceParkWeb.Pages
 
             if(int.TryParse(Request.Form["spaceshipid"], out int SpaceshipId))
             {
-                
+                CheckoutShip(SpaceshipId);
             }
             else
             {
@@ -167,6 +167,23 @@ namespace SpaceParkWeb.Pages
 
             var result = await client.GetAsync<Person>(request);
             return result;
+        }
+
+        public async void CheckoutShip(int shipId)
+        {
+            var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
+            {
+                Method = Method.DELETE,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"spaceship/{shipId}"
+            };
+
+            await client.DeleteAsync<Spaceship>(request);
         }
     }
 

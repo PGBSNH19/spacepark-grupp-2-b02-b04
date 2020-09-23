@@ -25,7 +25,7 @@ namespace SpacePark.Services
             _logger.LogInformation($"Getting all people named {name}");
 
             return await _context.People
-                .Where(n => n.Name == name)
+                .Where(n => n.Name == name).Include(p => p.Spaceship)
                 .FirstOrDefaultAsync();
         }
     }

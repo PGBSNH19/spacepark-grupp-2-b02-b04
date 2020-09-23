@@ -37,13 +37,12 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost(Name = "PostCheckOutBySpaceshipName")]
-        public async Task<ActionResult<Spaceship>> PostCheckOutBySpaceshipName(string name)
+        public async Task<ActionResult<Spaceship>> GetSpaceshipByNameAsync([FromQuery] string name)
         {
             try
             {
-                var result = await _spaceshipRepository.CheckOutByNameAsync(name);
-                if (result == null) return NotFound(result);
+                var result = await _spaceshipRepository.GetSpaceshipByNameAsync(name);
+                if (result == null) return NotFound();
                 return Ok(result);
             }
             catch (Exception e)
@@ -52,12 +51,27 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost(Name = "PostParkShipByName")]
-        public async Task<ActionResult<Spaceship>> ParkShipbyNameAsync(string shipName)
+        [HttpDelete("{id}", Name = "CheckoutSpaceship")]
+        public async Task<ActionResult<bool>> CheckoutSpaceship(int id)
         {
             try
             {
-                var result = await _spaceshipRepository.ParkShipByNameAsync(shipName);
+                var result = await _spaceshipRepository.CheckOutBySpaceshipId(id);
+                if (result == false) return NotFound(result);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
+
+        [HttpPost("parkspaceship", Name = "PostParkShipByName")]
+        public async Task<ActionResult<Spaceship>> ParkShipbyNameAsync(Spaceship spaceship)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.ParkShipByNameAsync(spaceship);
                 if (result == null) return NotFound(result);
                 return Ok(result);
             }
@@ -66,6 +80,58 @@ namespace SpacePark.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
             }
         }
+        [HttpPost("postspaceship", Name = "PostSpaceship")]
+        public async Task<ActionResult<Spaceship>> PostSpaceship(Spaceship spaceship)
+        {
+            
+            
+                try
+                {
+                    await _spaceshipRepository.Add(spaceship);
+
+                    if (await _spaceshipRepository.Save())
+                    {
+                        return CreatedAtAction(nameof(GetSpaceshipByNameAsync), new { name = spaceship.Name }, spaceship);
+                    }
+                }
+                catch (Exception e)
+                {
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure: {e.Message}");
+                }
+            return BadRequest();
+        }
+
+        [HttpGet(Name = "GetSpaceshipByName")]
+        public async Task<ActionResult<Person>> GetPersonByNameAsync([FromQuery] string name)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.GetSpaceshipByNameAsync(name);
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
+
+
+        [HttpGet("{id}", Name = "GetSpaceshipById")]
+        public async Task<ActionResult<Spaceship>> GetSpaceshipById(int id)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.GetSpaceshipById(id);
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
+
         [HttpGet("GetSpaceShips", Name = "GetSwapiSpaceships")]
         public ActionResult<List<Spaceship>> GetSwapiSpaceships(string name)
         {
@@ -80,6 +146,7 @@ namespace SpacePark.Controllers
 
             return null;
         }
+
 
     }
 }

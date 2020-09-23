@@ -65,8 +65,7 @@ namespace SpacePark.Services
 
         public async Task<Parkinglot> FindAvailableParkingSpace()
         {
-            await using var context = new SpaceParkContext();
-            var parkingSpace = context.Parkinglot.FirstOrDefault(x => x.SpaceshipID == null);
+            var parkingSpace = await _context.Parkinglot.FirstOrDefaultAsync(x => x.SpaceshipID == null);
 
             return parkingSpace;
         }
@@ -84,8 +83,7 @@ namespace SpacePark.Services
         }
         public async Task<bool> IsPersonInDatabase(string name)
         {
-            await using var context = new SpaceParkContext();
-            var person = context.People.Where(x => x.Name == name).FirstOrDefault();
+            var person = await _context.People.Where(x => x.Name == name).FirstOrDefaultAsync();
 
             if (person != null && person.Name == name)
             {
@@ -107,28 +105,25 @@ namespace SpacePark.Services
 
         public async Task<Person> PayParking(Person person)
         {
-            await using var context = new SpaceParkContext();
 
             // If the person has not payed, change the value of hasPaid to true in the people table.
             if (!(HasPersonPaid(person).Result))
             {
-                context.People
+                _context.People
                     .Where(x => x.Name == person.Name)
                     .FirstOrDefault()
                     .HasPaid = true;
             }
 
-            context.SaveChanges();
+            await _context.SaveChangesAsync();
             return person;
         }
 
         public async Task<bool> HasPersonPaid(Person p)
         {
-            await using var context = new SpaceParkContext();
-
             // Finds the person in the people table and checks if the value of hasPaid is true or false,
             // then returns that value.
-            var hasPaid = context
+            var hasPaid = _context
                 .People
                 .Where(x => x.Name == p.Name)
                 .FirstOrDefault().HasPaid;

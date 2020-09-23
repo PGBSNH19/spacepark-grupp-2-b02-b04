@@ -21,50 +21,51 @@ namespace SpacePark.Services
             return await _context.Spaceships.ToListAsync();
         }
 
+
+
         public async Task<Spaceship> GetSpaceshipByPersonNameAsync(string name)
         {
             _logger.LogInformation($"Getting all {name}'s spaceships.");
 
             var spaceships = _context.People.Where(x => x.Name == name)
-                .Include(x => x.CurrentShip)
-                .Select(x => x.CurrentShip);
+                .Include(x => x.Spaceship)
+                .Select(x => x.Spaceship);
 
             return await spaceships.FirstOrDefaultAsync();
         }
 
-        public async Task<Spaceship> ParkShipByNameAsync(string spaceshipName)
+        public async Task<Spaceship> ParkShipByNameAsync(Spaceship spaceship)
         {
-            await using var context = new SpaceParkContext();
-            var person = context.People.FirstOrDefault(x => x.CurrentShip.Name == spaceshipName);
+            //await using var context = new SpaceParkContext();
+            var person = await _context.People.FirstOrDefaultAsync(x => x.Spaceship.SpaceshipID == spaceship.SpaceshipID);
             Parkinglot currentSpace;
 
             if (LoggedIn(person.Name))
             {
-                currentSpace = FindAvailableParkingSpace().Result;
+                currentSpace = await FindAvailableParkingSpace();
+                bool parkingAvailible = double.Parse(spaceship.Length) <= currentSpace.Length;
                 if (currentSpace != null)
                 {
-                    if (double.Parse(person.CurrentShip.Length) <= currentSpace.Length)
+                    if (parkingAvailible)
                     {
-                        _logger.LogInformation($"Parked {person.CurrentShip} on parkingspace {currentSpace.ParkinglotID}.");
+                        _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
 
-                        context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                       .Spaceship = person.CurrentShip;
+                        _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
+                       .SpaceshipID = spaceship.SpaceshipID;
                     }
+
                 }
-                context.SaveChanges();
+                _context.SaveChanges();
             }
-            return person.CurrentShip;
+            return spaceship;
         }
 
-        public async Task<Person> CheckOutByNameAsync(string shipName)
+        public async Task<bool> CheckOutBySpaceshipId(int spaceshipId)
         {
             await using var context = new SpaceParkContext();
-            var person = context.People.SingleOrDefaultAsync(x => x.CurrentShip.Name == shipName).Result;
-            await PayParking(person);
+            var person = context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId).Result;
 
-            if (person.HasPaid)
-            {
-                // Sets the parkingspaces' shipID back to null.
+              // Sets the parkingspaces' shipID back to null.
                 context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
                     .FirstOrDefault()
                     .SpaceshipID = null;
@@ -85,8 +86,7 @@ namespace SpacePark.Services
                 context.Remove(spaceship);
 
                 context.SaveChanges();
-            }
-            return person;
+                return true;  
         }
 
         public async Task NullSpaceShipIDInPeopleTable(Person person)
@@ -97,6 +97,24 @@ namespace SpacePark.Services
                 .FirstOrDefault().SpaceshipID = null;
 
             context.SaveChanges();
+        }
+
+        public async Task<Spaceship> GetSpaceshipByNameAsync(string name)
+        {
+            _logger.LogInformation($"Getting all people named {name}");
+
+            return await _context.Spaceships
+                .Where(n => n.Name == name)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Spaceship> GetSpaceshipById(int id)
+        {
+            _logger.LogInformation($"Getting spaceship by id: {id}");
+
+            return await _context.Spaceships
+                .Where(n => n.SpaceshipID == id)
+                .FirstOrDefaultAsync();
         }
     }
 }

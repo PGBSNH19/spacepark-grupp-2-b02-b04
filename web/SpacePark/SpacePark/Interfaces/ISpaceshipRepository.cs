@@ -11,5 +11,6 @@ namespace SpacePark.Services
         Task<Person> CheckOutByNameAsync(string shipName);
         Task NullSpaceShipIDInPeopleTable(Person person);
         Task<Spaceship> GetSpaceshipByNameAsync(string name);
+        Task<Spaceship> GetSpaceshipById(int id);
     }
 }

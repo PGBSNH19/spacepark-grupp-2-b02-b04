@@ -117,6 +117,22 @@ namespace SpacePark.Controllers
             }
         }
 
+
+        [HttpGet("{id}", Name = "GetSpaceshipById")]
+        public async Task<ActionResult<Spaceship>> GetSpaceshipById(int id)
+        {
+            try
+            {
+                var result = await _spaceshipRepository.GetSpaceshipById(id);
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
+            }
+        }
+
         [HttpGet("GetSpaceShips", Name = "GetSwapiSpaceships")]
         public ActionResult<List<Spaceship>> GetSwapiSpaceships(string name)
         {
@@ -131,6 +147,7 @@ namespace SpacePark.Controllers
 
             return null;
         }
+
 
     }
 }

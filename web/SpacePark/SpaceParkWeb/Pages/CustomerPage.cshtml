@@ -3,31 +3,39 @@
 
 @{
     string state = "";
-    
-}
-@if (!Model.ParkedSpaceship)
-{
-    state = "Which ship do you wanna park?";
-}
-else
-{
-    state = "You have a spaceship docked.";
 
 }
 
 <div class="text-center">
-    <h1>@state</h1>
 
+    @if (Model.Customer.Spaceships.Count() > 0)
+    {
+        <h1>"Which ship do you wanna park?"</h1>
         <form name="spaceship" asp-action="OnPost">
             <label for="spaceship">Choose a Spaceships:</label>
             <select name="spaceships" id="spaceship">
+
+                {
                 @foreach (var item in Model.Customer.Spaceships)
                 {
                     <option value="@item.Name">@item.Name</option>
                 }
+                }
+
             </select>
             <br><br>
             <input type="submit" value="Submit">
-            <input type="hidden" name="customer" value="@Model.Customer.Name"/>
+            <input type="hidden" name="customer" value="@Model.Customer.Name" />
         </form>
+    }
+    else
+    {
+        <h1>You have @Model.Customer.Spaceship.Name docked.</h1>
+        <h1>Do you want to checkout?</h1>
+        <form name="spaceship" asp-action="OnPost">
+            <br><br>
+            <input type="submit" value="Yes">
+            <input type="hidden" name="spaceshipid" value="@Model.Customer.SpaceshipID" />
+        </form>
+    }
 </div>

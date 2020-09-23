@@ -21,30 +21,40 @@ namespace SpaceParkWeb.Pages
 
         public void OnGet(Person person)
         {
-            Customer = person;
-            Customer.Spaceships = GetSpaceships(person.Name).Result;
-
-            if(Customer.Name == null)
+            if (person.SpaceshipID == null)
             {
-                return;
+                Customer = person;
+                Customer.Spaceships = GetSpaceships(person.Name).Result;
+                SelectedList = new SelectList(Customer.Spaceships.Select(x => x.Name));
             }
             else
             {
-                SelectedList = new SelectList(Customer.Spaceships.Select(x => x.Name));
-            } 
+                Customer = person;
+                Customer.Spaceships = new List<Spaceship>();
+                Customer.Spaceship = GetSpaceshipById(person.SpaceshipID ?? default(int)).Result;
+            }
         }
 
         public IActionResult OnPost()
         {
             string customerName = Request.Form["customer"];
             string spaceshipName = Request.Form["spaceships"];
-            Person person = GetCustomer(customerName).Result;
-            person.Spaceships = GetSpaceships(customerName).Result;
-            Spaceship spaceship = PostSpaceship(person.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault()).Result;
-            person.SpaceshipID = spaceship.SpaceshipID;
-            person.Spaceship = spaceship;
-            Person updatedPerson = PutPerson(person).Result;
-            Spaceship parkedSpaceship = ParkSpaceship(spaceship).Result;
+
+            if(int.TryParse(Request.Form["spaceshipid"], out int SpaceshipId))
+            {
+                
+            }
+            else
+            {
+                Person person = GetCustomer(customerName).Result;
+                person.Spaceships = GetSpaceships(customerName).Result;
+                Spaceship spaceship = PostSpaceship(person.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault()).Result;
+                person.SpaceshipID = spaceship.SpaceshipID;
+                person.Spaceship = spaceship;
+                Person updatedPerson = PutPerson(person).Result;
+                Spaceship parkedSpaceship = ParkSpaceship(spaceship).Result;
+            }
+            
             return new RedirectToPageResult("Index");
         }
 
@@ -64,7 +74,7 @@ namespace SpaceParkWeb.Pages
             request.AddJsonBody(spaceship);
             var result = await client.PostAsync<Spaceship>(request);
 
-            return result;     
+            return result;
         }
 
         public async Task<Spaceship> ParkSpaceship(Spaceship spaceship)
@@ -106,6 +116,23 @@ namespace SpaceParkWeb.Pages
             return result;
         }
 
+        public async Task<Spaceship> GetSpaceshipById(int id)
+        {
+            var client = new RestClient($"https://localhost:44386/api/v1.0/");
+            var jsonSerializer = NewtonsoftJsonSerializer.Default;
+            client.AddHandler("application/json", jsonSerializer);
+
+            var request = new RestRequest
+            {
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json,
+                JsonSerializer = NewtonsoftJsonSerializer.Default,
+                Resource = $"spaceship/{id}"
+            };
+            var result = await client.GetAsync<Spaceship>(request);
+            return result;
+        }
+
         public async Task<Person> PutPerson(Person person)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
@@ -142,5 +169,5 @@ namespace SpaceParkWeb.Pages
             return result;
         }
     }
-    
+
 }

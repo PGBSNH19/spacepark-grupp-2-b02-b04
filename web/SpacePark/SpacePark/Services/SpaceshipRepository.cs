@@ -43,30 +43,27 @@ namespace SpacePark.Services
             if (LoggedIn(person.Name))
             {
                 currentSpace = await FindAvailableParkingSpace();
+                bool parkingAvailible = double.Parse(spaceship.Length) <= currentSpace.Length;
                 if (currentSpace != null)
                 {
-                    //if (double.Parse(spaceship.Length) <= currentSpace.Length)
-                    //{
-                    //    _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
+                    if (parkingAvailible)
+                    {
+                        _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
 
-                    //    _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                    //   .SpaceshipID = spaceship.SpaceshipID;
-                    //}
+                        _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
+                       .SpaceshipID = spaceship.SpaceshipID;
+                    }
 
-                    _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
-
-                    _context.Parkinglot.FirstOrDefault(x => x.ParkinglotID == currentSpace.ParkinglotID)
-                   .SpaceshipID = spaceship.SpaceshipID;
                 }
                 _context.SaveChanges();
             }
             return spaceship;
         }
 
-        public async Task<Person> CheckOutByNameAsync(string shipName)
+        public async Task<Person> CheckOutByNameAsync(int spaceshipId)
         {
             await using var context = new SpaceParkContext();
-            var person = context.People.SingleOrDefaultAsync(x => x.Spaceship.Name == shipName).Result;
+            var person = context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId).Result;
             await PayParking(person);
 
             if (person.HasPaid)
@@ -112,6 +109,15 @@ namespace SpacePark.Services
 
             return await _context.Spaceships
                 .Where(n => n.Name == name)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Spaceship> GetSpaceshipById(int id)
+        {
+            _logger.LogInformation($"Getting spaceship by id: {id}");
+
+            return await _context.Spaceships
+                .Where(n => n.SpaceshipID == id)
                 .FirstOrDefaultAsync();
         }
     }

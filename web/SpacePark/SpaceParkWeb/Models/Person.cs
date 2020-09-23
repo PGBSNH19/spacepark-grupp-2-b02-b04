@@ -11,17 +11,19 @@ namespace SpaceParkWeb.Models
     {
         public int PersonID { get; set; }
         public string Name { get; set; }
+        public List<Spaceship> Spaceships { get; set; }
         public List<string> Starships { get; set; }
         public int? SpaceshipID { get; set; }
-        //public Spaceship? CurrentShip { get; set; }
+        public Spaceship? Spaceship { get; set; }
         public bool HasPaid { get; set; } = false;
-        
-        public Person(int personID, string name, int spaceshipID)
+
+        public Person(){}
+        public Person(int personID, string name, int spaceshipID, List<Spaceship> spaceships, Spaceship spaceship)
         {
             PersonID = personID;
             Name = name;
             SpaceshipID = spaceshipID;
-            Starships = new List<string>();
+            Spaceship = spaceship;
         }
     }
 }

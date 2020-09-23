@@ -15,7 +15,7 @@ namespace SpacePark
         [NotMapped]
         public List<Spaceship> Spaceships { get; set; }
         public int? SpaceshipID { get; set; }
-        public Spaceship? CurrentShip { get; set; }
+        public Spaceship? Spaceship { get; set; }
         public bool HasPaid { get; set; } = false;
 
         public static Person CreatePersonFromAPI(string name)

@@ -22,26 +22,11 @@ namespace SpacePark.Controllers
             _spaceshipRepository = repository;
         }
 
-        [HttpGet("searchperson", Name = "GetSpaceshipsByPersonName")]
-        public async Task<ActionResult<IList<Spaceship>>> GetSpaceshipByPersonName(string name)
+        public async Task<ActionResult<Spaceship>> GetSpaceshipByName([FromQuery] string name)
         {
             try
             {
-                var result = await _spaceshipRepository.GetSpaceshipByPersonNameAsync(name);
-                if (result == null) return NotFound(result);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database failure: {e.Message}");
-            }
-        }
-
-        public async Task<ActionResult<Spaceship>> GetSpaceshipByNameAsync([FromQuery] string name)
-        {
-            try
-            {
-                var result = await _spaceshipRepository.GetSpaceshipByNameAsync(name);
+                var result = await _spaceshipRepository.GetSpaceshipByNameA(name);
                 if (result == null) return NotFound();
                 return Ok(result);
             }
@@ -66,12 +51,12 @@ namespace SpacePark.Controllers
             }
         }
 
-        [HttpPost("parkspaceship", Name = "PostParkShipByName")]
-        public async Task<ActionResult<Spaceship>> ParkShipbyNameAsync(Spaceship spaceship)
+        [HttpPost("parkspaceship", Name = "ParkShipByName")]
+        public async Task<ActionResult<Spaceship>> ParkShipbyName(Spaceship spaceship)
         {
             try
             {
-                var result = await _spaceshipRepository.ParkShipByNameAsync(spaceship);
+                var result = await _spaceshipRepository.ParkShipByName(spaceship);
                 if (result == null) return NotFound(result);
                 return Ok(result);
             }
@@ -91,7 +76,7 @@ namespace SpacePark.Controllers
 
                     if (await _spaceshipRepository.Save())
                     {
-                        return CreatedAtAction(nameof(GetSpaceshipByNameAsync), new { name = spaceship.Name }, spaceship);
+                        return CreatedAtAction(nameof(GetSpaceshipByName), new { name = spaceship.Name }, spaceship);
                     }
                 }
                 catch (Exception e)
@@ -102,11 +87,11 @@ namespace SpacePark.Controllers
         }
 
         [HttpGet(Name = "GetSpaceshipByName")]
-        public async Task<ActionResult<Person>> GetPersonByNameAsync([FromQuery] string name)
+        public async Task<ActionResult<Person>> GetPersonByName([FromQuery] string name)
         {
             try
             {
-                var result = await _spaceshipRepository.GetSpaceshipByNameAsync(name);
+                var result = await _spaceshipRepository.GetSpaceshipByName(name);
                 if (result == null) return NotFound();
                 return Ok(result);
             }

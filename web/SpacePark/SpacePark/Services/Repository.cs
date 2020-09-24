@@ -123,16 +123,12 @@ namespace SpacePark.Services
         {
             // Finds the person in the people table and checks if the value of hasPaid is true or false,
             // then returns that value.
-            var hasPaid = _context
+            var hasPaid = await _context
                 .People
                 .Where(x => x.Name == p.Name)
-                .FirstOrDefault().HasPaid;
+                .Select(x => x.HasPaid).FirstOrDefaultAsync();
 
-            if (hasPaid)
-            {
-                return true;
-            }
-            return false;
+            return hasPaid;
         }
     }
 }

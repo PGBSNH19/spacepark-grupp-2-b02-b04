@@ -25,17 +25,5 @@ namespace SpacePark.Services
             _logger.LogInformation($"Getting parkinglot with id {id}");
             return await _context.Parkinglot.SingleOrDefaultAsync(x => x.ParkinglotID == id); ;
         }
-        public async Task ClearParkedShip(Spaceship spaceShip)
-        {
-            await using var context = new SpaceParkContext();
-
-            // Finds the ship in the person table and set it to null.
-            context.Parkinglot.Where(x => x.SpaceshipID == spaceShip.SpaceshipID)
-                .FirstOrDefault()
-                .Spaceship = null;
-
-            context.SaveChanges();
-        }
-
     }
 }

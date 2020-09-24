@@ -62,41 +62,37 @@ namespace SpacePark.Services
 
         public async Task<bool> CheckOutBySpaceshipId(int spaceshipId)
         {
-            await using var context = new SpaceParkContext();
-            var person = context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId).Result;
+            var person = _context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId).Result;
 
-              // Sets the parkingspaces' shipID back to null.
-                context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
+            // Sets the parkingspaces' shipID back to null.
+            _context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
                     .FirstOrDefault()
                     .SpaceshipID = null;
 
                 // Nulls a persons current shipID
                 await NullSpaceShipIDInPeopleTable(person);
 
-                //Removes the curernt person from the person table
-                context.Remove(context.People
+            //Removes the curernt person from the person table
+            _context.Remove(_context.People
                     .Where(x => x.Name == person.Name)
                     .FirstOrDefault());
 
                 // Borde inte denna och den ovan se exakt lika ut?
-                var spaceship = context.Spaceships
+                var spaceship = _context.Spaceships
                     .Where(x => x.SpaceshipID == person.SpaceshipID)
                     .FirstOrDefault();
 
-                context.Remove(spaceship);
+            _context.Remove(spaceship);
 
-                context.SaveChanges();
-                return true;  
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task NullSpaceShipIDInPeopleTable(Person person)
         {
-            await using var context = new SpaceParkContext();
-
-            context.People.Where(x => x.Name == person.Name)
+            _context.People.Where(x => x.Name == person.Name)
                 .FirstOrDefault().SpaceshipID = null;
 
-            context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Spaceship> GetSpaceshipByNameAsync(string name)

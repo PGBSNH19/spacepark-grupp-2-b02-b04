@@ -30,7 +30,7 @@ namespace SpacePark.Controllers
         {
             try
             {
-                var result = await _parkinglotRepository.GetAllParkinglotsAsync();
+                var result = await _parkinglotRepository.GetAllParkinglots();
                 if (result.Count == 0) return NotFound(result);
                 return Ok(result);
             }

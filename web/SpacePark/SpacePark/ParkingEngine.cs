@@ -13,23 +13,22 @@ namespace SpacePark
 {
     public class ParkingEngine
     {
-        public static IRestResponse<PersonResult> GetPersonData(string input)
+        public static async Task<PersonResult> GetPersonData(string input)
         {
             var client = new RestClient("https://swapi.dev/api/");
             var request = new RestRequest(input, DataFormat.Json);
-            var apiResponse = client.Get<PersonResult>(request);
+            var apiResponse = await client.GetAsync<PersonResult>(request);
 
             return apiResponse;
         }
 
-        public static Spaceship GetSpaceShipData(string input)
+        public static async Task<Spaceship> GetSpaceShipData(string input)
         {
             var client = new RestClient(input);
             var request = new RestRequest("", DataFormat.Json);
-            var apiResponse = client.ExecuteAsync<Spaceship>(request);
-            apiResponse.Wait();
+            var apiResponse = await client.GetAsync<Spaceship>(request);
 
-            return apiResponse.Result.Data;
+            return apiResponse;
         }
     }
 }

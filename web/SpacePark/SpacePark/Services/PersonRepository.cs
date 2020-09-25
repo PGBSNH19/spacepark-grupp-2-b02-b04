@@ -14,13 +14,13 @@ namespace SpacePark.Services
         {
         }
 
-        public async Task<IList<Person>> GetAllPeopleAsync()
+        public async Task<IList<Person>> GetAllPeople()
         {
             _logger.LogInformation($"Getting all people.");
             return await _context.People.ToListAsync();
         }
         
-        public async Task<Person> GetPersonByNameAsync(string name)
+        public async Task<Person> GetPersonByName(string name)
         {
             _logger.LogInformation($"Getting all people named {name}");
 

@@ -37,13 +37,13 @@ namespace SpacePark.Controllers
         }
 
         [HttpDelete("{id}", Name = "CheckoutSpaceship")]
-        public async Task<ActionResult<bool>> CheckoutSpaceship(int id)
+        public async Task<ActionResult<Spaceship>> CheckoutSpaceship(int id)
         {
             try
             {
                 var result = await _spaceshipRepository.CheckOutBySpaceshipId(id);
-                if (result == false) return NotFound(result);
-                return Ok();
+                if (result == null) return NotFound(result);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -121,7 +121,7 @@ namespace SpacePark.Controllers
         public ActionResult<List<Spaceship>> GetSwapiSpaceships(string name)
         {
             var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
-            var foundPerson = response.Data.Results.FirstOrDefault(p => p.Name == name);
+            var foundPerson = response.Result.Results.FirstOrDefault(p => p.Name == name);
 
             if (foundPerson != null && foundPerson.Starships != null)
             {

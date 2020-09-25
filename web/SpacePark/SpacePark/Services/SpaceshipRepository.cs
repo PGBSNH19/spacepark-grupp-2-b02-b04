@@ -35,10 +35,10 @@ namespace SpacePark.Services
             {
                 currentSpace = await FindAvailableParkingSpace();
 
-                //bool parkingAvailible = int.Parse(spaceship.Length) <= currentSpace.Length;
+                bool parkingAvailible = int.Parse(spaceship.Length) <= currentSpace.Length;
                 if (currentSpace != null)
                 {
-                    if (true)
+                    if (parkingAvailible)
                     {
                         _logger.LogInformation($"Parked {spaceship} on parkingspace {currentSpace.ParkinglotID}.");
 
@@ -70,14 +70,6 @@ namespace SpacePark.Services
 
             }
             return person.Spaceship;
-        }
-
-        public async Task NullSpaceShipIDInPeopleTable(Person person)
-        {
-            _context.People.Where(x => x.Name == person.Name)
-                .FirstOrDefault().SpaceshipID = null;
-
-            await _context.SaveChangesAsync();
         }
 
         public async Task<Spaceship> GetSpaceshipByName(string name)

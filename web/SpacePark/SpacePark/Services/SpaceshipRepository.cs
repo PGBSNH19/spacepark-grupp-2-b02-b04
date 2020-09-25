@@ -34,9 +34,8 @@ namespace SpacePark.Services
             return await spaceships.FirstOrDefaultAsync();
         }
 
-        public async Task<Spaceship> ParkShipByNameAsync(Spaceship spaceship)
+        public async Task<Spaceship> ParkShipByName(Spaceship spaceship)
         {
-            //await using var context = new SpaceParkContext();
             var person = await _context.People.FirstOrDefaultAsync(x => x.Spaceship.SpaceshipID == spaceship.SpaceshipID);
             Parkinglot currentSpace;
 
@@ -55,34 +54,36 @@ namespace SpacePark.Services
                     }
 
                 }
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+                spaceship = await GetSpaceshipById(spaceship.SpaceshipID);
             }
             return spaceship;
         }
 
         public async Task<bool> CheckOutBySpaceshipId(int spaceshipId)
         {
-            var person = _context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId).Result;
-
-            // Sets the parkingspaces' shipID back to null.
-            _context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
-                    .FirstOrDefault()
-                    .SpaceshipID = null;
-
+            var person = await _context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId);
+            if (person.HasPaid)
+            {
+                await PayParking(person);
+                // Sets the parkingspaces' shipID back to null.
+                _context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
+                        .FirstOrDefault()
+                        .SpaceshipID = null;
                 // Nulls a persons current shipID
                 await NullSpaceShipIDInPeopleTable(person);
 
-            //Removes the curernt person from the person table
-            _context.Remove(_context.People
-                    .Where(x => x.Name == person.Name)
-                    .FirstOrDefault());
+                //Removes the curernt person from the person table
+                _context.Remove(_context.People
+                        .Where(x => x.Name == person.Name)
+                        .FirstOrDefault());
 
                 // Borde inte denna och den ovan se exakt lika ut?
-                var spaceship = _context.Spaceships
+                     _context.Remove(_context.Spaceships
                     .Where(x => x.SpaceshipID == person.SpaceshipID)
-                    .FirstOrDefault();
+                    .FirstOrDefault());
 
-            _context.Remove(spaceship);
+            }
 
             return await _context.SaveChangesAsync() > 0;
         }
@@ -95,7 +96,7 @@ namespace SpacePark.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Spaceship> GetSpaceshipByNameAsync(string name)
+        public async Task<Spaceship> GetSpaceshipByName(string name)
         {
             _logger.LogInformation($"Getting all people named {name}");
 

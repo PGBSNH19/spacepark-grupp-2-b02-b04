@@ -26,7 +26,7 @@ namespace SpacePark.Controllers
         {
             try
             {
-                var result = await _spaceshipRepository.GetSpaceshipByNameA(name);
+                var result = await _spaceshipRepository.GetSpaceshipByName(name);
                 if (result == null) return NotFound();
                 return Ok(result);
             }

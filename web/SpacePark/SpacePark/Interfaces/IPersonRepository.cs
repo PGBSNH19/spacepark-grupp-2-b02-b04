@@ -5,8 +5,8 @@ namespace SpacePark.Services
 {
     public interface IPersonRepository : IRepository
     {
-        Task<IList<Person>> GetAllPeopleAsync();
-        Task<Person> GetPersonByNameAsync(string name);
+        Task<IList<Person>> GetAllPeople();
+        Task<Person> GetPersonByName(string name);
         bool LoggedIn(string name);
         Task<bool> IsPersonInDatabase(string name);
         Person CheckIn(string name);

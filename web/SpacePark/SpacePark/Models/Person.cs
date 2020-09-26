@@ -15,22 +15,17 @@ namespace SpacePark
         [NotMapped]
         public List<Spaceship> Spaceships { get; set; }
         public int? SpaceshipID { get; set; }
-        public Spaceship? Spaceship { get; set; }
+        public Spaceship Spaceship { get; set; }
         public bool HasPaid { get; set; } = false;
 
         public static Person CreatePersonFromAPI(string name)
         {
             var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
-            var foundPerson = response.Data.Results.FirstOrDefault(p => p.Name == name);
+            var foundPerson = response.Result.Results.FirstOrDefault(p => p.Name == name);
 
             if (foundPerson != null && foundPerson.Starships != null)
             {
                 AddSpaceshipsToPerson(foundPerson);
-                //return new Person()
-                //{
-                //    Name = foundPerson.Name,
-                //    Starships = foundPerson.Starships
-                //};
                 return foundPerson;
             }
             return null;
@@ -42,7 +37,7 @@ namespace SpacePark
             person.Spaceships = new List<Spaceship>();
             foreach (var spaceshipUrl in person.Starships)
             {
-                person.Spaceships.Add(ParkingEngine.GetSpaceShipData(spaceshipUrl));
+                person.Spaceships.Add(ParkingEngine.GetSpaceShipData(spaceshipUrl).Result);
             }
         }
     }

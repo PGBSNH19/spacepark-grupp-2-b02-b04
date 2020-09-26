@@ -37,16 +37,16 @@ namespace SpaceParkWeb.Pages
 
         public IActionResult OnPost()
         {
-            string customerName = Request.Form["customer"];
-            string spaceshipName = Request.Form["spaceships"];
-
+            
             if(int.TryParse(Request.Form["spaceshipid"], out int SpaceshipId))
             {
                 CheckoutShip(SpaceshipId);
             }
             else
             {
-                Person person = GetCustomer(customerName).Result;
+                string customerName = Request.Form["customer"];
+                string spaceshipName = Request.Form["spaceships"];
+                Person person = GetPerson(customerName).Result;
                 person.Spaceships = GetSpaceships(customerName).Result;
                 Spaceship spaceship = PostSpaceship(person.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault()).Result;
                 person.SpaceshipID = spaceship.SpaceshipID;
@@ -80,13 +80,6 @@ namespace SpaceParkWeb.Pages
         public async Task<Spaceship> ParkSpaceship(Spaceship spaceship)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
-            var jsonSerializer = NewtonsoftJsonSerializer.Default;
-            client.AddHandler("application/json", jsonSerializer);
-            client.AddHandler("text/json", jsonSerializer);
-            client.AddHandler("text/x-json", jsonSerializer);
-            client.AddHandler("text/javascript", jsonSerializer);
-            client.AddHandler("*+json", jsonSerializer);
-
             var request = new RestRequest
             {
                 Method = Method.POST,
@@ -151,7 +144,7 @@ namespace SpaceParkWeb.Pages
             return result;
         }
 
-        public async Task<Person> GetCustomer(string input)
+        public async Task<Person> GetPerson(string input)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
             var jsonSerializer = NewtonsoftJsonSerializer.Default;
@@ -169,12 +162,9 @@ namespace SpaceParkWeb.Pages
             return result;
         }
 
-        public async void CheckoutShip(int shipId)
+        public async Task<Spaceship> CheckoutShip(int shipId)
         {
             var client = new RestClient($"https://localhost:44386/api/v1.0/");
-            var jsonSerializer = NewtonsoftJsonSerializer.Default;
-            client.AddHandler("application/json", jsonSerializer);
-
             var request = new RestRequest
             {
                 Method = Method.DELETE,
@@ -183,7 +173,7 @@ namespace SpaceParkWeb.Pages
                 Resource = $"spaceship/{shipId}"
             };
 
-            await client.DeleteAsync<Spaceship>(request);
+            return await client.DeleteAsync<Spaceship>(request);
         }
     }
 

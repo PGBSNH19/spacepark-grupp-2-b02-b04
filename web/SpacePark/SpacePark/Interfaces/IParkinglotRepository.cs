@@ -7,9 +7,8 @@ namespace SpacePark.Services
 {
     public interface IParkinglotRepository : IRepository
     {
-        Task<IList<Parkinglot>> GetAllParkinglotsAsync();
-        Task<Parkinglot> GetParkinglotByIdAsync(int id);
+        Task<IList<Parkinglot>> GetAllParkinglots();
+        Task<Parkinglot> GetParkinglotById(int id);
         Task<Parkinglot> FindAvailableParkingSpace();
-        Task ClearParkedShip(Spaceship spaceShip);
     }
 }

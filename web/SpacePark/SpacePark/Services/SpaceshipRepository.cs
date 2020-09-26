@@ -15,14 +15,6 @@ namespace SpacePark.Services
         {
         }
 
-        public async Task<IList<Spaceship>> GetAllSpaceshipsAsync()
-        {
-            _logger.LogInformation($"Getting all spaceships.");
-            return await _context.Spaceships.ToListAsync();
-        }
-
-
-
         public async Task<Spaceship> GetSpaceshipByPersonNameAsync(string name)
         {
             _logger.LogInformation($"Getting all {name}'s spaceships.");
@@ -34,16 +26,16 @@ namespace SpacePark.Services
             return await spaceships.FirstOrDefaultAsync();
         }
 
-        public async Task<Spaceship> ParkShipByNameAsync(Spaceship spaceship)
+        public async Task<Spaceship> ParkShipByName(Spaceship spaceship)
         {
-            //await using var context = new SpaceParkContext();
             var person = await _context.People.FirstOrDefaultAsync(x => x.Spaceship.SpaceshipID == spaceship.SpaceshipID);
             Parkinglot currentSpace;
 
             if (LoggedIn(person.Name))
             {
                 currentSpace = await FindAvailableParkingSpace();
-                bool parkingAvailible = double.Parse(spaceship.Length) <= currentSpace.Length;
+
+                bool parkingAvailible = int.Parse(spaceship.Length) <= currentSpace.Length;
                 if (currentSpace != null)
                 {
                     if (parkingAvailible)
@@ -55,51 +47,32 @@ namespace SpacePark.Services
                     }
 
                 }
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+                spaceship = await GetSpaceshipById(spaceship.SpaceshipID);
             }
             return spaceship;
         }
 
-        public async Task<bool> CheckOutBySpaceshipId(int spaceshipId)
+        public async Task<Spaceship> CheckOutBySpaceshipId(int spaceshipId)
         {
-            await using var context = new SpaceParkContext();
-            var person = context.People.SingleOrDefaultAsync(x => x.SpaceshipID == spaceshipId).Result;
-
-              // Sets the parkingspaces' shipID back to null.
-                context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
-                    .FirstOrDefault()
-                    .SpaceshipID = null;
-
+            var person = await _context.People.Include(x => x.Spaceship).FirstOrDefaultAsync(x => x.SpaceshipID == spaceshipId);
+            if (!person.HasPaid)
+            {
+                await PayParking(person);
+                // Sets the parkingspaces' shipID back to null.
+                _context.Parkinglot.Where(x => x.SpaceshipID == person.SpaceshipID)
+                        .FirstOrDefault()
+                        .SpaceshipID = null;
                 // Nulls a persons current shipID
-                await NullSpaceShipIDInPeopleTable(person);
+                await _context.SaveChangesAsync();
+                await Delete<Person>(person.PersonID);
+                await Delete<Spaceship>(spaceshipId);
 
-                //Removes the curernt person from the person table
-                context.Remove(context.People
-                    .Where(x => x.Name == person.Name)
-                    .FirstOrDefault());
-
-                // Borde inte denna och den ovan se exakt lika ut?
-                var spaceship = context.Spaceships
-                    .Where(x => x.SpaceshipID == person.SpaceshipID)
-                    .FirstOrDefault();
-
-                context.Remove(spaceship);
-
-                context.SaveChanges();
-                return true;  
+            }
+            return person.Spaceship;
         }
 
-        public async Task NullSpaceShipIDInPeopleTable(Person person)
-        {
-            await using var context = new SpaceParkContext();
-
-            context.People.Where(x => x.Name == person.Name)
-                .FirstOrDefault().SpaceshipID = null;
-
-            context.SaveChanges();
-        }
-
-        public async Task<Spaceship> GetSpaceshipByNameAsync(string name)
+        public async Task<Spaceship> GetSpaceshipByName(string name)
         {
             _logger.LogInformation($"Getting all people named {name}");
 

@@ -14,28 +14,16 @@ namespace SpacePark.Services
         {
         }
 
-        public async Task<IList<Parkinglot>> GetAllParkinglotsAsync()
+        public async Task<IList<Parkinglot>> GetAllParkinglots()
         {
             _logger.LogInformation($"Getting all available parkinglots.");
             return await _context.Parkinglot.ToListAsync();
         }
 
-        public async Task<Parkinglot> GetParkinglotByIdAsync(int id)
+        public async Task<Parkinglot> GetParkinglotById(int id)
         {
             _logger.LogInformation($"Getting parkinglot with id {id}");
             return await _context.Parkinglot.SingleOrDefaultAsync(x => x.ParkinglotID == id); ;
         }
-        public async Task ClearParkedShip(Spaceship spaceShip)
-        {
-            await using var context = new SpaceParkContext();
-
-            // Finds the ship in the person table and set it to null.
-            context.Parkinglot.Where(x => x.SpaceshipID == spaceShip.SpaceshipID)
-                .FirstOrDefault()
-                .Spaceship = null;
-
-            context.SaveChanges();
-        }
-
     }
 }

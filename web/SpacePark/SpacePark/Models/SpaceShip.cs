@@ -10,7 +10,7 @@ namespace SpacePark
         public static Spaceship CreateStarshipFromAPI(string url)
         {
             var spaceship = new Spaceship();
-            var response = ParkingEngine.GetSpaceShipData(url);
+            var response = ParkingEngine.GetSpaceShipData(url).Result;
 
             spaceship.Name = response.Name;
             spaceship.Length = response.Length;

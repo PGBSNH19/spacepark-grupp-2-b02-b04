@@ -18,21 +18,23 @@ namespace SpacePark
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry();
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDbContext<SpaceParkContext>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IParkinglotRepository, ParkinglotRepository>();
             services.AddScoped<ISpaceshipRepository, SpaceshipRepository>();
-
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public Startup(IConfiguration configuration)
         {
+
             Configuration = configuration;
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,6 +42,7 @@ namespace SpacePark
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
             }
             else
             {

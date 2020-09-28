@@ -21,19 +21,26 @@ namespace SpacePark
 
             using (var scope = host.Services.CreateScope())
             {
+
                 var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<SpaceParkContext>();
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogInformation("logtest");
                 try
                 {
-                    var context = services.GetRequiredService<SpaceParkContext>();
                     var initializer = new DbInitizalizer();
+                    
                     initializer.Initialize(context);
+                    logger.LogInformation("Context initialized.");
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
+
+
             }
+
 
             host.Run();
         }
@@ -43,6 +50,11 @@ namespace SpacePark
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                }).ConfigureLogging(logBuilder =>
+                {
+                    logBuilder.ClearProviders(); // removes all providers from LoggerFactory
+                    logBuilder.AddConsole();
+                    logBuilder.AddTraceSource("Information, ActivityTracing"); // Add Trace listener provider
                 });
     }
 }

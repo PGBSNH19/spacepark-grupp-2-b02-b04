@@ -53,13 +53,13 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'spacepark-con-dev-01'
-        repository: 'spacepark-repo-dev-01'
+        containerRegistry: 'spacepark-api-dev-connnection'
+        repository: 'spacepark-api-dev-01'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
     - task: Docker@2
       inputs:
-        containerRegistry: 'spacepark-con-dev-01'
-        repository: 'spacepark-repo-dev-01'
+        containerRegistry: 'spacepark-webapp-dev-connnection'
+        repository: 'spacepark-webapp-dev-connection'
         command: 'buildAndPush'
         Dockerfile: '**/DockerfileFrontend'

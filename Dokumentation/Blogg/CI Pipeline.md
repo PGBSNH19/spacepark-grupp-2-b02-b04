@@ -1,4 +1,4 @@
-## CI pipeline
+# Continiuous Integration Pipeline
 
 Varje gång vi pushar till master byggs en ny image i Azure.  Vår bygg konfiguration är satt till release och det kanske skulle medfört några fördelar att istället ha den satt till "Debug" eftersom det skulle inkluderat lite debug-filer i exe-filen.
 
@@ -85,4 +85,10 @@ Om allt fungerat som det ska skapar vi nu vår docker-image för våra två proj
         command: 'buildAndPush'
         Dockerfile: '**/DockerfileFrontend'
 ```
+
+Hur vi kom fram till vår lösning var egentligen inte svårare an att vi försökte hitta en bra resurs som vi kunde följa. Hela "CI -> CD/CD -> Prod" flödet insirerades mycket av följande: 
+
+![Blue-Green Deployment with Azure DevOps and App Services](https://www.edmondek.com/images/blue_green_azure_devops_app_service.png)
+
+[Referens]: https://www.edmondek.com/Blue-Green-Deployment-Azure-DevOps-App-Services/#:~:text=Use%20Azure%20DevOps%20to%20enable,Deployment%20to%20Azure%20App%20Service.&amp;text=The%20Build%20Pipeline%20includes%20jobs,publish%20artifacts%20to%20Azure%20Artifacts
 

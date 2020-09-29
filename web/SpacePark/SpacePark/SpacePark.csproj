@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>1b493fe2-ffeb-4344-9613-19e742fcdd07</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <ApplicationInsightsResourceId>/subscriptions/fca36371-adac-4059-a82d-3138e405dd3e/resourceGroups/spacepark-rg-dev-01/providers/microsoft.insights/components/spacepark-ai-dev-01</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>

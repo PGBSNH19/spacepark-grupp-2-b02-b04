@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using SpacePark.Models;
 using SpacePark.Services;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.Extensions.Logging.ApplicationInsights;
 
 namespace SpacePark
 {
@@ -27,6 +27,12 @@ namespace SpacePark
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+            services.AddLogging(builder =>
+            {
+                builder.AddApplicationInsights("insert-insights-key-here");
+                builder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Information);
+                builder.AddFilter<ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Error);
             });
 
         }

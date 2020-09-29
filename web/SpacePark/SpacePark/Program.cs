@@ -50,11 +50,11 @@ namespace SpacePark
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).ConfigureLogging(logBuilder =>
+                }).ConfigureLogging(builder =>
                 {
-                    logBuilder.ClearProviders(); // removes all providers from LoggerFactory
-                    logBuilder.AddConsole();
-                    logBuilder.AddTraceSource("Information, ActivityTracing"); // Add Trace listener provider
+                    builder.AddApplicationInsights("insert-insights-key-here");
+                    builder.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>("", LogLevel.Information);
+                    builder.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Error);
                 });
     }
 }

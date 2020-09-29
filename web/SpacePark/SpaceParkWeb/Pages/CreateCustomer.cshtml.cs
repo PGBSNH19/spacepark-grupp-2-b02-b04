@@ -13,14 +13,16 @@ namespace SpaceParkWeb.Pages
 {
     public class CreateCustomerModel : PageModel
     {
+        private RestSharpCaller restSharpCaller;
         public void OnGet()
         {
         }
 
         public IActionResult OnPost()
         {
+            restSharpCaller = new RestSharpCaller();
             string input = Request.Form["name"];
-            var customer = PostPerson(input).Result;
+            var customer = restSharpCaller.PostPerson(input).Result;
             if (customer != null)
             {
                 return new RedirectToPageResult("CustomerPage", customer);
@@ -30,26 +32,6 @@ namespace SpaceParkWeb.Pages
                 return new RedirectToPageResult("CreateCustomer");
             }
 
-        }
-
-        public async Task<Person> PostPerson(string input)
-        {
-            var client = new RestClient($"https://localhost:44386/api/v1.0/");
-            var jsonSerializer = NewtonsoftJsonSerializer.Default;
-            client.AddHandler("application/json", jsonSerializer);
-
-            var request = new RestRequest
-            {
-                Method = Method.POST,
-                RequestFormat = DataFormat.Json,
-                JsonSerializer = NewtonsoftJsonSerializer.Default,
-                Resource = $"person?name={input}"
-            };
-            var result = await client.PostAsync<Person>(request);
-
-            return result;
-        }
-
-      
+        }  
     }
 }

@@ -12,6 +12,7 @@ namespace SpaceParkWeb.Pages
 {
     public class LoginCustomer : PageModel
     {
+        private RestSharpCaller restSharpCaller;
         public Person Person { get; set; }
 
         public void OnGet()
@@ -22,8 +23,8 @@ namespace SpaceParkWeb.Pages
         public IActionResult OnPost()
         {
             string input = Request.Form["name"];
-
-            var customer = GetCustomer(input);
+            restSharpCaller = new RestSharpCaller();
+            var customer = restSharpCaller.GetCustomer(input);
             if (customer.Result.Name != null)
             {
                 Person = new Person(customer.Result.PersonID, customer.Result.Name, customer.Result.SpaceshipID ?? default(int), customer.Result.Spaceships, customer.Result.Spaceship);
@@ -36,24 +37,5 @@ namespace SpaceParkWeb.Pages
 
             
         }
-
-        public async Task<Person> GetCustomer(string input)
-        {
-            var client = new RestClient($"https://localhost:44386/api/v1.0/");
-            var jsonSerializer = NewtonsoftJsonSerializer.Default;
-            client.AddHandler("application/json", jsonSerializer);
-
-            var request = new RestRequest
-            {
-                Method = Method.GET,
-                RequestFormat = DataFormat.Json,
-                JsonSerializer = NewtonsoftJsonSerializer.Default,
-                Resource = $"person?name={input}"
-            };
-
-            var result = await client.GetAsync<Person>(request);
-            return result;
-        }
-
     }
 }

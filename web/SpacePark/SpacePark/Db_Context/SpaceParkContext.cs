@@ -13,10 +13,20 @@ namespace SpacePark.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-            var config = builder.Build();
-            var defaultConnectionString = config.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(defaultConnectionString);
+            try
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+                var config = builder.Build();
+                var defaultConnectionString = config.GetConnectionString("DefaultConnection");
+                optionsBuilder.UseSqlServer(defaultConnectionString);
+            }
+            catch
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("AppsettingsDeploy.json");
+                var config = builder.Build();
+                var defaultConnectionString = config.GetConnectionString("SpaceparkDatabase");
+                optionsBuilder.UseSqlServer(defaultConnectionString);
+            }
         }
     }
 }

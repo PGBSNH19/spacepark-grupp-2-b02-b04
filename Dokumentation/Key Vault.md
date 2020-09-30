@@ -6,7 +6,7 @@ I vårt projekt kommer vi använda oss utav en Key Vault som säkerhetsåtgärd 
 
 Vår lösning till att implementera Key Vault-tjänsten i vårt projekt började med att vi skapade en KeyVault i vår **Resource Group**. Efter skapandet av vår Key Vault behöver vi lägga till en Secret och dess Value kommer att bevara vår "connectionstring" till databasen.
 
-![CreateSecret](C:\Skola\Utveckling av molnbaserade applikationer\spacepark-grupp-2\Dokumentation\Pics\CreateSecret.PNG) 
+![CreateSecret](C:\Skola\Utveckling av molnbaserade applikationer\spacepark-grupp-2\Dokumentation\Bilder\CreateSecret.PNG) 
 
 För att vår applikation ska komma åt vår hemliga "connectionstring" behöver vi ha tillgång till vår Key Vault i koden, vår lösning var att vi skapade en "Azure Service Token Provider" klass som kommer att sköta hämtningen av värdet som vi deklarerade i vår Secret och returnera det som en sträng. Parametern secretName som vi skickar in i klassmetoden GetKeyVaultSecret är url:n till vår Key Vault, utan den kommer inte metoden att hitta någon Secret.
 
@@ -54,7 +54,7 @@ Den returnerade strängen kommer att innehålla databasens "connnectionstring" s
 
 Koden ovan som vi har skapat kommer inte att returnera något värde från den Key Vault som vi pekar på om vi inte ger applikationen tillgång till själva Key Vaulten. Det vi behövde göra först var att publicera vår applikation i molnet och ge den en intern identitet i vår Resource Group, som vi gjorde på följande sätt: 
 
-![ACIidentity](C:\Skola\Utveckling av molnbaserade applikationer\spacepark-grupp-2\Dokumentation\Pics\ACIidentity.PNG) 
+![ACIidentity](C:\Skola\Utveckling av molnbaserade applikationer\spacepark-grupp-2\Dokumentation\Bilder\ACIidentity.PNG) 
 
 
 
@@ -62,6 +62,6 @@ Efter att vi gick in på Identity så behövde vi sätta Status från Off till O
 
 
 
-![KeyVaultAccess](C:\Skola\Utveckling av molnbaserade applikationer\spacepark-grupp-2\Dokumentation\Pics\KeyVaultAccess.PNG) 
+![KeyVaultAccess](C:\Skola\Utveckling av molnbaserade applikationer\spacepark-grupp-2\Dokumentation\Bilder\KeyVaultAccess.PNG) 
 
 När vi väl har den interna identiteten till vår applikation kan vi lägga till den i vår Key Vault och ge den tillgång till dess innehåll.

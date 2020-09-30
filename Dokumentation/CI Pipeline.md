@@ -1,8 +1,8 @@
-# Continiuous Integration Pipeline
+# Continuous Integration Pipeline
 
 Varje gång vi pushar till master byggs en ny image i Azure.  Vår bygg konfiguration är satt till release och det kanske skulle medfört några fördelar att istället ha den satt till "Debug" eftersom det skulle inkluderat lite debug-filer i exe-filen.
 
-Stackoverflow	"Debug vs. Release": https://stackoverflow.com/a/933744
+StackOverflow	"Debug vs. Release": https://stackoverflow.com/a/933744
 
 Eftersom att vi var osäkra på ifall detta skulle vara användbart valde vi att köra med "Release" . Vi valde att använda några variabler för att få koden att se lite renare ut. 
 
@@ -21,7 +21,7 @@ variables:
   tag: '$(Build.BuildId)'
 ```
 
-Vi valde att använda Stages för att optimisera pipelinen. Det finns t.ex. ingen mening att köra enhetstester ifall imagen inte kan skapas. Piplinen uppdelades därför i följande stages Build -> Test -> Push som alla är beroende utav att föregående steg fungerar.
+Vi valde att använda Stages för att optimera pipelinen. Det finns t.ex. ingen mening att köra enhetstester ifall imagen inte kan skapas. Piplinen uppdelades därför i följande steg: Build -> Test -> Push som alla är beroende utav att föregående steg fungerar.
 
 I build-steget installeras först NuGet-paketen och sedan byggs vår utifrån den plattform och konfiguration som vi angett ovan.
 
@@ -45,7 +45,7 @@ stages:
         configuration: '$(buildConfiguration)'
 ```
 
-Sedan körs våra tester (som egentligen bara är för att visa konceptet, då vi bara har ett test). Eftersom att Testerna också ligger i ett eget projekt i vår solution ville vi se till att detta fungerade och även var ett eget steg.
+Sedan körs våra tester (som egentligen bara är för att visa konceptet, då vi bara har ett test). Eftersom att Testerna också ligger i ett eget projekt i vår solution ville vi se till att detta fungerade och även var ett eget steg. Ifall vi hade haft tid hade vi gärna utökat testerna och även lagt till tester för vår frontend för att se att allting där fungerar som det ska.
 
 ```yaml
 - stage: Test
@@ -60,7 +60,9 @@ Sedan körs våra tester (som egentligen bara är för att visa konceptet, då v
         configuration: '$(buildConfiguration)'
 ```
 
-Om allt fungerat som det ska skapar vi nu vår docker-image för våra två projekt, vilket i sin tu är uppdelat i två delar; en del för backend och del för frontend. De använder också två olika docker-filer som vi placerat en nivå upp i vår projektmapp eftersom att vi haft en del problem med att vi inte kunde hitta dem. När våra docker-images är byggda pushas de upp till två olika container registrys så att vi kan fortsätta arbeta separat på front-/backend utan att den ena/andra slutar fungera.
+Om allt fungerat som det ska skapar vi nu våra docker-images; en image för backend och image för frontend. Egentligen skulle hela pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata CI-pipelines.
+
+De använder också två olika docker-filer som vi placerat en nivå upp i vår projektmapp eftersom att vi haft en del problem med att vi inte kunde hitta dem. När våra docker-images är byggda pushas de upp till två olika container registrys så att vi kan fortsätta arbeta separat på front-/backend utan att den ena/andra slutar fungera.
 
 ```yaml
 

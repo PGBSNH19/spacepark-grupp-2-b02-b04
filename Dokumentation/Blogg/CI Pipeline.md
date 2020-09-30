@@ -2,7 +2,7 @@
 
 Varje gång vi pushar till master byggs en ny image i Azure.  Vår bygg konfiguration är satt till release och det kanske skulle medfört några fördelar att istället ha den satt till "Debug" eftersom det skulle inkluderat lite debug-filer i exe-filen.
 
-[Stackoverflow]: https://stackoverflow.com/a/933744	"Debug vs. Release"
+Stackoverflow: https://stackoverflow.com/a/933744	"Debug vs. Release"
 
 Eftersom att vi var osäkra på ifall detta skulle vara användbart valde vi att köra med "Release" . Vi valde att använda några variabler för att få koden att se lite renare ut. 
 

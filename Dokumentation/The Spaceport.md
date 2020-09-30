@@ -14,6 +14,10 @@ The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separ
 
 Det här är flödet som vi tänkte att vi ville åstadkomma
 
+### Arbetssätt
+
+
+
 ### Planering
 
 

@@ -27,9 +27,8 @@ namespace SpacePark.Models
             }
             else
             {
-                var config = builder.Build();
-                var defaultConnectionString = config.GetConnectionString(azureDbCon);
-                optionsBuilder.UseSqlServer(defaultConnectionString);
+                builder.Build();
+                optionsBuilder.UseSqlServer(azureDbCon);
             }
         }
     }

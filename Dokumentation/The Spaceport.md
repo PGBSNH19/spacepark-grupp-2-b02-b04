@@ -95,7 +95,7 @@ Vi fick våran CI-pipeline att fungera relativt snabbt utan några större probl
 
 ## Planering och arbetsföljd
 
-Till en början var planen att vi skulle använda oss av MVC men det slutade med att vi använde oss av ett API och razor pages. Vi fokuserade främst på att få till en fungerande pipeline, vilket också då fick oss att göra en fungerande ACI. När detta låg uppe i Azure så konfigurerade vi vår databas. Vi valde att ha den i molnet ifrån början så att alla kunde arbeta med samma databas. 
+Till en början var planen att vi skulle använda oss av MVC men det slutade med att vi använde oss av ett API och RazorPages. Vi fokuserade främst på att få till en fungerande pipeline, vilket också då fick oss att göra en fungerande ACI. När detta låg uppe i Azure så konfigurerade vi vår databas. Vi valde att ha den i molnet ifrån början så att alla kunde arbeta med samma databas. 
 
 Vi hade ju till en början tänkt att vi skulle göra ett MVC men det visade sig egentligen vara för enkelt/gå för fort för oss, vilket skulle kunna leda till att vi inte lärde oss lika bra. Vi gick därför över till ett API och tanken var nu istället att vi skulle  separera vår MVC till två separata projekt i vår solution och sedan få dem att arbeta tillsammans i målnet. Men vi såg till att få detta samarbete att fungera lokalt innan vi gick vidare.
 

@@ -90,5 +90,5 @@ Hur vi kom fram till vår lösning var egentligen inte svårare an att vi förs�
 
 ![Blue-Green Deployment with Azure DevOps and App Services](https://www.edmondek.com/images/blue_green_azure_devops_app_service.png)
 
-[Referens]: https://www.edmondek.com/Blue-Green-Deployment-Azure-DevOps-App-Services/#:~:text=Use%20Azure%20DevOps%20to%20enable,Deployment%20to%20Azure%20App%20Service.&amp;text=The%20Build%20Pipeline%20includes%20jobs,publish%20artifacts%20to%20Azure%20Artifacts
+Referens: https://www.edmondek.com/Blue-Green-Deployment-Azure-DevOps-App-Services/#:~:text=Use%20Azure%20DevOps%20to%20enable,Deployment%20to%20Azure%20App%20Service.&amp;text=The%20Build%20Pipeline%20includes%20jobs,publish%20artifacts%20to%20Azure%20Artifacts
 

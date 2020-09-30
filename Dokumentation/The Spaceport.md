@@ -1,4 +1,4 @@
-# The Spaceport 
+# The Spacepark
 
 The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser på Azure kan fungera sammankopplat:
 
@@ -96,3 +96,20 @@ Vi fick våran CI-pipeline att fungera relativt snabbt utan några större probl
 
 
 Till en början var planen att vi skulle använda oss av MVC men det slutade med att vi använde oss av ett API och razor pages. Vi fokuserade främst på att få till en fungerande pipeline, vilket också då fick oss att göra en fungerande ACI. När detta låg uppe i Azure så konfigurerade vi vår databas. Vi valde att ha den i molnet ifrån början så att alla kunde arbeta med samma databas. 
+
+Vi hade ju till en början tänkt att vi skulle göra ett MVC men det visade sig egentligen vara för enkelt/gå för fort för oss, vilket skulle kunna leda till att vi inte lärde oss lika bra. Vi gick därför över till ett API och tanken var nu istället att vi skulle  separera vår MVC till två separata projekt i vår solution och sedan få dem att arbeta tillsammans i målnet. Men vi såg till att få detta samarbete att fungera lokalt innan vi gick vidare.
+
+Vi stötte här på vårt första problem egentligen, när vi inte hade använt oss av en .gitignore-fil och fick givetvis massor med konflikter vid merge.  
+
+I våra pages var ett tidigt problem att vi inte kunde passera data mellan de olika sidorna. Mer specifikt uppstod det störst problem när mer komplicerade objekt som har egna listor etc. skulle skickas till nästa sida, eftersom att datan går förlorad. Vi hade inte tidigare använt oss utav RazorPages så det var svårt. Vi löste det genom att kasta med ett hidden input som ligger i html-formen som följer med vid submit.
+
+Vid denna punkt fungerar båda projekten lokalt med databas på Azure. Innan vi lägger upp allting på Azure behöver vi  skapa och konfigurera vår Docker-fil för frontend. 
+
+
+
+Vad vi har lärt oss:
+
+1. Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt, men det är mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån frontend till databas.
+2. RazorPages, hade varit snyggt att använda någon form av cookie/session.
+3. KeyVault - stora problem. Beskriv hela processen hur vi jobbade oss igenom och vad vi kom fram till. 
+4. 

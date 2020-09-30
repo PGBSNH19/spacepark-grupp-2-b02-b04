@@ -6,7 +6,10 @@ Därefter fanns det en tanke på att implementera release ut till produktion med
 
 ![](Flowchart Continuous Delivery planering.png) 
 
-Vi insåg snart att det inte  skulle fungera på ett smidigt sätt, vilket resulterade i att vi valde att hantera det utifrån två Container Registrys och två Release-Pipelines, t.ex då vi endast har ändrat i våran Frontend, då ska inte API-delen pushas upp också.
+Vi insåg snart att det inte  skulle fungera på ett smidigt sätt, vilket resulterade i att vi valde att hantera det utifrån två Container Registrys och två Release-Pipelines, t.ex om vi endast har ändrat i våran Frontend, då ska inte API-delen pushas upp till sin Container Instance.
 
-![]()
+Tanken om att implementera en Produktionsmiljö blev att vi slopade, då vi insåg att det kom till att bli väldigt överflödigt då vi inte skapat några integrationstestar o
 
+![](Continuous Delivery Pipeline Final Flowchart.png) 
+
+Resultatet av våran release har blivit att vi releasar 

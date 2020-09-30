@@ -65,3 +65,5 @@ Efter att vi gick in på Identity så behövde vi sätta Status från Off till O
 ![KeyVaultAccess](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/Dokumentation/Dokumentation/Bilder/KeyVaultAccess.PNG) 
 
 När vi väl har den interna identiteten till vår applikation kan vi lägga till den i vår Key Vault och ge den tillgång till dess innehåll.
+
+![AddAccessPolicy](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/Dokumentation/Dokumentation/Bilder/AddAccessPolicy.PNG) 

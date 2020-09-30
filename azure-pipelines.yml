@@ -27,7 +27,7 @@ stages:
         restoreSolution: '$(solution)'
     - task: replacetokens@3
       inputs:
-        rootDirectory: '**/SpacePark'
+        rootDirectory: '**/Spacepark/SpacePark'
         targetFiles: '**/*.json'
         encoding: 'auto'
         writeBOM: true

@@ -25,7 +25,19 @@ stages:
     - task: NuGetCommand@2
       inputs:
         restoreSolution: '$(solution)'
-    
+    - task: replacetokens@3
+      inputs:
+        rootDirectory: '**/SpacePark'
+        targetFiles: '**/*.json'
+        encoding: 'auto'
+        writeBOM: true
+        actionOnMissing: 'warn'
+        keepToken: false
+        tokenPrefix: '#{'
+        tokenSuffix: '}#'
+        useLegacyPattern: false
+        emptyValue: '$(ConnectionStrings--SpaceparkDatabase)'
+        enableTelemetry: true
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'

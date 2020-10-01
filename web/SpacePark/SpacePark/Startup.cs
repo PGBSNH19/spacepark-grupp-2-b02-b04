@@ -18,7 +18,6 @@ namespace SpacePark
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry();
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDbContext<SpaceParkContext>();
             services.AddScoped<IPersonRepository, PersonRepository>();
@@ -28,9 +27,10 @@ namespace SpacePark
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            services.AddApplicationInsightsTelemetry();
             services.AddLogging(builder =>
             {
-                builder.AddApplicationInsights("insert-insights-key-here");
+                builder.AddApplicationInsights(new AzureKeyVaultService().GetKeyVaultSecret("https://spacepark-kv-dev-01.vault.azure.net/secrets/Instrumentation--Key/ce7c7539473643648d560d8d81f0217b"));
                 builder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Information);
                 builder.AddFilter<ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Error);
             });

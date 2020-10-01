@@ -26,20 +26,22 @@ namespace SpacePark
 
             if (foundPerson != null && foundPerson.Starships != null)
             {
-                await AddSpaceshipsToPerson(foundPerson);
+                foundPerson.Spaceships = await AddSpaceshipsToPerson(foundPerson);
                 return foundPerson;
             }
             return null;
         }
 
         // Takes the List of URL's and creates a list of Spaceship objects
-        public async static Task AddSpaceshipsToPerson(Person person)
+        public async static Task<List<Spaceship>> AddSpaceshipsToPerson(Person person)
         {
+            List<Spaceship> spaceships = new List<Spaceship>();
             person.Spaceships = new List<Spaceship>();
             foreach (var spaceshipUrl in person.Starships)
             {
-                person.Spaceships.Add((await ParkingEngine.GetSpaceShipData(spaceshipUrl)));
+                spaceships.Add((await ParkingEngine.GetSpaceShipData(spaceshipUrl)));
             }
+            return spaceships;
         }
     }
 }

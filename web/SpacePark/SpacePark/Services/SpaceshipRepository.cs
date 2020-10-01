@@ -74,7 +74,7 @@ namespace SpacePark.Services
 
         public async Task<Spaceship> GetSpaceshipByName(string name)
         {
-            _logger.LogInformation($"Getting all people named {name}");
+            _logger.LogInformation($"Getting spaceship named {name}");
 
             return await _context.Spaceships
                 .Where(n => n.Name == name)

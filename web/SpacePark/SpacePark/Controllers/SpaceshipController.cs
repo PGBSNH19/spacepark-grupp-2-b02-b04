@@ -125,8 +125,7 @@ namespace SpacePark.Controllers
 
             if (foundPerson != null && foundPerson.Starships != null)
             {
-                await Person.AddSpaceshipsToPerson(foundPerson);
-                return foundPerson.Spaceships;
+                return foundPerson.Spaceships = await Person.AddSpaceshipsToPerson(foundPerson);
             }
 
             return NotFound();

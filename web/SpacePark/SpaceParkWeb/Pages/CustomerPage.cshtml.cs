@@ -21,7 +21,7 @@ namespace SpaceParkWeb.Pages
 
         private RestSharpCaller restSharpCaller;
 
-        public async void OnGet(Person person)
+        public async Task OnGet(Person person)
         {
             restSharpCaller = new RestSharpCaller();
             if (person.SpaceshipID == null)

@@ -10,5 +10,6 @@ namespace SpacePark
         public int Length { get; set; }
         public int? SpaceshipID { get; set; }
         public Spaceship? Spaceship { get; set; }
+
     }
 }

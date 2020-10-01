@@ -78,7 +78,7 @@ Vi valde att använda oss av en serverless SQL-Databas då vi kände att det var
 
 **Våran databas-struktur i SQL:**
 
-​          ![Backend-01.PNG](Bilder/Databasdiagram.png)
+​          ![Backend-01.PNG](Bilder/Databasdiagram.PNG)
 
 # Resultat 
 

@@ -78,7 +78,7 @@ ENTRYPOINT ["dotnet", "SpacePark.dll"]
 
 ### Frontend
 
-
+Vi diskuterade kring hur vi skulle skapa våran Frontend
 
 ### API
 

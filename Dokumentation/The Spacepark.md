@@ -19,7 +19,7 @@ Tanken var att vi skulle använda oss utav sprintar och få till en bra planerin
 
 # Planering
 
-I början av projektet så diskuterade vi och kom fram till att vi skulle använda ett projekt ifrån den tidigare kursen, vi tänkte att eftersom att koden inte var fokus i detta projektet att vi kunde spara tid. Vi visste även i ett tidigt skede att vi kommer behöva arbeta med många olika benämningar så vi valde att göra ett dokument för [namngivelser](Namngivelsekonvention), så att vi alla lättare kunde hålla koll på vad alla olika resurser skulle ha för namn. Vi diskuterade lite kring hur vi skulle lägga upp vår *Frontend* och eftersom ingen av oss direkt hade kodat i *Razor Pages*  innan så tänkte vi att detta skulle va ett bra tillfälle att lära sig detta, så vi bestämde att vi skulle köra på det för våran *Frontend*. Tanken var att vi skulle få våran *Frontend* och *API* att köra mot varanda och att det skulle vara möjligt att göra en *Post* en person till *API*.
+I början av projektet så diskuterade vi och kom fram till att vi skulle använda ett projekt ifrån den tidigare kursen, vi tänkte att eftersom att koden inte var fokus i detta projektet att vi kunde spara tid. Vi visste även i ett tidigt skede att vi kommer behöva arbeta med många olika benämningar så vi valde att göra ett dokument för [namngivelser](Namngivelsekonvention.md), så att vi alla lättare kunde hålla koll på vad alla olika resurser skulle ha för namn. Vi diskuterade lite kring hur vi skulle lägga upp vår *Frontend* och eftersom ingen av oss direkt hade kodat i *Razor Pages*  innan så tänkte vi att detta skulle va ett bra tillfälle att lära sig detta, så vi bestämde att vi skulle köra på det för våran *Frontend*. Tanken var att vi skulle få våran *Frontend* och *API* att köra mot varanda och att det skulle vara möjligt att göra en *Post* en person till *API*.
 
 ## Azure
 
@@ -84,7 +84,7 @@ Vi valde att använda oss av en serverless SQL-Databas då vi kände att det var
 
 Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
 
-![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
+![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
 
 
 
@@ -168,5 +168,5 @@ Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
 
 
 
-![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
+![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration + Deployment Final.png)
 

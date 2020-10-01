@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 
 namespace SpacePark
 {
@@ -7,10 +8,10 @@ namespace SpacePark
         public int SpaceshipID { get; set; }
         public string Name { get; set; }
         public string Length { get; set; }
-        public static Spaceship CreateStarshipFromAPI(string url)
+        public async static Task<Spaceship> CreateStarshipFromAPI(string url)
         {
             var spaceship = new Spaceship();
-            var response = ParkingEngine.GetSpaceShipData(url).Result;
+            var response = await ParkingEngine.GetSpaceShipData(url);
 
             spaceship.Name = response.Name;
             spaceship.Length = response.Length;

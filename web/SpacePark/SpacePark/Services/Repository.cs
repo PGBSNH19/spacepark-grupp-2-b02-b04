@@ -54,13 +54,9 @@ namespace SpacePark.Services
             await Save();
             return entity;
         }
-        public bool LoggedIn(string name)
+        public async Task<bool> LoggedIn(string name)
         {
-            if (IsValidPerson(name) && IsPersonInDatabase(name).Result)
-            {
-                return true;
-            }
-            return false;
+            return await IsValidPerson(name) && await IsPersonInDatabase(name);
         }
 
         public async Task<Parkinglot> FindAvailableParkingSpace()
@@ -70,16 +66,12 @@ namespace SpacePark.Services
             return parkingSpace;
         }
 
-        public bool IsValidPerson(string name)
+        public async Task<bool> IsValidPerson(string name)
         {
-            var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
+            var person = await ParkingEngine.GetPersonData(($"people/?search={name}"));
 
             // Returns false if the person is not in the SWAPI database.
-            if (response.Result.Results.Where(p => p.Name == name) != null)
-            {
-                return true;
-            }
-            return false;
+            return person.Results.Where(p => p.Name == name) != null;
         }
         public async Task<bool> IsPersonInDatabase(string name)
         {
@@ -87,13 +79,13 @@ namespace SpacePark.Services
             return person != null;
         }
 
-        public Person CheckIn(string name)
+        public async Task<Person> CheckIn(string name)
         {
             var person = new Person();
 
-            if (IsValidPerson(name) && !IsPersonInDatabase(name).Result)
+            if (await IsValidPerson(name) && !await IsPersonInDatabase(name))
             {
-                person = Person.CreatePersonFromAPI(name);
+                person = await Person.CreatePersonFromAPI(name);
             }
             return person;
         }
@@ -102,7 +94,7 @@ namespace SpacePark.Services
         {
 
             // If the person has not payed, change the value of hasPaid to true in the people table.
-            if (!(HasPersonPaid(person).Result))
+            if (!await (HasPersonPaid(person)))
             {
                 _context.People
                     .Where(x => x.Name == person.Name)
@@ -114,13 +106,13 @@ namespace SpacePark.Services
             return person;
         }
 
-        public async Task<bool> HasPersonPaid(Person p)
+        public async Task<bool> HasPersonPaid(Person person)
         {
             // Finds the person in the people table and checks if the value of hasPaid is true or false,
             // then returns that value.
             var hasPaid = await _context
                 .People
-                .Where(x => x.Name == p.Name)
+                .Where(x => x.Name == person.Name)
                 .Select(x => x.HasPaid).FirstOrDefaultAsync();
 
             return hasPaid;

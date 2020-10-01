@@ -24,6 +24,7 @@ namespace SpaceParkWeb.Models
             Name = name;
             SpaceshipID = spaceshipID;
             Spaceship = spaceship;
+            Spaceships = spaceships;
         }
     }
 }

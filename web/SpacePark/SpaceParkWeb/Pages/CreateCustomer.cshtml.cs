@@ -18,11 +18,11 @@ namespace SpaceParkWeb.Pages
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             restSharpCaller = new RestSharpCaller();
             string input = Request.Form["name"];
-            var customer = restSharpCaller.PostPerson(input).Result;
+            var customer = await restSharpCaller.PostPerson(input);
             if (customer != null)
             {
                 return new RedirectToPageResult("CustomerPage", customer);

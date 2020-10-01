@@ -21,20 +21,20 @@ namespace SpaceParkWeb.Pages
 
         private RestSharpCaller restSharpCaller;
 
-        public void OnGet(Person person)
+        public async Task OnGet(Person person)
         {
             restSharpCaller = new RestSharpCaller();
             if (person.SpaceshipID == null)
             {
                 Customer = person;
-                Customer.Spaceships = restSharpCaller.GetSpaceships(person.Name).Result;
+                Customer.Spaceships = await restSharpCaller.GetSpaceships(person.Name);
                 SelectedList = new SelectList(Customer.Spaceships.Select(x => x.Name));
             }
             else
             {
                 Customer = person;
                 Customer.Spaceships = new List<Spaceship>();
-                Customer.Spaceship = restSharpCaller.GetSpaceshipById(person.SpaceshipID ?? default(int)).Result;
+                Customer.Spaceship = await restSharpCaller.GetSpaceshipById(person.SpaceshipID ?? default(int));
             }
         }
 
@@ -49,13 +49,13 @@ namespace SpaceParkWeb.Pages
             {
                 string customerName = Request.Form["customer"];
                 string spaceshipName = Request.Form["spaceships"];
-                Person person = restSharpCaller.GetPerson(customerName).Result;
-                person.Spaceships = restSharpCaller.GetSpaceships(customerName).Result;
-                Spaceship spaceship = restSharpCaller.PostSpaceship(person.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault()).Result;
+                Person person = await restSharpCaller.GetPerson(customerName);
+                person.Spaceships = await restSharpCaller.GetSpaceships(customerName);
+                Spaceship spaceship = await restSharpCaller.PostSpaceship(person.Spaceships.Where(x => x.Name == spaceshipName).FirstOrDefault());
                 person.SpaceshipID = spaceship.SpaceshipID;
                 person.Spaceship = spaceship;
-                Person updatedPerson = restSharpCaller.PutPerson(person).Result;
-                Spaceship parkedSpaceship = restSharpCaller.ParkSpaceship(spaceship).Result;
+                Person updatedPerson = await restSharpCaller.PutPerson(person);
+                Spaceship parkedSpaceship = await restSharpCaller.ParkSpaceship(spaceship);
             }
 
             return new RedirectToPageResult("Index");

@@ -78,14 +78,23 @@ ENTRYPOINT ["dotnet", "SpacePark.dll"]
 
 ### Frontend
 
-Vi diskuterade kring hur vi skulle skapa våran Frontend
+Vi diskuterade kring hur vi skulle skapa våran Frontend och funderade på att skapa ett Web App projekt med ModelViewController eller Razor Pages, det blev att vi valde att göra med Razor Pages, med tanken på att det skulle gå relativt smidigt och enkelt att få upp en presentation.
+
+Nedan visar vi ett diagram som visar på flödet i våran applikation:
+
+![](PresentationFlowchart.png) 
 
 ### API
 
 Vår *API* är ett .NET-core *API*. Vi fick sitta i några dagar och refakturera kod, eftersom att projektet inte var byggt för detta ändamålet ifrån början. Det blev en hel del problem på grund av detta. Vi ville få till databasen snabbt så att vi kunde testa vårt *API*, så vi konfigurerade en databas och körde igång den i *Azure* så att alla kunde testa emot samma databas. Vi valde att köra en serverless databas eftersom att vi visste att vi inte skulle ha speciellt mycket trafik i detta projektet. 
 
-* Skapa alla resurser på Azure och fixa åtkomst, förklara att vi inte fattade det där hur vi skulle komma åt saker och ting.
-* Flowcharts för att hjälpa oss med att visualisera flödet av vissa delar av projektet.
+#### SQL Databas
+
+Vi valde att använda oss av en SQL-Databas då vi kände att det var det självklara valet i och med att vi ville ha en stabil relations-databas till projektet.
+
+**Våran databas-struktur i SQL:**
+
+​          ![Backend-01.PNG](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/Blogg/img/Backend-01.PNG?raw=true)
 
 ## Problem och lösningar
 
@@ -106,27 +115,9 @@ Vår *API* är ett .NET-core *API*. Vi fick sitta i några dagar och refakturera
 * Tester, hur använde vi de? Hur skulle man egentligen använt sig av tester? Styrkor med tester i CI/CD.
 * Pris, vad skulle hela kalaset kosta ifall vi hade deployat något likande?
 
-**Våran databas-struktur i SQL:**
-
-​          ![Backend-01.PNG](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/Blogg/img/Backend-01.PNG?raw=true)      
+​      
 
 Vi visste även att vi ville komma igång med en pipeline snabbt så vi la till funktionalitet för Docker i tidigt skede. 
-
-
-
-## Planering och arbetsföljd
-
-Till en början var planen att vi skulle använda oss av MVC men det slutade med att vi använde oss av ett API och RazorPages. Vi fokuserade främst på att få till en fungerande pipeline, vilket också då fick oss att göra en fungerande ACI. När detta låg uppe i Azure så konfigurerade vi vår databas. Vi valde att ha den i molnet ifrån början så att alla kunde arbeta med samma databas. 
-
-Vi hade ju till en början tänkt att vi skulle göra ett MVC men det visade sig egentligen vara för enkelt/gå för fort för oss, vilket skulle kunna leda till att vi inte lärde oss lika bra. Vi gick därför över till ett API och tanken var nu istället att vi skulle  separera vår MVC till två separata projekt i vår solution och sedan få dem att arbeta tillsammans i målnet. Men vi såg till att få detta samarbete att fungera lokalt innan vi gick vidare.
-
-Vi stötte här på vårt första problem egentligen, när vi inte hade använt oss av en .gitignore-fil och fick givetvis massor med konflikter vid merge.  
-
-I våra pages var ett tidigt problem att vi inte kunde passera data mellan de olika sidorna. Mer specifikt uppstod det störst problem när mer komplicerade objekt som har egna listor etc. skulle skickas till nästa sida, eftersom att datan går förlorad. Vi hade inte tidigare använt oss utav RazorPages så det var svårt. Vi löste det genom att kasta med ett hidden input som ligger i html-formen som följer med vid submit.
-
-Vid denna punkt fungerar båda projekten lokalt med databas på Azure. Innan vi lägger upp allting på Azure behöver vi  skapa och konfigurera vår Docker-fil för frontend. 
-
-
 
 Vad vi har lärt oss:
 

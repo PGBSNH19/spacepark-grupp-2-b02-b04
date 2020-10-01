@@ -168,5 +168,5 @@ Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
 
 
 
-![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration + Deployment Final.png)
+![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
 

@@ -1,6 +1,6 @@
 # Continuous Integration Pipeline
 
-Varje gång vi pushar till master byggs en ny image i Azure.  Vår bygg konfiguration är satt till release och det kanske skulle medfört några fördelar att istället ha den satt till "Debug" eftersom det skulle inkluderat lite debug-filer i exe-filen. Vi visste inte riktigt skillnaden förens vi efgterhand läste denna [artikel](https://stackoverflow.com/a/933744). Eftersom att vi var osäkra på ifall detta skulle vara användbart valde vi att köra med "Release" . 
+Varje gång vi pushar till master byggs en ny image i Azure.  Vår bygg konfiguration är satt till release och det kanske skulle medfört några fördelar att istället ha den satt till "Debug" eftersom det skulle inkluderat lite debug-filer i exe-filen. Vi visste inte riktigt skillnaden förens vi efterhand läste denna [artikel](https://stackoverflow.com/a/933744). Eftersom att vi var osäkra på ifall detta skulle vara användbart valde vi att köra med "Release" . 
 
 I denna dela kan man se några variabler som vi valde att använda för att få koden att se lite renare ut. 
 

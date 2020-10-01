@@ -38,12 +38,12 @@ namespace SpaceParkWeb.Pages
             }
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             restSharpCaller = new RestSharpCaller();
             if (int.TryParse(Request.Form["spaceshipid"], out int SpaceshipId))
             {
-                restSharpCaller.CheckoutShip(SpaceshipId);
+                await restSharpCaller.CheckoutShip(SpaceshipId);
             }
             else
             {

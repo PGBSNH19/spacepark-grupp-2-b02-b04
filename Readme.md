@@ -9,7 +9,7 @@ The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separ
 
 [Namngivelsekonvention](Dokumentation/Namngivelsekonvention.md)
 
-[Planering av händelseförlopp med metoder](SpacePark%20-%20Planering%20av%20händelseförlopp%20med%20metoder.md)
+[Planering av händelseförlopp med metoder](Dokumentation/SpacePark%20-%20Händelseförlopp%20med%20metoder.md)
 
 [Priser](Dokumentation/Priser.md)
 

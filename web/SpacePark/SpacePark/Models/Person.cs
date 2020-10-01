@@ -22,23 +22,23 @@ namespace SpacePark
         public async static Task<Person> CreatePersonFromAPI(string name)
         {
             var response = await ParkingEngine.GetPersonData(($"people/?search={name}"));
-            var foundPerson = response.FirstOrDefault(p => p.Name == name);
+            var foundPerson = response.Results.FirstOrDefault(p => p.Name == name);
 
             if (foundPerson != null && foundPerson.Starships != null)
             {
-                AddSpaceshipsToPerson(foundPerson);
+                await AddSpaceshipsToPerson(foundPerson);
                 return foundPerson;
             }
             return null;
         }
 
         // Takes the List of URL's and creates a list of Spaceship objects
-        public static void AddSpaceshipsToPerson(Person person)
+        public async static Task AddSpaceshipsToPerson(Person person)
         {
             person.Spaceships = new List<Spaceship>();
             foreach (var spaceshipUrl in person.Starships)
             {
-                person.Spaceships.Add(ParkingEngine.GetSpaceShipData(spaceshipUrl).Result);
+                person.Spaceships.Add((await ParkingEngine.GetSpaceShipData(spaceshipUrl)));
             }
         }
     }

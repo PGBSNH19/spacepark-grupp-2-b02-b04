@@ -121,12 +121,12 @@ namespace SpacePark.Controllers
         public async Task<ActionResult<List<Spaceship>>> GetSwapiSpaceships(string name)
         {
             var response = await ParkingEngine.GetPersonData(($"people/?search={name}"));
-            var foundPerson = response.FirstOrDefault(p => p.Name == name);
+            var foundPerson = response.Results.FirstOrDefault(p => p.Name == name);
 
             if (foundPerson != null && foundPerson.Starships != null)
             {
-                Person.AddSpaceshipsToPerson(foundPerson);
-                return Ok(foundPerson.Spaceships);
+                await Person.AddSpaceshipsToPerson(foundPerson);
+                return foundPerson.Spaceships;
             }
 
             return NotFound();

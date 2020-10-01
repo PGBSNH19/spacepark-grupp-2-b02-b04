@@ -1,92 +1,45 @@
-# The Spacepark
+# Introduktion
 
-## Introduktion
-
-The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser på Azure kan fungera sammankopplat:
-
-* Azure Container Instance (ACI)
-* Azure Container Registry (ACR)
-* Azure SQL-Server
-* Azure SQL-Database
-* Azure KeyVaults
-* Azure Application Insights
-* Docker
-* Azure DevOps Pipelines
-* Azure Artifacts
+The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser mångd olika resurser i Azure kan fungera sammankopplat:
 
 ## Arbetssätt
 
-* Att vi delade upp oss två och två.
-* allt på azure gjordes tillsammans
-* Att vi suttit ca: 09:30-16:30 alla dagar när vi inte haft lektion
-* Bloggat i princip varje dag
-* Skapat planering för kommande dagar utifrån var vi stått inför för problem alternativt vad vi behövt för att komma vidare i projektet som helhet.
+Vi bestämde några förhållningsregler för hur projektet skulle fungera.
 
-## Planering
+* Arbetstider 09:30 - 16:30 varje dag
+* För blogg så mycket som möjligt
+* Dela upp arbete i den mån möjligt
+* Sitta mycket med Azure tillsammans
 
-* Att vi utgick från ett gammalt projekt
-* Skapade boards och sprints för att sätta igång och strukturera arbetet
-* Tänkte MVC -> API + Razorpages
-* Tidigt få databas till azure
-* få projekten att fungera tillsammans lokalt (göra ett post-request till databas)
-* Skapa alla resurser på Azure och fixa åtkomst, förklara att vi inte fattade det där hur vi skulle komma åt saker och ting.
-* Flowcharts för att hjälpa oss med att visualisera flödet av vissa delar av projektet.
+## Azure DevOps
 
-## Problem och lösningar
+Vi använde oss utav Azure DevOps-Boards för att planera upp projektet och lägga till Tasks på det vi behövde göra, vilket vi använde flitigt till en början men blev sämre på att använda under projektets gång. 
 
-* RazorPages - Vad var det som var svårast? (hantera sidor och objekt)
-* Azure KeyVault - Vad var det egentligen som var så svårt? Hur löste vi det?
-* Azure Application Insights - Vi fick det till viss del att fungera. Hur kunde det fungerat bättre?
-* App service vs. Container Instance. Varför valde vi ACI? Vilka problem uppstod?
+Tanken var att vi skulle använda oss utav sprintar och få till en bra planering runt detta, men det blev ändå mer att vi strukturerade om planeringen och använde oss utav bloggar istället.
 
-## Resultat - genomgång av hela strukturen
+# Planering
 
-* Vad är vi nöjda med?
-* Vad skulle vi gjort annorlunda ifall vi hade gjort om projektet idag (Missnöje :( )?
-* CI-/CD-Pipeline - Hur gjorde vi? (Använd separat dokument här)
-* Artifacts, hur använde vi dem?
-* Att vi inte delade första pipeline i två
-* Flowchart över projektet i helhet
-* Bara Dev-miljö inte prod, varför? Hur skulle vi gjort Prod?
-* Tester, hur använde vi de? Hur skulle man egentligen använt sig av tester? Styrkor med tester i CI/CD.
-* Pris, vad skulle hela kalaset kosta ifall vi hade deployat något likande?
+I början av projektet så diskuterade vi och kom fram till att vi skulle använda ett projekt ifrån den tidigare kursen, vi tänkte att eftersom att koden inte var fokus i detta projektet att vi kunde spara tid. Vi visste även i ett tidigt skede att vi kommer behöva arbeta med många olika benämningar så vi valde att göra ett dokument för [namngivelser](Namngivelsekonvention), så att vi alla lättare kunde hålla koll på vad alla olika resurser skulle ha för namn. Vi diskuterade lite kring hur vi skulle lägga upp vår *Frontend* och eftersom ingen av oss direkt hade kodat i *Razor Pages*  innan så tänkte vi att detta skulle va ett bra tillfälle att lära sig detta, så vi bestämde att vi skulle köra på det för våran *Frontend*. Tanken var att vi skulle få våran *Frontend* och *API* att köra mot varanda och att det skulle vara möjligt att göra en *Post* en person till *API*.
 
+## Azure
 
+Vi såg till att lägga upp vissa resurser i *Azure* i ett väldigt tidigt stadie, så som *Resource Group* och *SQL Server* och Databas för att kunna arbeta efter en utvecklingsmiljö uppe i molnet så tidigt som möjligt och därefter utöka det till att inkludera en produktionsmiljö också. När det var fixat såg vi till att ge *Azure DevOps* tillgång till den *Resource Group* vi skapat.
 
+![Azure Resursdiagram](Bilder/Azure%20Resursdiagram.png)
 
+### Continuous Integration Pipeline(CI)
 
-I början av projektet så diskuterade vi och kom fram till att vi skulle använda ett projekt ifrån den tidigare kursen, vi tänkte att eftersom att koden inte var fokus i detta projektet att vi kunde spara tid. Vi visste även i ett tidigt skede att vi kommer behöva arbeta med många olika benämningar så vi valde att göra ett dokument för namngivelse, så att vi alla lättare kunde hålla koll på vad alla olika resurser skulle ha för namn. Vi diskuterade lite kring hur vi skulle lägga upp vår frontend och eftersom ingen av oss direkt hade kodat i razor pages  innan så tänkte vi att detta skulle va ett bra tillfälle att lära sig detta, så vi bestämde att vi skulle köra på det för våran frontend. 
+Vi såg till att lägga upp en pipeline i ett väldigt tidigt stadie där tanken var att det kontinuerligt skulle byggas nya images till *Azure Container Registry*. Här kan du läsa mer om  [Continuous Integration](Dokumentation/CI%20Pipeline.md).
 
-Vi bestämde oss för att använda AzureDevOps boards för planering, vilket vi använde flitigt till en början men vi blev sämre på att använda detta under projektets gång. 
+### Continuous Delivery Pipeline(CD)
 
-### Backend
-
-Vår backend är ett .NET-core API. Vi fick sitta i några dagar och refakturera kod, eftersom att projektet inte var byggt för detta ändamålet ifrån början. Det blev en hel del problem på grund av detta. Vi ville få till databasen snabbt så att vi kunde testa vårt api, så vi konfigurerade en databas och körde igång den i Azure så att alla kunde testa emot samma databas. Vi valde att köra en serverless databas eftersom att vi visste att vi inte skulle ha speciellt mycket trafik i detta projektet. 
-
-#### Logger
-
-
-
-**Vår appSettings.json konfiguration:**
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=tcp:spacepark-sql-dev-01.database.windows.net,1433;Initial Catalog=spacepark-sqldb-dev-01;Persist Security Info=False;User ID=spaceparkadmin;Password=*********;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-  },
-```
-
-**Våran databas-struktur i SQL:**
-
-​          ![Backend-01.PNG](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/Blogg/img/Backend-01.PNG?raw=true)      
-
-Vi visste även att vi ville komma igång med en pipeline snabbt så vi la till funktionalitet för Docker i tidigt skede. 
+Till en början hade vi inte riktigt någon koll på hur vi skulle vilja distribuera produkten, men hade en tanke på att leverera denna till en Azure Container Instance utifrån Azure Container Registry. Vi hade tanker på att första leverera till en utvecklingsmiljö för att sedan leverera till produktionsmiljö. Här kan du läsa mer om [Continuous Delivery](Dokumentation/CD%20Pipeline.md).
 
 ### Docker
 
-Eftersom att vi skulle ha vår frontend separerad ifrån våran backend så visste vi att vi skulle behöva två olika images, som skulle laddas upp i två olika resurser på Azure. Till en början bestämde vi att vi skulle försöka att få våran backend att fungera i våran CI pipeline. 
+Eftersom att vi skulle ha vår *Frontend* separerad ifrån våran *API* så visste vi att vi skulle behöva två olika images, som skulle laddas upp i två olika resurser på Azure. Till en början bestämde vi att vi skulle försöka att få våran API att fungera i våran *CI Pipeline*. 
 
-**Vår Dockerfile konfiguration:**
+**Vår Dockerfil-konfiguration:**
 
 ```yaml
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
@@ -107,42 +60,113 @@ COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "SpacePark.dll"]
 ```
 
-För att kunna testa vår så pekar vi på följande portar i vår launchSettings.json:
+# Frontend
 
-```json
-    "SpacePark": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:443;http://localhost:80"
-    }
-```
+Vi diskuterade kring hur vi skulle skapa våran Frontend och funderade på att skapa ett Web App projekt med ModelViewController eller Razor Pages, det blev att vi valde att göra med Razor Pages, med tanken på att det skulle gå relativt smidigt och enkelt att få upp en presentation.
 
-Vi fick våran CI-pipeline att fungera relativt snabbt utan några större problem. 
+Nedan visar vi ett diagram som visar på flödet i våran applikation:
 
+![](PresentationFlowchart.png) 
 
+# API
 
+Vår *API* är ett .NET-core *API*. Vi ville få till databasen snabbt så att vi kunde testa vårt *API*, så vi konfigurerade en databas och körde igång den i *Azure* så att alla kunde testa emot samma databas. 
 
+## SQL Databas
 
-## Planering och arbetsföljd
+Vi valde att använda oss av en serverless SQL-Databas då vi kände att det var det självklara valet i och med att vi ville ha en stabil relations-databas till projektet. Vi valde serverless för att vi inte skulle ha mycket trafik och av den rent ekonomiska anledningen att det är billigare för våra syften. 
 
-Till en början var planen att vi skulle använda oss av MVC men det slutade med att vi använde oss av ett API och RazorPages. Vi fokuserade främst på att få till en fungerande pipeline, vilket också då fick oss att göra en fungerande ACI. När detta låg uppe i Azure så konfigurerade vi vår databas. Vi valde att ha den i molnet ifrån början så att alla kunde arbeta med samma databas. 
+**Våran databas-struktur i SQL:**
 
-Vi hade ju till en början tänkt att vi skulle göra ett MVC men det visade sig egentligen vara för enkelt/gå för fort för oss, vilket skulle kunna leda till att vi inte lärde oss lika bra. Vi gick därför över till ett API och tanken var nu istället att vi skulle  separera vår MVC till två separata projekt i vår solution och sedan få dem att arbeta tillsammans i målnet. Men vi såg till att få detta samarbete att fungera lokalt innan vi gick vidare.
+​          ![Backend-01.PNG](Bilder/Databasdiagram.png)
 
-Vi stötte här på vårt första problem egentligen, när vi inte hade använt oss av en .gitignore-fil och fick givetvis massor med konflikter vid merge.  
+# Resultat 
 
-I våra pages var ett tidigt problem att vi inte kunde passera data mellan de olika sidorna. Mer specifikt uppstod det störst problem när mer komplicerade objekt som har egna listor etc. skulle skickas till nästa sida, eftersom att datan går förlorad. Vi hade inte tidigare använt oss utav RazorPages så det var svårt. Vi löste det genom att kasta med ett hidden input som ligger i html-formen som följer med vid submit.
+Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
 
-Vid denna punkt fungerar båda projekten lokalt med databas på Azure. Innan vi lägger upp allting på Azure behöver vi  skapa och konfigurera vår Docker-fil för frontend. 
+![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
 
 
 
-Vad vi har lärt oss:
 
-1. Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt, men det är mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån frontend till databas.
-2. RazorPages, hade varit snyggt att använda någon form av cookie/session.
-3. KeyVault - stora problem. Beskriv hela processen hur vi jobbade oss igenom och vad vi kom fram till. 
-4. 
+
+## Priser
+
+Du kan läsa mer om priser och vad saker och ting på Azure kostar [här](Priser.md).
+
+## Problem och lösningar
+
+### RazorPages
+
+Vi antog oss utmaningen att bygga vår frontend med RazorPages, dels för att defaultsidan som kom med när vi skapade projektet var uppbyggt med RazorPages men också för att lära oss något nytt sätt att hantera frontend.  Detta beslut gjorde att byggandet av vår frontend tog längre tid än som vad tänkt. Dels på grund utav att vi var tvungna att hantera flera sidor och passa runt de värden som våra modeller innehåll från sida till sida för att kunna hantera parkering av skepp och checka ut skepp. Detta skulle visa sig vara med komplicerat än vad vi hade räknat med, då bland annat RazorPages inte kan hantera komplexa objekt.
+
+Vi är väl inte helt nöjda med hur koden till vår frontend är uppbyggd, för att spara tid och få till mer "clean code" hade det varit bättre att vi skulle hålla oss till vanlig HTML och JavaScript-kodning som vi är mer bekväma med redan från start, men då vi hade kommit en bit på vår RazorPages lösning fanns det inte utrymme för att ändra på arbetssättet.
+
+Sammanfattningsvis kan man säga att vi är nöjda med att få till alla funktioner med RazorPages men vi är inte nöjda med hur det ser ut i koden.
+
+**Azure KeyVault**
+
+Vår KeyVault-lösning var också en del i projektet som tog mer tid än väntat, dels på grund utav vår egna bristfällighet i kunskap om just KeyVault men också att vi hittade väldigt många olika lösningar på internet som var kvalitetsvarierande i deras dokumentation. Vi testade väldigt många olika lösningsexempel som vi hittade på internet men inget fungerade och vi var väldigt nära på att slopa idéen om att använda oss utav KeyVault för att bevara vår "connectionsstring". Som tur var fick vi lite hjälpa från Grupp 1 på hur dom hade löst det i kod, då vi kombinerade en del utav deras lösning med ett lösningsexempel på internet fick vi det att fungera.
+
+Att vi löste kopplingen mellan vårt API och vår Key Vault är vi såklart nöjda med men på andra sidan är det högst oklart för oss om det är en bra lösning eller inte. Det positiva är att vår känslig information hålls hemligt i molnet och kan nås av vår API och vad vi har sett så kommer den inte ut någonstans i applikationen. Till avgörande om det är en bra lösning eller inte är något vi får läsa på mer om samt testa och implementera andra lösningar för att jämföra dom mot varandra och dra en slutsats där ifrån.
+
+**Azure Application Insights**
+
+Vi har implementerat lite loggning i våra Repositories, som logger när en transaktion till databasen går igenom. 
+
+````bash
+var entity = await _context.Set<T>().FindAsync(id);
+            if (entity == null)
+            {
+                return entity;
+            }
+            _logger.LogInformation($"Deleting object of type 		  {entity.GetType()}");
+            _context.Set<T>().Remove(entity);
+````
+
+När något går fel så är det istället controllern som fångar upp en exception och skicka tillbaka en 404 statuskod med exceptionen inbakad.
+
+##### Azure Application Insights
+
+Genom att implementera ett enkelt kodstycke utifrån
+
+https://chlee.co/how-to-add-application-insights-into-an-asp-net-core-web-and-console-app/
+
+* App service vs. Container Instance. Varför valde vi ACI? Vilka problem uppstod?
+
+## Vad är vi mest nöjda med?
+
+Den huvudsakliga uppgiften tillsammans med vårt mål med hela projektet var att få hela vår Spacepark-lösning att köras i molnet med en viss del automatisering. Det känner vi att vi åstadkommit och det var en väldigt skön känsla när vi äntligen kunde [gå in och parkera våra rymdskepp](spaceparkwebapp.northeurope.azurecontainer.io) (antagligen är inte den uppe och kör vid tid för inlämning tyvärr) med allt liggandes och körandes på Azure.
+
+Efter mer än två dagar, många olika NuGet-paket hål, i väggarna efter allt huvud-dunkande lyckades vi äntligen få KeyVault att fungera, vilket man kan läsa om i [detta dokumentet](Key%20Vault.md).
+
+## Vad skulle vi gjort annorlunda ifall vi gjort om projektet idag?
+
+Övergripande i projektet märkte vi att vi skulle lagt **mer fokus på planering**. Det blev rörigt och svårt att dela upp arbetet mot slutet utav projektet, vilket resulterade i mycket arbete för en person medans 3 andra satt och var mer passiva, vilket så klart inte är så effektivt och inte speciellt roligt heller. Vi hade också många olika små dokument som gjorde det rörigt att veta ifall informationen man arbetade på redan fanns utarbetad innan eller inte.
+
+Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt projekt, men det var mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån frontend till databas
+
+Nu när man vet lite mer om hur Azure fungerar generellt hade det varit kul att skapa ett mer "verkligt" flöde från developement -> staging -> production där man då har med quality assurence som en integral del innan release (nämns lite i [vårt CD-dokument](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CD%20Pipeline.md)). Vi hade ju tänkt att vi skulle göra detta från början men insåg snart att vi inte hade tid med det.
+
+### CI pipeline
+
+Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata CI-pipelines.
+
+### CD pipeline
+
+Vi använde oss egentligen utav två release **artifacts**, som hade varsin källa, en för frontend och en för backend. Vi märkte i efterhand att det kanske hade varit bättre att bara ha en artifacts som använder sig av 2 stycken källor istället, för det känns som att det är med så det skulle gå till i verkligheten. Det var någonting som vi inte ville börja hålla på med det i slutet utav projektet så det blev som det blev helt enkelt.
+
+### Service Bus
+
+Tanken var att vi skulle implementera en service bus, men vi insåg att så som vårt projekt ser ut i nuläget så finns det ingen anledning. Hade vi haft tid hade vi kunnat implementera en service bus för att hantera betalningar av användaren. 
+
+Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. Detta kallas för service bus queues. 
+
+Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning. I vårt fall hade vi fått presentera detta när användaren är inloggad på sidan, men i ett verkligt projekt så hade användaren eventuellt fått ett mail eller sms.  Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut.
+
+Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
+
+
+
+![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
+

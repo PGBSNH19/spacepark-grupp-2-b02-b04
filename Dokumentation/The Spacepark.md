@@ -39,9 +39,17 @@ Vi såg till att lägga upp vissa resurser i *Azure* i ett väldigt tidigt stadi
 
 #### Continuous Integration Pipeline(CI)
 
-[Contiuous Integration](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CI%20Pipeline.md)
-
 Vi såg till att lägga upp en pipeline i ett väldigt tidigt stadie där tanken var att det kontinuerligt skulle byggas nya images till *Azure Container Registry*.
+
+Här kan du läsa mer om  [Continuous Integration](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CI%20Pipeline.md).
+
+
+
+#### Continuous Delivery Pipeline(CD)
+
+Till en början hade vi inte riktigt någon koll på hur vi skulle vilja distribuera produkten, men hade en tanke på att leverera denna till en Azure Container Instance utifrån Azure Container Registry. Vi hade tanker på att första leverera till en utvecklingsmiljö för att sedan leverera till produktionsmiljö.
+
+Här kan du läsa mer om [Continuous Delivery](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CD%20Pipeline.md).
 
 #### Docker
 

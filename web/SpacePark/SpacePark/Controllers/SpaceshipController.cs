@@ -118,18 +118,18 @@ namespace SpacePark.Controllers
         }
 
         [HttpGet("GetSpaceShips", Name = "GetSwapiSpaceships")]
-        public ActionResult<List<Spaceship>> GetSwapiSpaceships(string name)
+        public async Task<ActionResult<List<Spaceship>>> GetSwapiSpaceships(string name)
         {
-            var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
-            var foundPerson = response.Result.Results.FirstOrDefault(p => p.Name == name);
+            var response = await ParkingEngine.GetPersonData(($"people/?search={name}"));
+            var foundPerson = response.FirstOrDefault(p => p.Name == name);
 
             if (foundPerson != null && foundPerson.Starships != null)
             {
                 Person.AddSpaceshipsToPerson(foundPerson);
-                return foundPerson.Spaceships;
+                return Ok(foundPerson.Spaceships);
             }
 
-            return null;
+            return NotFound();
         }
 
 

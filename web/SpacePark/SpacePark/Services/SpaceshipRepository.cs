@@ -31,7 +31,7 @@ namespace SpacePark.Services
             var person = await _context.People.FirstOrDefaultAsync(x => x.Spaceship.SpaceshipID == spaceship.SpaceshipID);
             Parkinglot currentSpace;
 
-            if (LoggedIn(person.Name))
+            if (await LoggedIn(person.Name))
             {
                 currentSpace = await FindAvailableParkingSpace();
 

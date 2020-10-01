@@ -7,11 +7,11 @@ namespace SpacePark.Services
     {
         Task<IList<Person>> GetAllPeople();
         Task<Person> GetPersonByName(string name);
-        bool LoggedIn(string name);
+        Task<bool> LoggedIn(string name);
         Task<bool> IsPersonInDatabase(string name);
-        Person CheckIn(string name);
+        Task<Person> CheckIn(string name);
         Task<bool> HasPersonPaid(Person p);
         Task<Person> PayParking(Person person);
-        bool IsValidPerson(string name);
+        Task<bool> IsValidPerson(string name);
     }
 }

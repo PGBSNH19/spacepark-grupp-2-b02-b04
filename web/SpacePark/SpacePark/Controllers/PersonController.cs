@@ -42,7 +42,7 @@ namespace SpacePark.Controllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(string name)
         {
-            var person = _personRepository.CheckIn(name);
+            var person = await _personRepository.CheckIn(name);
             if (person != null)
             {
                 try

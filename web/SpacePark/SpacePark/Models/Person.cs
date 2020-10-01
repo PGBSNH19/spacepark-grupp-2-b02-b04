@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace SpacePark
 {
@@ -18,10 +19,10 @@ namespace SpacePark
         public Spaceship Spaceship { get; set; }
         public bool HasPaid { get; set; } = false;
 
-        public static Person CreatePersonFromAPI(string name)
+        public async static Task<Person> CreatePersonFromAPI(string name)
         {
-            var response = ParkingEngine.GetPersonData(($"people/?search={name}"));
-            var foundPerson = response.Result.Results.FirstOrDefault(p => p.Name == name);
+            var response = await ParkingEngine.GetPersonData(($"people/?search={name}"));
+            var foundPerson = response.FirstOrDefault(p => p.Name == name);
 
             if (foundPerson != null && foundPerson.Starships != null)
             {

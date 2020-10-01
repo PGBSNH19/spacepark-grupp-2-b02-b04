@@ -20,14 +20,14 @@ namespace SpaceParkWeb.Pages
 
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             string input = Request.Form["name"];
             restSharpCaller = new RestSharpCaller();
-            var customer = restSharpCaller.GetCustomer(input);
-            if (customer.Result.Name != null)
+            var customer = await restSharpCaller.GetCustomer(input);
+            if (customer.Name != null)
             {
-                Person = new Person(customer.Result.PersonID, customer.Result.Name, customer.Result.SpaceshipID ?? default(int), customer.Result.Spaceships, customer.Result.Spaceship);
+                Person = new Person(customer.PersonID, customer.Name, customer.SpaceshipID ?? default(int), customer.Spaceships, customer.Spaceship);
                 return new RedirectToPageResult("CustomerPage", Person);
             }
             else

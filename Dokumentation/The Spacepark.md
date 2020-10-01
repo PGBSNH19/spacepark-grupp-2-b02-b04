@@ -1,16 +1,6 @@
 # Introduktion
 
-The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser på Azure kan fungera sammankopplat:
-
-* Azure Container Instance (ACI)
-* Azure Container Registry (ACR)
-* Azure SQL-Server
-* Azure SQL-Database
-* Azure KeyVaults
-* Azure Application Insights
-* Docker
-* Azure DevOps Pipelines
-* Azure Artifacts
+The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser mångd olika resurser i Azure kan fungera sammankopplat:
 
 ## Arbetssätt
 
@@ -35,25 +25,21 @@ I början av projektet så diskuterade vi och kom fram till att vi skulle använ
 
 Vi såg till att lägga upp vissa resurser i *Azure* i ett väldigt tidigt stadie, så som *Resource Group* och *SQL Server* och Databas för att kunna arbeta efter en utvecklingsmiljö uppe i molnet så tidigt som möjligt och därefter utöka det till att inkludera en produktionsmiljö också. När det var fixat såg vi till att ge *Azure DevOps* tillgång till den *Resource Group* vi skapat.
 
+![Azure Resursdiagram](Bilder/Azure%20Resursdiagram.png)
+
 ### Continuous Integration Pipeline(CI)
 
-Vi såg till att lägga upp en pipeline i ett väldigt tidigt stadie där tanken var att det kontinuerligt skulle byggas nya images till *Azure Container Registry*.
-
-Här kan du läsa mer om  [Continuous Integration](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CI%20Pipeline.md).
-
-
+Vi såg till att lägga upp en pipeline i ett väldigt tidigt stadie där tanken var att det kontinuerligt skulle byggas nya images till *Azure Container Registry*. Här kan du läsa mer om  [Continuous Integration](Dokumentation/CI%20Pipeline.md).
 
 ### Continuous Delivery Pipeline(CD)
 
-Till en början hade vi inte riktigt någon koll på hur vi skulle vilja distribuera produkten, men hade en tanke på att leverera denna till en Azure Container Instance utifrån Azure Container Registry. Vi hade tanker på att första leverera till en utvecklingsmiljö för att sedan leverera till produktionsmiljö.
-
-Här kan du läsa mer om [Continuous Delivery](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CD%20Pipeline.md).
+Till en början hade vi inte riktigt någon koll på hur vi skulle vilja distribuera produkten, men hade en tanke på att leverera denna till en Azure Container Instance utifrån Azure Container Registry. Vi hade tanker på att första leverera till en utvecklingsmiljö för att sedan leverera till produktionsmiljö. Här kan du läsa mer om [Continuous Delivery](Dokumentation/CD%20Pipeline.md).
 
 ### Docker
 
 Eftersom att vi skulle ha vår *Frontend* separerad ifrån våran *API* så visste vi att vi skulle behöva två olika images, som skulle laddas upp i två olika resurser på Azure. Till en början bestämde vi att vi skulle försöka att få våran API att fungera i våran *CI Pipeline*. 
 
-**Vår Dockerfile konfiguration:**
+**Vår Dockerfil-konfiguration:**
 
 ```yaml
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
@@ -82,71 +68,87 @@ Nedan visar vi ett diagram som visar på flödet i våran applikation:
 
 ![](PresentationFlowchart.png) 
 
-## API
+# API
 
-Vår *API* är ett .NET-core *API*. Vi fick sitta i några dagar och refakturera kod, eftersom att projektet inte var byggt för detta ändamålet ifrån början. Det blev en hel del problem på grund av detta. Vi ville få till databasen snabbt så att vi kunde testa vårt *API*, så vi konfigurerade en databas och körde igång den i *Azure* så att alla kunde testa emot samma databas. Vi valde att köra en serverless databas eftersom att vi visste att vi inte skulle ha speciellt mycket trafik i detta projektet. 
+Vår *API* är ett .NET-core *API*. Vi ville få till databasen snabbt så att vi kunde testa vårt *API*, så vi konfigurerade en databas och körde igång den i *Azure* så att alla kunde testa emot samma databas. 
 
 ## SQL Databas
 
-Vi valde att använda oss av en SQL-Databas då vi kände att det var det självklara valet i och med att vi ville ha en stabil relations-databas till projektet.
+Vi valde att använda oss av en serverless SQL-Databas då vi kände att det var det självklara valet i och med att vi ville ha en stabil relations-databas till projektet. Vi valde serverless för att vi inte skulle ha mycket trafik och av den rent ekonomiska anledningen att det är billigare för våra syften. 
 
 **Våran databas-struktur i SQL:**
 
-​          ![Backend-01.PNG](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/Blogg/img/Backend-01.PNG?raw=true)
+​          ![Backend-01.PNG](Bilder/Databasdiagram.png)
 
-# Problem och lösningar
+# Resultat 
 
-* RazorPages - Vad var det som var svårast? (hantera sidor och objekt)
-* Azure KeyVault - Vad var det egentligen som var så svårt? Hur löste vi det?
+Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
+
+![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
+
+
+
+
+
+## Priser
+
+Du kan läsa mer om priser och vad saker och ting på Azure kostar [här](Priser.md).
+
+## Problem och lösningar
+
+### RazorPages
+
+Vi antog oss utmaningen att bygga vår frontend med RazorPages, dels för att defaultsidan som kom med när vi skapade projektet var uppbyggt med RazorPages men också för att lära oss något nytt sätt att hantera frontend.  Detta beslut gjorde att byggandet av vår frontend tog längre tid än som vad tänkt. Dels på grund utav att vi var tvungna att hantera flera sidor och passa runt de värden som våra modeller innehåll från sida till sida för att kunna hantera parkering av skepp och checka ut skepp. Detta skulle visa sig vara med komplicerat än vad vi hade räknat med, då bland annat RazorPages inte kan hantera komplexa objekt.
+
+Vi är väl inte helt nöjda med hur koden till vår frontend är uppbyggd, för att spara tid och få till mer "clean code" hade det varit bättre att vi skulle hålla oss till vanlig HTML och JavaScript-kodning som vi är mer bekväma med redan från start, men då vi hade kommit en bit på vår RazorPages lösning fanns det inte utrymme för att ändra på arbetssättet.
+
+Sammanfattningsvis kan man säga att vi är nöjda med att få till alla funktioner med RazorPages men vi är inte nöjda med hur det ser ut i koden.
+
+**Azure KeyVault**
+
+Vår KeyVault-lösning var också en del i projektet som tog mer tid än väntat, dels på grund utav vår egna bristfällighet i kunskap om just KeyVault men också att vi hittade väldigt många olika lösningar på internet som var kvalitetsvarierande i deras dokumentation. Vi testade väldigt många olika lösningsexempel som vi hittade på internet men inget fungerade och vi var väldigt nära på att slopa idéen om att använda oss utav KeyVault för att bevara vår "connectionsstring". Som tur var fick vi lite hjälpa från Grupp 1 på hur dom hade löst det i kod, då vi kombinerade en del utav deras lösning med ett lösningsexempel på internet fick vi det att fungera.
+
+Att vi löste kopplingen mellan vårt API och vår Key Vault är vi såklart nöjda med men på andra sidan är det högst oklart för oss om det är en bra lösning eller inte. Det positiva är att vår känslig information hålls hemligt i molnet och kan nås av vår API och vad vi har sett så kommer den inte ut någonstans i applikationen. Till avgörande om det är en bra lösning eller inte är något vi får läsa på mer om samt testa och implementera andra lösningar för att jämföra dom mot varandra och dra en slutsats där ifrån.
+
+**Azure Application Insights**
+
 * Azure Application Insights - Vi fick det till viss del att fungera. Hur kunde det fungerat bättre?
+
 * App service vs. Container Instance. Varför valde vi ACI? Vilka problem uppstod?
 
-1. # Resultat 
+## Vad är vi mest nöjda med?
 
-   Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
+Den huvudsakliga uppgiften tillsammans med vårt mål med hela projektet var att få hela vår Spacepark-lösning att köras i molnet med en viss del automatisering. Det känner vi att vi åstadkommit och det var en väldigt skön känsla när vi äntligen kunde [gå in och parkera våra rymdskepp](spaceparkwebapp.northeurope.azurecontainer.io) (antagligen är inte den uppe och kör vid tid för inlämning tyvärr) med allt liggandes och körandes på Azure.
 
-   ![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
+Efter mer än två dagar, många olika NuGet-paket hål, i väggarna efter allt huvud-dunkande lyckades vi äntligen få KeyVault att fungera, vilket man kan läsa om i [detta dokumentet](Key%20Vault.md).
 
-   ## Priser
+## Vad skulle vi gjort annorlunda ifall vi gjort om projektet idag?
 
-   Du kan läsa mer om priser och vad saker och ting på Azure kostar [här](Priser.md).
+Övergripande i projektet märkte vi att vi skulle lagt **mer fokus på planering**. Det blev rörigt och svårt att dela upp arbetet mot slutet utav projektet, vilket resulterade i mycket arbete för en person medans 3 andra satt och var mer passiva, vilket så klart inte är så effektivt och inte speciellt roligt heller. Vi hade också många olika små dokument som gjorde det rörigt att veta ifall informationen man arbetade på redan fanns utarbetad innan eller inte.
 
-   ## Vad är vi mest nöjda med?
+Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt projekt, men det var mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån frontend till databas
 
-   Den huvudsakliga uppgiften tillsammans med vårt mål med hela projektet var att få hela vår Spacepark-lösning att köras i molnet med en viss del automatisering. Det känner vi att vi åstadkommit och det var en väldigt skön känsla när vi äntligen kunde [gå in och parkera våra rymdskepp](spaceparkwebapp.northeurope.azurecontainer.io) (antagligen är inte den uppe och kör vid tid för inlämning tyvärr) med allt liggandes och körandes på Azure.
+Nu när man vet lite mer om hur Azure fungerar generellt hade det varit kul att skapa ett mer "verkligt" flöde från developement -> staging -> production där man då har med quality assurence som en integral del innan release (nämns lite i [vårt CD-dokument](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CD%20Pipeline.md)). Vi hade ju tänkt att vi skulle göra detta från början men insåg snart att vi inte hade tid med det.
 
-   Efter mer än två dagar, många olika NuGet-paket hål, i väggarna efter allt huvud-dunkande lyckades vi äntligen få KeyVault att fungera, vilket man kan läsa om i [detta dokumentet](Key%20Vault.md).
+### CI pipeline
 
-   
+Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata CI-pipelines.
 
-   ## Vad skulle vi gjort annorlunda ifall vi gjort om projektet idag?
+### CD pipeline
 
-   Övergripande i projektet märkte vi att vi skulle lagt **mer fokus på planering**. Det blev rörigt och svårt att dela upp arbetet mot slutet utav projektet, vilket resulterade i mycket arbete för en person medans 3 andra satt och var mer passiva, vilket så klart inte är så effektivt och inte speciellt roligt heller. Vi hade också många olika små dokument som gjorde det rörigt att veta ifall informationen man arbetade på redan fanns utarbetad innan eller inte.
+Vi använde oss egentligen utav två release **artifacts**, som hade varsin källa, en för frontend och en för backend. Vi märkte i efterhand att det kanske hade varit bättre att bara ha en artifacts som använder sig av 2 stycken källor istället, för det känns som att det är med så det skulle gå till i verkligheten. Det var någonting som vi inte ville börja hålla på med det i slutet utav projektet så det blev som det blev helt enkelt.
 
-   Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt projekt, men det var mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån frontend till databas
+### Service Bus
 
-   Nu när man vet lite mer om hur Azure fungerar generellt hade det varit kul att skapa ett mer "verkligt" flöde från developement -> staging -> production där man då har med quality assurence som en integral del innan release (nämns lite i [vårt CD-dokument](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CD%20Pipeline.md)). Vi hade ju tänkt att vi skulle göra detta från början men insåg snart att vi inte hade tid med det.
+Tanken var att vi skulle implementera en service bus, men vi insåg att så som vårt projekt ser ut i nuläget så finns det ingen anledning. Hade vi haft tid hade vi kunnat implementera en service bus för att hantera betalningar av användaren. 
 
-   ### CI pipeline
+Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. Detta kallas för service bus queues. 
 
-   Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata CI-pipelines.
+Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning. I vårt fall hade vi fått presentera detta när användaren är inloggad på sidan, men i ett verkligt projekt så hade användaren eventuellt fått ett mail eller sms.  Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut.
 
-   ### CD pipeline
+Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
 
-   Vi använde oss egentligen utav två release **artifacts**, som hade varsin källa, en för frontend och en för backend. Vi märkte i efterhand att det kanske hade varit bättre att bara ha en artifacts som använder sig av 2 stycken källor istället, för det känns som att det är med så det skulle gå till i verkligheten. Det var någonting som vi inte ville börja hålla på med det i slutet utav projektet så det blev som det blev helt enkelt.
 
-   ### Service Bus
 
-   Tanken var att vi skulle implementera en service bus, men vi insåg att så som vårt projekt ser ut i nuläget så finns det ingen anledning. Hade vi haft tid hade vi kunnat implementera en service bus för att hantera betalningar av användaren. 
+![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
 
-   Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. Detta kallas för service bus queues. 
-
-   Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning. I vårt fall hade vi fått presentera detta när användaren är inloggad på sidan, men i ett verkligt projekt så hade användaren eventuellt fått ett mail eller sms.  Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut.
-
-   Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
-
-   
-
-   ![Continuous Integration + Deployment Final](E:/C%23/spacepark-grupp-2-b02-b04/Dokumentation/Bilder/Continuous Integration + Deployment Final.png)
-
-   

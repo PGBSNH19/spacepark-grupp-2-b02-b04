@@ -1,10 +1,8 @@
 # Continuous Integration Pipeline
 
-Varje gång vi pushar till master byggs en ny image i Azure.  Vår bygg konfiguration är satt till release och det kanske skulle medfört några fördelar att istället ha den satt till "Debug" eftersom det skulle inkluderat lite debug-filer i exe-filen.
+Varje gång vi pushar till master byggs en ny image i Azure.  Vår bygg konfiguration är satt till release och det kanske skulle medfört några fördelar att istället ha den satt till "Debug" eftersom det skulle inkluderat lite debug-filer i exe-filen. Vi visste inte riktigt skillnaden förens vi efgterhand läste denna [artikel](https://stackoverflow.com/a/933744). Eftersom att vi var osäkra på ifall detta skulle vara användbart valde vi att köra med "Release" . 
 
-StackOverflow	"Debug vs. Release": https://stackoverflow.com/a/933744
-
-Eftersom att vi var osäkra på ifall detta skulle vara användbart valde vi att köra med "Release" . Vi valde att använda några variabler för att få koden att se lite renare ut. 
+I denna dela kan man se några variabler som vi valde att använda för att få koden att se lite renare ut. 
 
 ```yaml
 trigger:
@@ -60,9 +58,7 @@ Sedan körs våra tester (som egentligen bara är för att visa konceptet, då v
         configuration: '$(buildConfiguration)'
 ```
 
-Om allt fungerat som det ska skapar vi nu våra docker-images; en image för backend och image för frontend. Egentligen skulle hela pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata CI-pipelines.
-
-De använder också två olika docker-filer som vi placerat en nivå upp i vår projektmapp eftersom att vi haft en del problem med att vi inte kunde hitta dem. När våra docker-images är byggda pushas de upp till två olika container registrys så att vi kan fortsätta arbeta separat på front-/backend utan att den ena/andra slutar fungera.
+Om allt fungerat som det ska skapar vi nu våra docker-images; en image för backend och image för frontend. De använder också två olika docker-filer som vi placerat en nivå upp i vår projektmapp eftersom att vi haft en del problem med att vi inte kunde hitta dem. När våra docker-images är byggda pushas de upp till två olika container registrys så att vi kan fortsätta arbeta separat på front-/backend utan att den ena/andra slutar fungera.
 
 ```yaml
 
@@ -88,9 +84,7 @@ De använder också två olika docker-filer som vi placerat en nivå upp i vår 
         Dockerfile: '**/DockerfileFrontend'
 ```
 
-Hur vi kom fram till vår lösning var egentligen inte svårare an att vi försökte hitta en bra resurs som vi kunde följa. Hela "CI -> CD/CD -> Prod" flödet insirerades mycket av följande: 
+Hur vi kom fram till vår lösning var egentligen inte svårare an att vi försökte hitta en bra resurs som vi kunde följa. Hela "CI -> CD/CD -> Prod" flödet insirerades mycket av följande [blog](https://www.edmondek.com/Blue-Green-Deployment-Azure-DevOps-App-Services/#:~:text=Use%20Azure%20DevOps%20to%20enable,Deployment%20to%20Azure%20App%20Service.&amp;text=The%20Build%20Pipeline%20includes%20jobs,publish%20artifacts%20to%20Azure%20Artifacts) : 
 
 ![Blue-Green Deployment with Azure DevOps and App Services](https://www.edmondek.com/images/blue_green_azure_devops_app_service.png)
-
-Referens: https://www.edmondek.com/Blue-Green-Deployment-Azure-DevOps-App-Services/#:~:text=Use%20Azure%20DevOps%20to%20enable,Deployment%20to%20Azure%20App%20Service.&amp;text=The%20Build%20Pipeline%20includes%20jobs,publish%20artifacts%20to%20Azure%20Artifacts
 

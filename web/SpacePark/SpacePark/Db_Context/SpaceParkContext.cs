@@ -16,16 +16,16 @@ namespace SpacePark.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-            var config = builder.Build();
-            var defaultConnectionString = config.GetConnectionString("DefaultConnection");
-            if (!string.IsNullOrEmpty(defaultConnectionString))
+            
+            try
             {
-                
+                builder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+                var config = builder.Build();
+                var defaultConnectionString = config.GetConnectionString("DefaultConnection");
                 optionsBuilder.UseSqlServer(defaultConnectionString);
 
             }
-            else
+            catch
             {
                 var azureDbCon = _aKVService.GetKeyVaultSecret("https://spacepark-kv-dev-01.vault.azure.net/secrets/ConnectionStrings--spacepark-sqldb-dev-01/f54483ed80744f0bad0bdfb31203d786");
                 optionsBuilder.UseSqlServer(azureDbCon);

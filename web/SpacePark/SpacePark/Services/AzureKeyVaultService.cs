@@ -11,8 +11,8 @@ namespace SpacePark.Services
     {
         public string GetKeyVaultSecret(string secretName)
         {
-            var azureServiceTokenProvider1 = new AzureServiceTokenProvider();
-            var keyVault = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider1.KeyVaultTokenCallback));
+            var azureServiceTokenProvider = new AzureServiceTokenProvider();
+            var keyVault = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
             var secret = keyVault.GetSecretAsync(secretName).Result;
             return secret.Value;
         }

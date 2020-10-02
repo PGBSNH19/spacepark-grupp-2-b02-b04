@@ -110,7 +110,7 @@ Vår KeyVault-lösning var också en del i projektet som tog mer tid än väntat
 
 Att vi löste kopplingen mellan vårt API och vår Key Vault är vi såklart nöjda med men på andra sidan är det högst oklart för oss om det är en bra lösning eller inte. Det positiva är att vår känslig information hålls hemligt i molnet och kan nås av vår API och vad vi har sett så kommer den inte ut någonstans i applikationen. Till avgörande om det är en bra lösning eller inte är något vi får läsa på mer om samt testa och implementera andra lösningar för att jämföra dom mot varandra och dra en slutsats där ifrån.
 
-Här är en länk till beskrivningen av vår lösninge till att implementera [Azure Key Vault](Dokumentation/Key%20Vault.md)
+Här är en länk till beskrivningen av vår lösning till att implementera [Azure Key Vault](Dokumentation/Key%20Vault.md)
 
 **Azure Application Insights**
 

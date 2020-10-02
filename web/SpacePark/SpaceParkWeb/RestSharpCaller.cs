@@ -13,9 +13,7 @@ namespace SpaceParkWeb
         private RestClient client;
         public RestSharpCaller()
         {
-            //client = new RestClient($"http://spacepark-api-dev.northeurope.azurecontainer.io/api/v1.0/");
-            client = new RestClient($"https://localhost:44386/api/v1.0/");
-        
+            client = new RestClient($"http://spacepark-api-dev.northeurope.azurecontainer.io/api/v1.0/");
         }
         public async Task<Person> GetCustomer(string input)
         {

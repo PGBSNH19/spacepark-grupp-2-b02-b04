@@ -17,17 +17,17 @@ namespace SpacePark.Models
         {
             var azureDbCon = _aKVService.GetKeyVaultSecret("https://spacepark-kv-dev-01.vault.azure.net/secrets/ConnectionStrings--spacepark-sqldb-dev-01/f54483ed80744f0bad0bdfb31203d786");
             var builder = new ConfigurationBuilder();
-            if (string.IsNullOrEmpty(azureDbCon))
+            builder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            var config = builder.Build();
+            var defaultConnectionString = config.GetConnectionString("DefaultConnection");
+            if (!string.IsNullOrEmpty(defaultConnectionString))
             {
-                builder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-                var config = builder.Build();
-                var defaultConnectionString = config.GetConnectionString("DefaultConnection");
+                
                 optionsBuilder.UseSqlServer(defaultConnectionString);
 
             }
             else
             {
-                builder.Build();
                 optionsBuilder.UseSqlServer(azureDbCon);
             }
         }

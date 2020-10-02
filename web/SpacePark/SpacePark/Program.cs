@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SpacePark.Db_Context;
 using SpacePark.Models;
-
+using SpacePark.Services;
 
 namespace SpacePark
 {
@@ -52,7 +52,7 @@ namespace SpacePark
                     webBuilder.UseStartup<Startup>();
                 }).ConfigureLogging(builder =>
                 {
-                    builder.AddApplicationInsights("insert-insights-key-here");
+                    builder.AddApplicationInsights("");
                     builder.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>("", LogLevel.Information);
                     builder.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Error);
                 });

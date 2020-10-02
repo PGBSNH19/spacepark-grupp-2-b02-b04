@@ -19,11 +19,11 @@ Tanken var att vi skulle använda oss utav sprintar och få till en bra planerin
 
 # Planering
 
-I början av projektet så diskuterade vi och kom fram till att vi skulle använda ett projekt ifrån den tidigare kursen, vi tänkte att eftersom att koden inte var fokus i detta projektet att vi kunde spara tid. Vi visste även i ett tidigt skede att vi kommer behöva arbeta med många olika benämningar så vi valde att göra ett dokument för [namngivelser](Namngivelsekonvention.md), så att vi alla lättare kunde hålla koll på vad alla olika resurser skulle ha för namn. Vi diskuterade lite kring hur vi skulle lägga upp vår *Frontend* och eftersom ingen av oss direkt hade kodat i *Razor Pages*  innan så tänkte vi att detta skulle va ett bra tillfälle att lära sig detta, så vi bestämde att vi skulle köra på det för våran *Frontend*. Tanken var att vi skulle få våran *Frontend* och *API* att köra mot varanda och att det skulle vara möjligt att göra en *Post* en person till *API*.
+I början av projektet diskuterade vi och kom fram till att vi skulle använda ett projekt ifrån den tidigare kursen, eftersom att koden inte var i fokus i detta projekt så kunde vi spara tid. Vi visste även i ett tidigt skede att vi kommer behöva arbeta med många olika benämningar så vi valde att göra ett dokument för [namngivelser](Namngivelsekonvention.md), så att vi alla lättare kunde hålla koll på vad alla olika resurserna skulle ha för namn. Vi diskuterade lite kring hur vi skulle lägga upp vår *Frontend* och eftersom ingen av oss direkt hade kodat i *Razor Pages*  innan så tänkte vi att detta skulle va ett bra tillfälle att lära sig detta, så vi bestämde att vi skulle köra på det för våran *Frontend*. Tanken var att vi skulle få våran *Frontend* och *API* att köra mot varanda och att det skulle vara möjligt att göra en *Post* till *API*.
 
 ## Azure
 
-Vi såg till att lägga upp vissa resurser i *Azure* i ett väldigt tidigt stadie, så som *Resource Group* och *SQL Server* och Databas för att kunna arbeta efter en utvecklingsmiljö uppe i molnet så tidigt som möjligt och därefter utöka det till att inkludera en produktionsmiljö också. När det var fixat såg vi till att ge *Azure DevOps* tillgång till den *Resource Group* vi skapat.
+Vi såg till att lägga upp vissa resurser i *Azure* i ett väldigt tidigt stadie, så som *Resource Group* och *SQL Server* och *SQL Databas* för att kunna arbeta efter en utvecklingsmiljö uppe i molnet så tidigt som möjligt och därefter utöka det till att inkludera en produktionsmiljö också. När det var fixat såg vi till att ge *Azure DevOps*-projektet tillgång till den *Resource Group* vi skapat.
 
 ![Azure Resursdiagram](Bilder/Azure%20Resursdiagram.png)
 
@@ -33,7 +33,7 @@ Vi såg till att lägga upp en pipeline i ett väldigt tidigt stadie där tanken
 
 ### Continuous Delivery Pipeline(CD)
 
-Till en början hade vi inte riktigt någon koll på hur vi skulle vilja distribuera produkten, men hade en tanke på att leverera denna till en Azure Container Instance utifrån Azure Container Registry. Vi hade tanker på att första leverera till en utvecklingsmiljö för att sedan leverera till produktionsmiljö. Här kan du läsa mer om [Continuous Delivery](Dokumentation/CD%20Pipeline.md).
+Till en början hade vi inte riktigt någon koll på hur vi skulle vilja distribuera produkten, men vi hade en tanke på att leverera denna till en *Azure Container Instance* utifrån *Azure Container Registry*. Vi hade tankar på att först leverera till en utvecklingsmiljö för att sedan vidare till en produktionsmiljö. Här kan du läsa mer om [Continuous Delivery](Dokumentation/CD%20Pipeline.md).
 
 ### Docker
 
@@ -62,7 +62,7 @@ ENTRYPOINT ["dotnet", "SpacePark.dll"]
 
 # Frontend
 
-Vi diskuterade kring hur vi skulle skapa våran Frontend och funderade på att skapa ett Web App projekt med ModelViewController eller Razor Pages, det blev att vi valde att göra med Razor Pages, med tanken på att det skulle gå relativt smidigt och enkelt att få upp en presentation.
+Vi diskuterade kring hur vi skulle skapa våran *Frontend* och funderade på att skapa en *Web App* projekt med *ModelViewController* eller *Razor Pages*, det blev att vi valde att göra med *Razor Pages*, med tanken på att det skulle gå relativt smidigt och enkelt att få upp en presentation.
 
 Nedan visar vi ett diagram som visar på flödet i våran applikation:
 
@@ -84,7 +84,7 @@ Vi valde att använda oss av en serverless SQL-Databas då vi kände att det var
 
 Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
 
-![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
+![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png) 
 
 
 

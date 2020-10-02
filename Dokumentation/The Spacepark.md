@@ -128,8 +128,6 @@ var entity = await _context.Set<T>().FindAsync(id);
 
 När något går fel så är det istället controllern som fångar upp en exception och skicka tillbaka en 404 statuskod med exceptionen inbakad.
 
-##### Azure Application Insights
-
 Genom att implementera ett enkelt kodstycke utifrån
 
 https://chlee.co/how-to-add-application-insights-into-an-asp-net-core-web-and-console-app/
@@ -154,21 +152,15 @@ Nu när man vet lite mer om hur Azure fungerar generellt hade det varit kul att 
 
 Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata CI-pipelines.
 
-### CD pipeline
-
-Vi använde oss egentligen utav två release **artifacts**, som hade varsin källa, en för frontend och en för backend. Vi märkte i efterhand att det kanske hade varit bättre att bara ha en artifacts som använder sig av 2 stycken källor istället, för det känns som att det är med så det skulle gå till i verkligheten. Det var någonting som vi inte ville börja hålla på med det i slutet utav projektet så det blev som det blev helt enkelt.
-
 ### Service Bus
 
-Tanken var att vi skulle implementera en service bus, men vi insåg att så som vårt projekt ser ut i nuläget så finns det ingen anledning. Hade vi haft tid hade vi kunnat implementera en service bus för att hantera betalningar av användaren. 
+Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning, genom att man skickar vidare till service bus som förmedlar till exempelvis en betal-tjänst och en mail-tjänst. Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut. Det skulle vi presentera detta när användaren är inloggad på sidan och sedan fått en bekräftelse via de tjänsterna.  
 
-Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. Detta kallas för service bus queues. 
+Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system (kallas för service bus queues) för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. 
 
-Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning. I vårt fall hade vi fått presentera detta när användaren är inloggad på sidan, men i ett verkligt projekt så hade användaren eventuellt fått ett mail eller sms.  Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut.
+
 
 Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
-
-
 
 ![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
 

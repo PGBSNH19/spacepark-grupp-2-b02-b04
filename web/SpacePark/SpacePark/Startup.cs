@@ -31,7 +31,7 @@ namespace SpacePark
             services.AddApplicationInsightsTelemetry();
             services.AddLogging(builder =>
             {
-                builder.AddApplicationInsights(new AzureKeyVaultService().GetKeyVaultSecret("https://spacepark-kv-dev-01.vault.azure.net/secrets/Instrumentation--Key/ce7c7539473643648d560d8d81f0217b"));
+                //builder.AddApplicationInsights(new AzureKeyVaultService().GetKeyVaultSecret("https://spacepark-kv-dev-01.vault.azure.net/secrets/Instrumentation--Key/ce7c7539473643648d560d8d81f0217b"));
                 builder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Information);
                 builder.AddFilter<ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Error);
             });

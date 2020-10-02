@@ -18,10 +18,7 @@ namespace SpacePark
 
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< HEAD
-=======
             services.AddApplicationInsightsTelemetryWorkerService();
->>>>>>> master
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddDbContext<SpaceParkContext>();
             services.AddScoped<IPersonRepository, PersonRepository>();

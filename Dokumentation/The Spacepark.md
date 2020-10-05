@@ -118,9 +118,9 @@ Att vi löste kopplingen mellan vårt API och vår Key Vault är vi såklart nö
 
 Här är en länk till beskrivningen av vår lösning till att implementera [Azure Key Vault](Dokumentation/Key%20Vault.md)
 
-**Azure Application Insights**
+### Loggning
 
-Vi har implementerat lite loggning i våra Repositories, som logger när en transaktion till databasen går igenom. 
+Eftersom vi hade mycket problem med att få upp front-/backend i molnet hade vi inte riktigt tid att implementera telemetry alls. Vi har sedan början av projektet loggat det mesta av värde när det kommer till anrop till controllers, databas och seeding, för att nämna några saker. Här är ett exempel på ett delete-event med loggning, eftersom vi inte har med felhantering  i någon större utsträckning är det lite "bare bones":
 
 ````bash
 var entity = await _context.Set<T>().FindAsync(id);
@@ -132,13 +132,18 @@ var entity = await _context.Set<T>().FindAsync(id);
             _context.Set<T>().Remove(entity);
 ````
 
-När något går fel så är det istället controllern som fångar upp en exception och skicka tillbaka en 404 statuskod med exceptionen inbakad.
+Det hade egentligen varit ganska enkelt att implementera loggningen emot Azure, det vi hade behövt lägga till är egentligen den kod som är nedanför, och sedan lägga till exempelvis TrackTrace på diverse egna events. Tanken här är ju också att alla HTTP-request skulle loggas med, vilket bör ske automatiskt. 
 
-Genom att implementera ett enkelt kodstycke utifrån
+```c#
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 
-https://chlee.co/how-to-add-application-insights-into-an-asp-net-core-web-and-console-app/
-
-* App service vs. Container Instance. Varför valde vi ACI? Vilka problem uppstod?
+TelemetryConfiguration configuration = TelemetryConfiguration.CreateDefault();
+        configuration.InstrumentationKey = "********-****-****-****-************";
+        var telemetryClient = new TelemetryClient(configuration);
+        
+        telemetryClient.TrackTrace("Tracking something");
+```
 
 ## Vad är vi mest nöjda med?
 
@@ -152,11 +157,17 @@ Efter mer än två dagar, många olika NuGet-paket hål, i väggarna efter allt 
 
 Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt projekt, men det var mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån frontend till databas
 
-Nu när man vet lite mer om hur Azure fungerar generellt hade det varit kul att skapa ett mer "verkligt" flöde från developement -> staging -> production där man då har med quality assurence som en integral del innan release (nämns lite i [vårt CD-dokument](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/CD%20Pipeline.md)). Vi hade ju tänkt att vi skulle göra detta från början men insåg snart att vi inte hade tid med det.
+Nu när man vet lite mer om hur Azure fungerar generellt hade det varit kul att skapa ett mer "verkligt" flöde från developement -> staging -> production där man då har med quality assurence som en integral del innan release (nämns lite i [Continuous Deployment](Dokumentation/CD%20Pipeline.md)). Vi hade ju tänkt att vi skulle göra detta från början men insåg snart att vi inte hade tid med det.
 
-### CI pipeline
+### Continuous integration/ build pipeline
 
-Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata CI-pipelines.
+Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Att hela tiden bygga två nya images känns som resurs-slöseri egentligen.
+
+Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata build pipelines. Du kan läsa mer ingående om vår lösning här: [Continuous Integration](Dokumentation/CI%20Pipeline.md)
+
+Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu:
+
+![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
 
 ### Service Bus
 
@@ -166,7 +177,7 @@ Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tj
 
 
 
-Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu.
 
-![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
+
+
 

@@ -39,6 +39,12 @@ Till en början hade vi inte riktigt någon koll på hur vi skulle vilja distrib
 
 Eftersom att vi skulle ha vår *Frontend* separerad ifrån våran *API* så visste vi att vi skulle behöva två olika images, som skulle laddas upp i två olika resurser på Azure. Till en början bestämde vi att vi skulle försöka att få våran API att fungera i våran *CI Pipeline*. 
 
+Dockerfilen används för att konfigurera vilken miljö vi ska bygga utifrån och det kan göras utifrån färdiga images, som i det här fallet bygger vi utifrån en färdig dotnet image, men det går även att skapa och konfigurera en egen.
+
+I nästa steg kopierar vi projektet och kör en restore på det, just för att göra oss av med eventuella tempfiler som kan hindra applikationen från att bygga.
+
+Därefter kopieras allting och vi kör ett bygge av projektet och i sista steget så bygger skapar vi en *image* utifrån den färdiga mallen tillsammans med vårat bygge av projektet.
+
 **Vår Dockerfil-konfiguration:**
 
 ```yaml
@@ -70,7 +76,7 @@ Nedan visar vi ett diagram som visar på flödet i våran applikation:
 
 # API
 
-Vår *API* är ett .NET-core *API*. Vi ville få till databasen snabbt så att vi kunde testa vårt *API*, så vi konfigurerade en databas och körde igång den i *Azure* så att alla kunde testa emot samma databas. 
+Vår *API* är ett .NET-core *API* som vi byggde med med logik utifrån ett befintligt SpacePark projekt, anledningen till att vi gjorde som så, var för att vi tänkte att det skulle gå smidigare istället för att behöva göra om allt från scratch. Databasen ville vi få upp snabbt så att vi kunde testa vårt *API*, vi konfigurerade en databas och körde igång den i *Azure* så att alla kunde testa och köra emot samma databas. 
 
 ## SQL Databas
 

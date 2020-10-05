@@ -21,7 +21,7 @@ variables:
 
 Vi valde att använda Stages för att optimera pipelinen. Det finns t.ex. ingen mening att köra enhetstester ifall imagen inte kan skapas. Piplinen uppdelades därför i följande steg: Build -> Test -> Push som alla är beroende utav att föregående steg fungerar.
 
-I build-steget installeras först NuGet-paketen och sedan byggs vår utifrån den plattform och konfiguration som vi angett ovan.
+I build-steget installeras först NuGet-paketen och sedan byggs vårt projekt utifrån den plattform och konfiguration som vi angett ovan.
 
 *Notera: Vi fick det inte att fungera med linux-image hela vägen igenom, vilket är varför den är satt till "windows-latest" här.*
 

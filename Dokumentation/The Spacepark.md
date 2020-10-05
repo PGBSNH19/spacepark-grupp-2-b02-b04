@@ -112,9 +112,9 @@ Att vi löste kopplingen mellan vårt API och vår Key Vault är vi såklart nö
 
 Här är en länk till beskrivningen av vår lösning till att implementera [Azure Key Vault](Dokumentation/Key%20Vault.md)
 
-**Azure Application Insights**
+### Loggning
 
-Vi har implementerat lite loggning i våra Repositories, som logger när en transaktion till databasen går igenom. 
+Eftersom vi hade mycket problem med att få upp front-/backend i molnet hade vi inte riktigt tid att implementera telemetry alls. Vi har sedan början av projektet loggat det mesta av värde när det kommer till anrop till controllers, databas och seeding för att nämna några saker. Här är ett exempel på ett delete-event med loggning, eftersom vi inte har med felhantering  i någon större utsträckning är det lite "bare bones":
 
 ````bash
 var entity = await _context.Set<T>().FindAsync(id);
@@ -126,13 +126,18 @@ var entity = await _context.Set<T>().FindAsync(id);
             _context.Set<T>().Remove(entity);
 ````
 
-När något går fel så är det istället controllern som fångar upp en exception och skicka tillbaka en 404 statuskod med exceptionen inbakad.
+Det hade egentligen varit ganska enkelt att implementera loggningen emot Azure, det vi hade behövt lägga till är egentligen den kod som är nedanför, och sedan lägga till exempelvis TrackTrace på diverse egna events. Tanken här är ju också att alla HTTP-request skulle loggas med, vilket bör ske automatiskt. 
 
-Genom att implementera ett enkelt kodstycke utifrån
+```c#
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 
-https://chlee.co/how-to-add-application-insights-into-an-asp-net-core-web-and-console-app/
-
-* App service vs. Container Instance. Varför valde vi ACI? Vilka problem uppstod?
+TelemetryConfiguration configuration = TelemetryConfiguration.CreateDefault();
+        configuration.InstrumentationKey = "********-****-****-****-************";
+        var telemetryClient = new TelemetryClient(configuration);
+        
+        telemetryClient.TrackTrace("Tracking something");
+```
 
 ## Vad är vi mest nöjda med?
 

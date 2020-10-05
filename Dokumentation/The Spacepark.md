@@ -114,7 +114,7 @@ Här är en länk till beskrivningen av vår lösning till att implementera [Azu
 
 ### Loggning
 
-Eftersom vi hade mycket problem med att få upp front-/backend i molnet hade vi inte riktigt tid att implementera telemetry alls. Vi har sedan början av projektet loggat det mesta av värde när det kommer till anrop till controllers, databas och seeding för att nämna några saker. Här är ett exempel på ett delete-event med loggning, eftersom vi inte har med felhantering  i någon större utsträckning är det lite "bare bones":
+Eftersom vi hade mycket problem med att få upp front-/backend i molnet hade vi inte riktigt tid att implementera telemetry alls. Vi har sedan början av projektet loggat det mesta av värde när det kommer till anrop till controllers, databas och seeding, för att nämna några saker. Här är ett exempel på ett delete-event med loggning, eftersom vi inte har med felhantering  i någon större utsträckning är det lite "bare bones":
 
 ````bash
 var entity = await _context.Set<T>().FindAsync(id);

@@ -10,15 +10,15 @@
 
 [Överskådlig beskrivning av hela projektet](Dokumentation/The%20Spacepark.md)
 
+[Continuous Integration](Dokumentation/CI%20Pipeline.md)
+
+[Continuous Delivery](Dokumentation/CD%20Pipeline.md)
+
 [Namngivelsekonvention](Dokumentation/Namngivelsekonvention.md)
 
 [Planering av händelseförlopp med metoder](Dokumentation/SpacePark%20-%20Planering%20av%20händelseförlopp%20med%20metoder.md)
 
 [Priser](Dokumentation/Priser.md)
-
-[Continuous Integration](Dokumentation/CI%20Pipeline.md)
-
-[Continuous Delivery](Dokumentation/CD%20Pipeline.md)
 
 [Azure Key Vault](Dokumentation/Key%20Vault.md)
 

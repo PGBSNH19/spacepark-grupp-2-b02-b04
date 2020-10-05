@@ -38,6 +38,6 @@ The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separ
 
 [Blogg 2020-09-25](Dokumentation/Blogg/Blogg%202020-09-25.md)
 
-[Blogg 2020-09-28-2020-09-29](Dokumentation/Blogg/Blogg%202020-09-28_2020-09-29)
+[Blogg 2020-09-28-2020-09-29](Dokumentation/Blogg/Blogg%202020-09-28_2020-09-29.md)
 
 [Blogg 2020-09-15](Dokumentation/Blogg/Inför%20Standup%20måndag%2021-09-2020.md)

@@ -1,44 +1,41 @@
 # Priser
 
-## **Azure Application Insights**
+## SpacePark
 
-### Data-Ingestion
+För detta detta projektets ändamål och för att vi ska kunna göra en uträkning, så tänker vi att alla som är med i vårt Star Wars universum parkerar en gång per dag.
 
-Data ingestion är den data som kommer in som kan analyseras i Azure Application Insights via applikationen eller pipeline. För vårt projekt som inte kommer att ha så mycket trafik så kommer det räcka med minsta möjliga betalningsplan och använder vi pay-as-you-go. 
+### Uppskattad trafik
 
-Pay-as-you-go:  **5GB - 24kr/gb = 120 kr/månad.**
+**Antalet personer**: 70 st
 
-### Data Retention
+**Check in/Check out**:(Alla checkar in och ut en gång/dag) 70 st x 2
 
-Data retention är den data som kommit in via data-ingestion som lagras. Detta kostar ingenting de första 31 dagarna, men skulle det vara så att man behöver lagra datan längre än så kostar det  **1kr/månad per GB.**
+**Tid för Check in/Check out**: 1 min x 2
 
+**Öppettider för parkering**: Kl 06-23
 
+### Azure Resurser
 
-## SQL-Database
+**Azure SQL Database Serverless**: 1GB Lagring (max 70 parkerade samtidigt) ungefär 5 dollar / månad
 
-Med den trafiken som kommer gå till våran databas har vi valt en en SQL-databas med följande konfiguration:
+**Storage:** Data för inloggning av applikationen 5 gb / månad
 
-**Gen 5 - General Purpose, up to 40 vCores, up to 120GB, server-less.**
+**Azure Container Instance**: 2 dollar per instance / månad
 
-Vi får en estimerad kostnad per månad som ligger på **46kr/månad** utefter vårt egna testande och våran användning. I ett skarpt läge där det kommer att finnas en hel del mer trafik kan man anta att denna siffran iallafall borde vara väldigt mycket större. 
+**Azure Container Registry:** 5 dollar per registry / månad
 
-​          ![serverless sql database.png](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/master/Dokumentation/Blogg/img/serverless%20sql%20database.png?raw=true)      
+**Azure Backup**: 2GB lagring per månad 5 dollar månad
 
+**Azure DevOps**: 200 dollar per månad
 
+**Azure KeyVault**: 1 dollar i månaden för 2 000 000 requests
 
-## Azure Web Application
-
-För vår frontend använder vi utav oss en Azure Web Application och när vi har utvecklat applikationen har vi använt oss av en **Standard** premuneration, men med tanke på hur hur lite trafik som eventuellt skulle användas borde man använda sig utav **Basic**, som är lite billigare. Den lägsta kostnaden för en Basic premuneration är **B1** och den har följande konfiguration:
-
-**1 core, 1,75 gb RAM, 10 GB storage**.
-
-Kostnaden för att driva vår frontend hamnar då på ca **480kr/månad.**
+**Azure Monitor** 12 dollar / 1 000 000 api calls
 
 
 
-Vi använder oss även av en web applikation i vårt API, men med tanke på att det är mer data här så tänker vi att vi använder oss av premuneration **B2** som har följande konfiguration: 
+## Resultat
 
-**2 cores, 3,5GB RAM, 10 GB  storage.**
+Den totala kostnaden för att skapa en Space Park kommer att landa på 237 dollar i månaden ungefär. Då har vi valt att inte använda oss av SQL Server Provisioned då vi anser att vi inte har ett behov av att ha en server uppe konstant då våra aktiva timmar är mellan 06-23 och mängden trafik kommer vara begränsad. En provisioned server kostar 1150 dollar per månad och då är databasen uppe hela tiden.
 
-Kostnaden hamnar på **956kr/månad.**
-
+Vi använder oss utav Azure Container Instance istället för Azure App Service for Containers i av samma anledning som med databasen, då vi inte har ett behov av att ha något uppe hela tiden kan vi spara in mycket pengar på det. En Azure App Service hade kostat oss ungefär 50 dollar mer än en Container Instance.

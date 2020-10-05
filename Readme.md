@@ -4,6 +4,8 @@
 
 The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser mångd olika resurser i Azure kan fungera sammankopplat:
 
+
+
 ***Dokumentation:***
 
 [Överskådlig beskrivning av hela projektet](Dokumentation/The%20Spacepark.md)
@@ -19,6 +21,7 @@ The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separ
 [Continuous Delivery](Dokumentation/CD%20Pipeline.md)
 
 [Azure Key Vault](Dokumentation/Key%20Vault.md)
+
 
 
 ***Bloggar och antekningar:***

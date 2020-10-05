@@ -41,7 +41,7 @@ Eftersom att vi skulle ha vår *Frontend* separerad ifrån våran *API* så viss
 
 Dockerfilen används för att konfigurera vilken miljö vi ska bygga utifrån och det kan göras utifrån färdiga images, som i det här fallet bygger vi utifrån en färdig dotnet image, men det går även att skapa och konfigurera en egen.
 
-I nästa steg kopierar vi projektet och kör en restore på det, just för att göra oss av med eventuella tempfiler som kan hindra applikationen från att bygga.
+I nästa steg kopierar vi projektet och kör en *dotnet restore* på det, just för att göra oss av med eventuella temporära filer som kan hindra applikationen från att bygga.
 
 Därefter kopieras allting och vi kör ett bygge av projektet och i sista steget så bygger skapar vi en *image* utifrån den färdiga mallen tillsammans med vårat bygge av projektet.
 
@@ -145,6 +145,24 @@ TelemetryConfiguration configuration = TelemetryConfiguration.CreateDefault();
         telemetryClient.TrackTrace("Tracking something");
 ```
 
+### Service Bus
+
+Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning, genom att man skickar vidare till service bus som förmedlar till exempelvis en betal-tjänst och en mail-tjänst. Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut. Det skulle vi presentera detta när användaren är inloggad på sidan och sedan fått en bekräftelse via de tjänsterna.  
+
+Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system (kallas för service bus queues) för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. 
+
+### Continuous integration/ build pipeline
+
+Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Att hela tiden bygga två nya images känns som resurs-slöseri egentligen.
+
+Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata build pipelines. Du kan läsa mer ingående om vår lösning här: [Continuous Integration](Dokumentation/CI%20Pipeline.md)
+
+Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu:
+
+![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png) 
+
+
+
 ## Vad är vi mest nöjda med?
 
 Den huvudsakliga uppgiften tillsammans med vårt mål med hela projektet var att få hela vår Spacepark-lösning att köras i molnet med en viss del automatisering. Det känner vi att vi åstadkommit och det var en väldigt skön känsla när vi äntligen kunde [gå in och parkera våra rymdskepp](spaceparkwebapp.northeurope.azurecontainer.io) (antagligen är inte den uppe och kör vid tid för inlämning tyvärr) med allt liggandes och körandes på Azure.
@@ -155,29 +173,7 @@ Efter mer än två dagar, många olika NuGet-paket hål, i väggarna efter allt 
 
 Övergripande i projektet märkte vi att vi skulle lagt **mer fokus på planering**. Det blev rörigt och svårt att dela upp arbetet mot slutet utav projektet, vilket resulterade i mycket arbete för en person medans 3 andra satt och var mer passiva, vilket så klart inte är så effektivt och inte speciellt roligt heller. Vi hade också många olika små dokument som gjorde det rörigt att veta ifall informationen man arbetade på redan fanns utarbetad innan eller inte.
 
-Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt projekt, men det var mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån frontend till databas
+Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt projekt, men det var mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela CRUD-delen att fungera. Det som vi borde ha gjort är att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva. Egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta var vi tvingade att refaktorera mycket kod och det tog längre tid innan vi kunde testa hela flödet i projektet ifrån *Frontend* till databas
 
 Nu när man vet lite mer om hur Azure fungerar generellt hade det varit kul att skapa ett mer "verkligt" flöde från developement -> staging -> production där man då har med quality assurence som en integral del innan release (nämns lite i [Continuous Deployment](Dokumentation/CD%20Pipeline.md)). Vi hade ju tänkt att vi skulle göra detta från början men insåg snart att vi inte hade tid med det.
-
-### Continuous integration/ build pipeline
-
-Egentligen skulle hela build pipelinen vara uppdelad i två, en för Backend och en för Frontend. Det hade gjort att vi istället för att hela tiden skapa två nya images och spara dem i två olika registrys, endast skapat en ny ifall det endast skett ändringar i en branch. Att hela tiden bygga två nya images känns som resurs-slöseri egentligen.
-
-Eftersom att pipelinen var skapad och tänkt utifrån ett MVC-projekt så fastnade vi lite i det tänket. Hade vi börjat om från början idag hade vi definitivt delat upp det i två separata build pipelines. Du kan läsa mer ingående om vår lösning här: [Continuous Integration](Dokumentation/CI%20Pipeline.md)
-
-Här är flödet över hela flödet CI/CD pipeline som den ser ut just nu:
-
-![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
-
-### Service Bus
-
-Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning, genom att man skickar vidare till service bus som förmedlar till exempelvis en betal-tjänst och en mail-tjänst. Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut. Det skulle vi presentera detta när användaren är inloggad på sidan och sedan fått en bekräftelse via de tjänsterna.  
-
-Man skulle kunna säga att Azure Service Bus kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system (kallas för service bus queues) för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. 
-
-
-
-
-
-
 

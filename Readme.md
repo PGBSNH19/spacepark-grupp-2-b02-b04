@@ -2,7 +2,7 @@
 
 [Spacepark Project]: https://pgbsnh19.github.io/molnapplikationer/project_cloud_spaceport.html	"Github"
 
-The Spaceport är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser mångd olika resurser i Azure kan fungera sammankopplat:
+***Spacepark*** är en rymdskeppsparkering för Star Wars universumet med en separat frontend och backend. Personerna som får parkera måste vara en del av Star Wars. Syftet med projektet var att vi skulle lära oss hur följande resurser mångd olika resurser i Azure kan fungera sammankopplat:
 
 <br>
 

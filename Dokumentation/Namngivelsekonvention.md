@@ -18,4 +18,4 @@ Container instance: spacepark-aci-01
 <product name>-<type of resource abbreviated>-<environment>
 ```
 
-Vi har tagit inspiration ang. namngivelser från denna del av (Microsofts dokumentation)[https://docs.microsoft.com/sv-se/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging].
+Vi har tagit inspiration ang. namngivelser från denna del av [Microsofts dokumentation](https://docs.microsoft.com/sv-se/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging).

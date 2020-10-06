@@ -36,6 +36,6 @@ För att kunna skapa oss en realistisk uppfattning om vad det skulle kunna kosta
 
 ## Resultat
 
-Enligt våra uppskattningar ovan kommer den totala kostnaden för vår Space Park parkeringsapplikation att kosta ca: **237 dollar i månaden**, med de resurser vi har i **Azure**. Eftersom vi inte har ett behov av att ha en server uppe konstant valde vi ej **SQL Server Provisioned**, vi har parkerings-tjänsten uppe mellan 06 och 23 och mängden trafik kommer vara begränsad. En provisioned server kostar 1150 dollar per månad och då är databasen uppe hela tiden istället.
+Enligt våra uppskattningar ovan kommer den totala kostnaden för vår Space Park parkeringsapplikation att kosta ca: **237 dollar i månaden**, med de resurser vi har i ***Azure***. Eftersom vi inte har ett behov av att ha en server uppe konstant valde vi ej **SQL Server Provisioned**, vi har parkerings-tjänsten uppe mellan 06 och 23 och mängden trafik kommer vara begränsad. En provisioned server kostar 1150 dollar per månad och då är databasen uppe hela tiden istället.
 
 Vi använder oss utav Azure Container Instance istället för Azure App Service for Containers i av samma anledning som med databasen, då öppettiderna för vår Space Park är begränsad finns det inget behov att våran applikation ska vara aktiv dygnet runt i molnet. En Azure App Service hade kostat oss ungefär 50 dollar mer än en Container Instance.

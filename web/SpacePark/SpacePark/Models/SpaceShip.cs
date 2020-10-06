@@ -10,11 +10,7 @@ namespace SpacePark
         public string Length { get; set; }
         public async static Task<Spaceship> CreateStarshipFromAPI(string url)
         {
-            var spaceship = new Spaceship();
-            var response = await ParkingEngine.GetSpaceShipData(url);
-
-            spaceship.Name = response.Name;
-            spaceship.Length = response.Length;
+            var spaceship = await ParkingEngine.GetSpaceShipData(url);
 
             return spaceship;
         }

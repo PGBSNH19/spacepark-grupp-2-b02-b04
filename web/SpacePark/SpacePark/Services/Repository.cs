@@ -71,7 +71,7 @@ namespace SpacePark.Services
             var person = await ParkingEngine.GetPersonData(($"people/?search={name}"));
 
             // Returns false if the person is not in the SWAPI database.
-            return person.Results.Where(p => p.Name == name) != null;
+            return person.Results.Where(p => p.Name == name && p.Starships.Count() > 0).FirstOrDefault() != null;
         }
         public async Task<bool> IsPersonInDatabase(string name)
         {
@@ -105,7 +105,6 @@ namespace SpacePark.Services
             await _context.SaveChangesAsync();
             return person;
         }
-
         public async Task<bool> HasPersonPaid(Person person)
         {
             // Finds the person in the people table and checks if the value of hasPaid is true or false,

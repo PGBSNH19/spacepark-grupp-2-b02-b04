@@ -37,8 +37,6 @@ namespace SpacePark
                 {
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
-
-
             }
 
 

@@ -29,6 +29,7 @@ namespace SpaceParkWeb.Pages
                 Customer = person;
                 Customer.Spaceships = await restSharpCaller.GetSpaceships(person.Name);
                 SelectedList = new SelectList(Customer.Spaceships.Select(x => x.Name));
+
             }
             else
             {

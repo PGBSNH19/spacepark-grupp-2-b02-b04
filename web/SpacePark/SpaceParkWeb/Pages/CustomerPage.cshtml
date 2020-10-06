@@ -28,6 +28,10 @@
             <input type="hidden" name="customer" value="@Model.Customer.Name" />
         </form>
     }
+    else if (Model.Customer.Spaceships.Count() < 1 && Model.Customer.Spaceship == null)
+    {
+        <h1>You have no spaceships to Park</h1>
+    }
     else
     {
         <h1>You have @Model.Customer.Spaceship.Name docked.</h1>

@@ -145,12 +145,6 @@ TelemetryConfiguration configuration = TelemetryConfiguration.CreateDefault();
         telemetryClient.TrackTrace("Tracking something");
 ```
 
-## Vad är vi mest nöjda med?
-
-Den huvudsakliga uppgiften tillsammans med vårt mål med hela projektet var att få hela vår Spacepark-lösning att köras i molnet med en viss del automatisering. Det känner vi att vi åstadkommit och det var en väldigt skön känsla när vi äntligen kunde [gå in och parkera våra rymdskepp](spaceparkwebapp.northeurope.azurecontainer.io) (antagligen är inte den uppe och kör vid tid för inlämning tyvärr) med allt liggandes och körandes på *Azure*.
-
-Efter mer än två dagar, många olika *NuGet-paket* hål, i väggarna efter allt huvud-dunkande lyckades vi äntligen få *Key vault* att fungera, vilket man kan läsa om i [detta dokumentet](Key%20Vault.md).
-
 ## Vad skulle vi gjort annorlunda ifall vi gjort om projektet idag?
 
 Övergripande i projektet märkte vi att vi skulle lagt **mer fokus på planering**. Det blev rörigt och svårt att dela upp arbetet mot slutet utav projektet, vilket resulterade i mycket arbete för en person medans 3 andra satt och var mer passiva, vilket så klart inte är så effektivt och inte speciellt roligt heller. Vi hade också många olika små dokument som gjorde det rörigt att veta ifall informationen man arbetade på redan fanns utarbetad innan eller inte.
@@ -158,6 +152,12 @@ Efter mer än två dagar, många olika *NuGet-paket* hål, i väggarna efter all
 Vi trodde att vi skulle spara tid genom att plocka kod ifrån ett gammalt projekt, men det var mycket av koden i projektet som egentligen aldrig används. Det blev mestadels bara rörigt när vi plockade in så mycket kod för att få hela *CRUD* att fungera. Det som vi borde ha gjort var att fokusera mer på att plocka ur dom delarna som vi faktiskt skulle komma att behöva, egentligen var det bristfällande planering ifrån vårt håll som gjorde att det blev såhär. På grund av detta tvingades vi refaktorera mycket kod och det tog lång tid innan vi kunde testa hela flödet i projektet ifrån *Frontend* till databas.
 
 Nu när man vet lite mer om hur *Azure* fungerar generellt hade det varit kul att skapa ett mer "verkligt" flöde från *Developement* > *Staging* -> *Production* där man då har med *Quality Assurence* som en integral del innan *Release* (nämns lite i [Continuous Deployment](Dokumentation/CD%20Pipeline.md)), tanken var att göra så från början men insåg snart att vi inte hade tid med det.
+
+### Service Bus
+
+Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning, genom att man skickar vidare till *Service bus* som förmedlar till exempelvis en betal-tjänst och en mail-tjänst. Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut. Det skulle vi presentera detta när användaren är inloggad på sidan och sedan fått en bekräftelse via de tjänsterna.  
+
+Man skulle kunna säga att *Azure Service Bus* kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system (kallas för *service bus queues*) för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. 
 
 ### Continuous integration/ Build pipeline
 
@@ -169,15 +169,15 @@ Här är flödet över hela flödet *CI/CD pipeline* som den ser ut just nu:
 
 ![Continuous Integration + Deployment Final](Bilder/Continuous%20Integration%20+%20Deployment%20Final.png)
 
-### Service Bus
-
-Om vi hade haft tid skulle vi till exempel kunna göra det möjligt för användaren att få ett kvitto på sin betalning, genom att man skickar vidare till *Service bus* som förmedlar till exempelvis en betal-tjänst och en mail-tjänst. Vi skulle även här kunnat lägga till funktionalitet för att påminna användaren om att tiden för parkeringsplatsen är på väg att ta slut. Det skulle vi presentera detta när användaren är inloggad på sidan och sedan fått en bekräftelse via de tjänsterna.  
-
-Man skulle kunna säga att *Azure Service Bus* kan orkestrera olika program och tjänster med hjälp av *meddelanden*. Den skulle också kunna fungera som ett kö-system (kallas för *service bus queues*) för användare om tjänsten plötsligt skulle få en stor ström av användare på samma gång. 
 
 
 
 
+## Vad är vi mest nöjda med?
+
+Den huvudsakliga uppgiften tillsammans med vårt mål med hela projektet var att få hela vår Spacepark-lösning att köras i molnet med en viss del automatisering. Det känner vi att vi åstadkommit och det var en väldigt skön känsla när vi äntligen kunde [gå in och parkera våra rymdskepp](spaceparkwebapp.northeurope.azurecontainer.io) (antagligen är inte den uppe och kör vid tid för inlämning tyvärr) med allt liggandes och körandes på *Azure*.
+
+Efter mer än två dagar, med många olika *NuGet-paket-hål-i-väggarna* efter allt huvud-dunkande, lyckades vi äntligen få *Key vault* att fungera, vilket man kan läsa om i [detta dokumentet](Key%20Vault.md).
 
 
 

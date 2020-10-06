@@ -4,11 +4,11 @@ Key Vault är en säkerhetstjänst som Azure tillhandahåller i deras molntjäns
 
 I vårt projekt kommer vi använda oss utav en Key Vault som säkerhetsåtgärd till att hålla "connectionstring" till databasen hemlig för allmänheten , då vi anser att ”connectsionstring” till databasen klassas som känslig information.
 
-Vår lösning till att implementera Key Vault-tjänsten i vårt projekt började med att vi skapade en KeyVault i vår **Resource Group**. Efter skapandet av vår Key Vault behöver vi lägga till en Secret och dess Value kommer att bevara vår "connectionstring" till databasen.
+Vår lösning till att implementera Key Vault-tjänsten i vårt projekt började med att vi skapade en Key Vault i vår **Resource Group**. Efter skapandet av vår Key Vault behöver vi lägga till en Secret och dess Value kommer att bevara vår "connectionstring" till databasen.
 
 ![CreateSecret](https://github.com/PGBSNH19/spacepark-grupp-2-b02-b04/blob/Dokumentation/Dokumentation/Bilder/CreateSecret.PNG) 
 
-För att vår applikation ska komma åt vår hemliga "connectionstring" behöver vi ha tillgång till vår Key Vault i koden, vår lösning var att vi skapade en "Azure Service Token Provider" klass som kommer att sköta hämtningen av värdet som vi deklarerade i vår Secret och returnera det som en sträng. Parametern secretName som vi skickar in i klassmetoden GetKeyVaultSecret är url:n till vår Key Vault, utan den kommer inte metoden att hitta någon Secret.
+För att vår applikation ska komma åt vår hemliga "connectionstring" behöver vi ha tillgång till vår Key Vault i koden, vår lösning var att vi skapade en "Azure Service Token Provider" klass som kommer att sköta hämtningen av värdet som vi deklarerade i vår Secret och returnera det som en sträng. Parametern secretName som vi skickar in till GetKeyVaultSecret är url:n till vår Key Vault, denna url används för att peka på vilken Key Vault i molnet som vi ska hämta information från.
 
 ##### Koden nedan är själva flödet på att hämta ut värdet i som är deklarerat i Key Vaultens Secret.
 
@@ -24,7 +24,7 @@ public class AzureKeyVaultService
     }
 }
 ```
-Den returnerade strängen kommer att innehålla databasens "connnectionstring" som vi använder oss utav för att koppla ihop databasen som vi har i molnet med applikationen.
+Den returnerade strängen kommer att innehålla databasens "connnectionstring" som vi använder oss utav för att koppla ihop databasen med vår applikationen i molnet.
 
 ##### Koden nedan är flödet på hur vi implementerar den hämtade Key Vault Secret i applikationen
 

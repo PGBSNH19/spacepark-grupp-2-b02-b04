@@ -1,6 +1,6 @@
 # Dokumentation för namngivelse
 
-För att göra det tydligt och enkelt för alla i gruppen så kommer vi att följa namnkonventionerna som står i denna filen. 
+För att göra det tydligt och enkelt för alla i gruppen så kommer vi att följa namnkonventionerna som står i denna filen. Vi har tagit inspiration ang. namngivelser från [Microsofts dokumentation](https://docs.microsoft.com/sv-se/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging).
 
 ### Namngivning i Azure
 
@@ -17,5 +17,3 @@ Container instance: spacepark-aci-01
 ```bash
 <product name>-<type of resource abbreviated>-<environment>
 ```
-
-Vi har tagit inspiration ang. namngivelser från [Microsofts dokumentation](https://docs.microsoft.com/sv-se/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging).

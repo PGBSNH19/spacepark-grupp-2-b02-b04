@@ -23,7 +23,7 @@ namespace SpaceParkWeb.Pages
             restSharpCaller = new RestSharpCaller();
             string input = Request.Form["name"];
             var customer = await restSharpCaller.PostPerson(input);
-            if (customer != null)
+            if (customer.Name != null)
             {
                 return new RedirectToPageResult("CustomerPage", customer);
             }

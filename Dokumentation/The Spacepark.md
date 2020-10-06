@@ -15,7 +15,7 @@ Vi bestämde några förhållningsregler för hur projektet skulle fungera.
 
 Vi använde oss utav Azure DevOps-Boards för att planera upp projektet och lägga till Tasks på det vi behövde göra, vilket vi använde flitigt till en början men blev sämre på att använda under projektets gång. 
 
-Tanken var ifrån en början att vi skulle använda oss utav sprintar och få till en bra, effektiv planering. Eftersom att det ofta var oklart hur vi skulle tänka kring hela flödet ifrån start, så slutade det med att vi inte riktigt kunde dela upp projektet så pass mycket som vi kanske hade velat. Det slutade med att vi ofta satt tillsammans och löste problem, och lutade oss mer på att dokumentera genom att blogga lite om vad vi hade gjort under dagen. Det kanske 
+Tanken var ifrån en början att vi skulle använda oss utav de funktioner som fanns på DevOps och få till en bra, effektiv planering. Eftersom att det ofta var oklart hur vi skulle tänka kring hela flödet ifrån start, så slutade det med att vi inte riktigt kunde dela upp projektet så pass mycket som vi kanske hade velat. Det slutade med att vi ofta satt tillsammans och löste problem, och lutade oss mer på att dokumentera genom att blogga lite om vad vi hade gjort under de dagar vi jobbat på projektet. 
 
 # Planering
 
